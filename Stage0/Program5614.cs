@@ -1,6 +1,6 @@
 ﻿namespace Stage0;
 
-public partial class Program
+ partial class Program
 {
     public static void Main(string[] args)
     {
