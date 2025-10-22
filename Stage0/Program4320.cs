@@ -2,6 +2,9 @@
 
 partial class Program
 {
+    /// <summary>
+    /// part of second partner
+    /// </summary>
     static partial void Welcome4320()
     {
         Console.WriteLine("enter your user name");
