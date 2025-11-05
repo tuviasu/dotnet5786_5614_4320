@@ -122,3 +122,9 @@ public enum FragilityLevel
     /// </summary>
     ExtremelyFragile = 4
 }
+public enum DeliveryCompletionType
+{
+    Successful,   // Delivered successfully to the customer
+    Returned,     // Package was returned to the sender
+    Failed        // Delivery attempt failed (no one received, address issue, etc.)
+}
