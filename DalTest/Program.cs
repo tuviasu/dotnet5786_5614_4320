@@ -7,10 +7,10 @@ namespace DalTest
     internal class Program
     {
         // ====== DAL instances (Stage 1) ======
-        private static readonly ICourier s_dalCourier = new CourierImplementation();      // stage 1
-        private static readonly IOrder s_dalOrder = new OrderImplementation();            // stage 1
-        private static readonly IDelivery s_dalDelivery = new DeliveryImplementation();   // stage 1
-        private static readonly IConfig s_dalConfig = new ConfigImplementation();         // stage 1
+        private static  ICourier s_dalCourier = new CourierImplementation();      // stage 1
+        private static  IOrder s_dalOrder = new OrderImplementation();            // stage 1
+        private static  IDelivery s_dalDelivery = new DeliveryImplementation();   // stage 1
+        private static  IConfig s_dalConfig = new ConfigImplementation();         // stage 1
 
         static void Main(string[] args)
         {
