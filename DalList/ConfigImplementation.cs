@@ -2,7 +2,7 @@
 using DalApi;
 using System;
 
-public class ConfigImplementation : IConfig
+internal class ConfigImplementation : IConfig
 {
     public DateTime Clock
     {

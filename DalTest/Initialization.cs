@@ -4,11 +4,16 @@ using DO;
 
 public static class Initialization
 {
-    private static IDelivery? s_dalDelivery; //stage 1
-    private static ICourier? s_dalCourier; //stage 1
-    private static IOrder? s_dalOrder; //stage 1
-    private static IConfig? s_dalConfig; //stage 1
+    // private static IDelivery? s_dalDelivery; //stage 1
+    // private static ICourier? s_dalCourier; //stage 1
+    // private static IOrder? s_dalOrder; //stage 1
+    // private static IConfig? s_dalConfig; //stage 1
+    private static IDal? s_dal; //stage 2
     private static readonly Random s_rand = new();
+    private const int MIN_ID = 200000000;
+    private const int MAX_ID = 400000000;
+
+
     //...
 
 
@@ -25,7 +30,7 @@ public static class Initialization
         {
             int id;
             do id = s_rand.Next(200000000, 400000000);
-            while (s_dalCourier!.Read(id) != null);
+            while (s_dal!.Courier.Read(id) != null);
 
             string phone = "05" + s_rand.Next(0, 100000000).ToString("D8");
             string email = $"{name.Replace(" ", ".").ToLower()}@example.com";
@@ -34,7 +39,7 @@ public static class Initialization
             DeliveryTransport transport = DeliveryTransport.Bicycle; // or any default value
             double? maxDistance = 20.0; // or any default value
 
-            s_dalCourier!.Create(new Courier(
+            s_dal!.Courier.Create(new Courier(
                 id,
                 name,
                 phone,
@@ -55,23 +60,23 @@ public static class Initialization
         string[] customerNames = { "David Levi", "Maya Ron", "Eli Shahar", "Ruth Avital", "Ido Barkai" };
         string[] cities = { "Jerusalem", "Tel Aviv", "Haifa", "Eilat", "Ashdod" };
 
-        int nextOrderId = 1; // Start from 1 or any desired initial value
+        
 
-        if (s_dalConfig == null)
+        if (s_dal!.Config == null)
             throw new InvalidOperationException("s_dalConfig must be initialized before calling createOrders.");
 
         foreach (var name in customerNames)
         {
-            int id = nextOrderId++; // Use local counter for order IDs
+            int id = s_dal!.Config.NextOrderId;
             string address = cities[s_rand.Next(cities.Length)];
             double latitude = s_rand.NextDouble() * 180 - 90; // Random latitude (-90 to 90)
             double longitude = s_rand.NextDouble() * 360 - 180; // Random longitude (-180 to 180)
             string phone = "05" + s_rand.Next(0, 100000000).ToString("D8");
-            DateTime start = new DateTime(s_dalConfig.Clock.Year - 1, 1, 1);
-            int range = (s_dalConfig.Clock - start).Days;
+            DateTime start = new DateTime(s_dal!.Config.Clock.Year - 1, 1, 1);
+            int range = (s_dal!.Config.Clock - start).Days;
             DateTime orderDate = start.AddDays(s_rand.Next(range));
 
-            s_dalOrder!.Create(new Order(
+            s_dal!.Order.Create(new Order(
                 id,
                 OrderType.Regular, // fixed: use a defined enum value
                 latitude,
@@ -93,13 +98,16 @@ public static class Initialization
     /// </summary>
     private static void createDeliveries()
     {
-        if (s_dalConfig == null)
+        if (s_dal!.Config == null) //stage 2
+
             throw new InvalidOperationException("s_dalConfig must be initialized before calling createDeliveries.");
 
-        var couriers = s_dalCourier!.ReadAll();
-        var orders = s_dalOrder!.ReadAll();
+        var couriers = s_dal!.Courier.ReadAll();//stage 2
+        var orders = s_dal!.Order.ReadAll();//stage 2
+    
 
-        int nextDeliveryId = 1; // Start from 1 or any desired initial value
+
+
 
         foreach (var order in orders)
         {
@@ -107,15 +115,16 @@ public static class Initialization
             bool delivered = s_rand.Next(0, 2) == 1;
 
             // choose a random courier
-            var courier = couriers[s_rand.Next(couriers.Count)];
+            var courierList = couriers.ToList();
+            var courier = courierList[s_rand.Next(courierList.Count)];
 
-            int id = nextDeliveryId++; // Use local counter for delivery IDs
-            DateTime start = new DateTime(s_dalConfig.Clock.Year - 1, 1, 1);
-            int range = (s_dalConfig.Clock - start).Days;
+            int id = s_dal!.Config.NextDeliveryId;
+            DateTime start = new DateTime(s_dal!.Config.Clock.Year - 1, 1, 1);
+            int range = (s_dal!.Config.Clock - start).Days;
             DateTime deliveryDate = start.AddDays(s_rand.Next(range));
 
             // Fix: Pass DeliveryTransport as argument 4, and set other required fields
-            s_dalDelivery!.Create(new Delivery(
+            s_dal!.Delivery!.Create(new Delivery(
                 id,
                 order.Id,
                 courier.Id,
@@ -128,8 +137,21 @@ public static class Initialization
         }
     }
 
+    public static void Do(IDal dal) //stage 2
+    {
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
+        s_dal.ResetDB();//stage 2
+        createCouriers();
+        createOrders();
+        createDeliveries();
+       
+
+    }
+
+    /*
     /// <summary>
-    /// Main method that initializes all DAL lists.
+    /// Main method that initializes all DAL lists. //stage 1
+
     /// </summary>
     public static void Do(
         ICourier? dalCourier,
@@ -137,19 +159,20 @@ public static class Initialization
         IDelivery? dalDelivery,
         IConfig? dalConfig)
     {
+
         // ========== 1. Assign interface instances and validate ==========
 
-        s_dalCourier = dalCourier ?? throw new NullReferenceException("DAL object cannot be null!");
-        s_dalOrder = dalOrder ?? throw new NullReferenceException("DAL object cannot be null!");
-        s_dalDelivery = dalDelivery ?? throw new NullReferenceException("DAL object cannot be null!");
-        s_dalConfig = dalConfig ?? throw new NullReferenceException("DAL object cannot be null!");
+        s_dalCourier = dalCourier;
+        s_dalOrder = dalOrder;
+        s_dalDelivery = dalDelivery;
+        s_dalConfig = dalConfig; 
 
         // ========== 2. Reset all lists and configuration ==========
         Console.WriteLine("Reset configuration values and list data...");
-        s_dalConfig.Reset();
-        s_dalCourier.DeleteAll();
-        s_dalOrder.DeleteAll();
-        s_dalDelivery.DeleteAll();
+        s_dalConfig!.Reset();
+        s_dalCourier!.DeleteAll();
+        s_dalOrder!.DeleteAll();
+        s_dalDelivery!.DeleteAll();
 
         // ========== 3. Initialize lists ==========
         Console.WriteLine("Initializing Couriers list...");
@@ -163,5 +186,5 @@ public static class Initialization
 
         Console.WriteLine("Initialization completed successfully!");
     }
-
+    */
 }
