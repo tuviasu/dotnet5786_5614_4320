@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCourier>
+  <Courier>
+    <Id>250321240</Id>
+    <Name>Avi Cohen</Name>
+    <Phone>0595843467</Phone>
+    <Email>avi.cohen@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>false</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+  <Courier>
+    <Id>311279677</Id>
+    <Name>Dana Levi</Name>
+    <Phone>0507009486</Phone>
+    <Email>dana.levi@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>true</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+  <Courier>
+    <Id>282119726</Id>
+    <Name>Yossi Bar</Name>
+    <Phone>0559982208</Phone>
+    <Email>yossi.bar@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>false</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+  <Courier>
+    <Id>204631938</Id>
+    <Name>Noa Regev</Name>
+    <Phone>0587615504</Phone>
+    <Email>noa.regev@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>false</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+  <Courier>
+    <Id>222856594</Id>
+    <Name>Ron Azulay</Name>
+    <Phone>0574463229</Phone>
+    <Email>ron.azulay@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>false</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+  <Courier>
+    <Id>260831916</Id>
+    <Name>Galit Saban</Name>
+    <Phone>0564807196</Phone>
+    <Email>galit.saban@example.com</Email>
+    <Password>Password123</Password>
+    <IsActive>true</IsActive>
+    <Transport>Bicycle</Transport>
+    <MaxDistance>20</MaxDistance>
+  </Courier>
+</ArrayOfCourier>

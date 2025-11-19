@@ -49,8 +49,9 @@ namespace DalTest
         //private static IDelivery s_dalDelivery = new DeliveryImplementation();
         //private static IConfig s_dalConfig = new ConfigImplementation();
 
-        // ----- Stage 2 -----
-        static readonly IDal s_dal = new DalList();
+
+        //static readonly IDal s_dal = new DalList(); // Stage 2 
+        static readonly IDal s_dal = new DalXml();  //stage 3
 
         static void Main(string[] args)
         {

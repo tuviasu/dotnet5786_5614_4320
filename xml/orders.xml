@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfOrder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Order>
+    <Id>1</Id>
+    <Type>Regular</Type>
+    <Latitude>-87.01998368724182</Latitude>
+    <Longitude>-120.21166051641089</Longitude>
+    <CustomerName>David Levi</CustomerName>
+    <CustomerAddress>Haifa</CustomerAddress>
+    <CustomerPhone>0505916820</CustomerPhone>
+    <OrderDate>2025-02-20T00:00:00</OrderDate>
+    <Transport>Bicycle</Transport>
+    <Fragility>NotFragile</Fragility>
+    <Status>Created</Status>
+  </Order>
+  <Order>
+    <Id>2</Id>
+    <Type>Regular</Type>
+    <Latitude>42.457929099012176</Latitude>
+    <Longitude>-161.02227006415373</Longitude>
+    <CustomerName>Maya Ron</CustomerName>
+    <CustomerAddress>Ashdod</CustomerAddress>
+    <CustomerPhone>0553688757</CustomerPhone>
+    <OrderDate>2024-02-08T00:00:00</OrderDate>
+    <Transport>Bicycle</Transport>
+    <Fragility>NotFragile</Fragility>
+    <Status>Created</Status>
+  </Order>
+  <Order>
+    <Id>3</Id>
+    <Type>Regular</Type>
+    <Latitude>62.878899431871446</Latitude>
+    <Longitude>-44.62392082321088</Longitude>
+    <CustomerName>Eli Shahar</CustomerName>
+    <CustomerAddress>Jerusalem</CustomerAddress>
+    <CustomerPhone>0532787931</CustomerPhone>
+    <OrderDate>2024-10-02T00:00:00</OrderDate>
+    <Transport>Bicycle</Transport>
+    <Fragility>NotFragile</Fragility>
+    <Status>Created</Status>
+  </Order>
+  <Order>
+    <Id>4</Id>
+    <Type>Regular</Type>
+    <Latitude>-65.01828187405417</Latitude>
+    <Longitude>-171.92948494168397</Longitude>
+    <CustomerName>Ruth Avital</CustomerName>
+    <CustomerAddress>Jerusalem</CustomerAddress>
+    <CustomerPhone>0543602415</CustomerPhone>
+    <OrderDate>2025-11-16T00:00:00</OrderDate>
+    <Transport>Bicycle</Transport>
+    <Fragility>NotFragile</Fragility>
+    <Status>Created</Status>
+  </Order>
+  <Order>
+    <Id>5</Id>
+    <Type>Regular</Type>
+    <Latitude>61.270948320801494</Latitude>
+    <Longitude>-41.09939507308539</Longitude>
+    <CustomerName>Ido Barkai</CustomerName>
+    <CustomerAddress>Tel Aviv</CustomerAddress>
+    <CustomerPhone>0535637703</CustomerPhone>
+    <OrderDate>2025-01-09T00:00:00</OrderDate>
+    <Transport>Bicycle</Transport>
+    <Fragility>NotFragile</Fragility>
+    <Status>Created</Status>
+  </Order>
+</ArrayOfOrder>
