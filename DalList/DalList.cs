@@ -7,8 +7,14 @@ using DalApi;
 /// It provides access to all DAL entity interfaces (Courier, Order, Delivery, Config)
 /// through initialized properties.
 /// </summary>
-public sealed class DalList : IDal
+
+
+  
+
+sealed internal class DalList : IDal
 {
+    public static IDal Instance { get; } = new DalList();
+    private DalList() { }
     // Each property below exposes one DAL entity interface.
     // Each of them is initialized with the actual implementation class
     // (which you created in Stage 1, for example CourierImplementation, etc.)

@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System.Xml.Linq;
+using System.Globalization;
 
 internal class CourierImplementation : ICourier
 {
@@ -50,19 +51,42 @@ internal class CourierImplementation : ICourier
         XElement root = LoadRoot();
 
         var elem = root.Elements("Courier")
-                       .FirstOrDefault(e => (int)e.Element("Id")! == id);
+                       .FirstOrDefault(e => int.TryParse(e.Element("Id")?.Value, out var iid) && iid == id);
 
         if (elem == null) return null;
 
+        // Parse Id and required strings
+        int idVal = int.Parse(elem.Element("Id")!.Value);
+        string name = elem.Element("Name")?.Value ?? string.Empty;
+        string phone = elem.Element("Phone")?.Value ?? string.Empty;
+
+        // Optional numeric
+        double? maxDistance = null;
+        var mdStr = elem.Element("MaxDistance")?.Value;
+        if (!string.IsNullOrWhiteSpace(mdStr)
+            && double.TryParse(mdStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var md))
+            maxDistance = md;
+
+        // Optional DateTime
+        DateTime startWorkingDate = default;
+        if (!string.IsNullOrWhiteSpace(elem.Element("StartWorkingDate")?.Value))
+            DateTime.TryParse(elem.Element("StartWorkingDate")!.Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out startWorkingDate);
+
+        // Enum safe parse
+        Enum.TryParse<DeliveryTransport>(elem.Element("Transport")?.Value ?? "", true, out var transport);
+
+        bool isActive = bool.TryParse(elem.Element("IsActive")?.Value, out var ia) && ia;
+
         return new Courier(
-            Id: (int)elem.Element("Id")!,
-            Name: (string)elem.Element("Name")!,
-            Phone: (string)elem.Element("Phone")!,
-            Email: (string)elem.Element("Email")!,
-            Password: (string)elem.Element("Password")!,
-            IsActive: (bool)elem.Element("IsActive")!,
-            Transport: (DeliveryTransport)Enum.Parse(typeof(DeliveryTransport), (string)elem.Element("Transport")!),
-            MaxDistance: (double?)elem.Element("MaxDistance")
+            Id: idVal,
+            Name: name,
+            Phone: phone,
+            Email: elem.Element("Email")?.Value ?? string.Empty,
+            Password: elem.Element("Password")?.Value ?? string.Empty,
+            IsActive: isActive,
+            Transport: transport,
+            StartWorkingDate: startWorkingDate,
+            MaxDistance: maxDistance
         );
     }
 
@@ -87,7 +111,11 @@ internal class CourierImplementation : ICourier
                            Password: (string)e.Element("Password")!,
                            IsActive: (bool)e.Element("IsActive")!,
                            Transport: (DeliveryTransport)Enum.Parse(typeof(DeliveryTransport), (string)e.Element("Transport")!),
-                           MaxDistance: (double?)e.Element("MaxDistance")
+                           StartWorkingDate: e.Element("StartWorkingDate") != null
+                               ? DateTime.Parse((string)e.Element("StartWorkingDate")!)
+                               : default,
+                           // reading
+                           MaxDistance: double.TryParse(e.Element("MaxDistance")?.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var md) ? md : (double?)null
                        ));
 
         return filter is null ? list : list.Where(filter);

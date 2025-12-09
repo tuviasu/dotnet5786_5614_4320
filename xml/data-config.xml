@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <!-- Running IDs -->
-  <NextOrderId>6</NextOrderId>
-  <NextDeliveryId>6</NextDeliveryId>
+  <NextOrderId>2</NextOrderId>
+  <NextDeliveryId>1</NextDeliveryId>
   <!-- System clock -->
-  <Clock>19/11/2025 14:35:32</Clock>
+  <Clock>09/12/2025 19:31:26</Clock>
   <!-- Manager info -->
   <ManagerId>0</ManagerId>
   <ManagerPassword></ManagerPassword>

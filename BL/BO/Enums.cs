@@ -1,5 +1,7 @@
-﻿namespace DO;
+﻿namespace BO
 
+
+{ 
 public enum OrderStatus
 {
     /// <summary>
@@ -45,7 +47,7 @@ public enum DeliveryTransport
 
 };
 
-public enum  OrderType
+public enum OrderType
 {   /// <summary>
     /// Regular order.
     /// </summary>
@@ -122,11 +124,120 @@ public enum FragilityLevel
     /// </summary>
     ExtremelyFragile = 4
 }
+public enum ScheduleStatus
+{
+    Pending,      // Scheduled but not yet started
+    InProgress,   // Currently being executed
+    Completed,    // Successfully completed
+    Cancelled     // Cancelled before completion
+}
+
 public enum DeliveryCompletionType
 {
     Successful,   // Delivered successfully to the customer
     Returned,     // Package was returned to the sender
     Failed,        // Delivery attempt failed (no one received, address issue, etc.)
-    Canceled,
-    None
+        Cancelled
+    }
+public enum CourierListSortBy
+{
+    Id,
+    Name,
+    DeliveriesCount,
+    ActiveStatus
 }
+    // Filtering options for OrderInList
+    public enum OrderInListFilterBy
+    {
+        Status,
+        CustomerId,
+        CourierId,
+        OnTimeStatus
+    }
+
+    // Sorting options for OrderInList
+    public enum OrderInListSortBy
+    {
+        Id,
+        Status,
+        CustomerName,
+        CreatedDate,
+        OnTimeStatus
+    }
+
+    // Filtering options for ClosedDeliveryInList
+    public enum ClosedDeliveryFilterBy
+    {
+        DeliveryStatus,
+        OnTimeStatus
+    }
+
+    // Sorting options for ClosedDeliveryInList
+    public enum ClosedDeliverySortBy
+    {
+        DeliveryStatus,
+        EndTime,
+        OnTimeStatus
+    }
+
+    // Filtering options for OpenOrderInList
+    public enum OpenOrderFilterBy
+    {
+        Status,
+        Type,
+        OnTimeStatus
+    }
+
+    // Sorting options for OpenOrderInList
+    public enum OpenOrderSortBy
+    {
+        Distance,
+        Status,
+        OnTimeStatus
+    }
+    /// <summary>
+    /// Units of time for advancing the system clock.
+    /// </summary>
+    public enum TimeUnit
+    {
+        Minute,
+        Hour,
+        Day,
+        Month,
+        Year
+    }
+
+    /// <summary>
+    /// Enum representing each configuration variable name.
+    /// </summary>
+    public enum ConfigVariable
+    {
+        Clock,
+        ManagerId,
+        ManagerPassword,
+        CompanyAddress,
+        Latitude,
+        Longitude,
+        MaxRange,
+        AvgCarSpeed,
+        AvgMotorbikeSpeed,
+        AvgBicycleSpeed,
+        AvgWalkingSpeed,
+        MaxDeliveryTime,
+        RiskRange,
+        InactivityRange,
+        NextOrderId,
+        NextDeliveryId
+    }
+
+    /// <summary>
+    /// Represents the type of distance calculation (e.g., Driving, Walking).
+    /// </summary>
+    public enum DistanceType
+    {
+        Driving,
+        Walking
+    }
+}
+
+

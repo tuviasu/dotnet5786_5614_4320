@@ -22,12 +22,4 @@ public record Order
 )
 {
     public Order() : this(0, OrderType.Regular, 0.0, 0.0, string.Empty, string.Empty, string.Empty, DateTime.Now) { }
-
-    public Order(int id, string customerName, string address, double weight, DateTime orderDate)
-        : this(id, OrderType.Regular, 0.0, 0.0, customerName, address, string.Empty, orderDate)
-    {
-        this.weight = weight;
-    }
-
-    public object? weight { get; set; }
 }
