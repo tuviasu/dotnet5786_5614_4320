@@ -3,12 +3,12 @@
   <Order>
     <Id>1</Id>
     <Type>Regular</Type>
-    <Latitude>-87.01998368724182</Latitude>
-    <Longitude>-120.21166051641089</Longitude>
+    <Latitude>58.95606420619444</Latitude>
+    <Longitude>167.54924342038873</Longitude>
     <CustomerName>David Levi</CustomerName>
-    <CustomerAddress>Haifa</CustomerAddress>
-    <CustomerPhone>0505916820</CustomerPhone>
-    <OrderDate>2025-02-20T00:00:00</OrderDate>
+    <CustomerAddress>Ashdod</CustomerAddress>
+    <CustomerPhone>0548308964</CustomerPhone>
+    <OrderDate>2025-07-15T00:00:00</OrderDate>
     <Transport>Bicycle</Transport>
     <Fragility>NotFragile</Fragility>
     <Status>Created</Status>
@@ -16,12 +16,12 @@
   <Order>
     <Id>2</Id>
     <Type>Regular</Type>
-    <Latitude>42.457929099012176</Latitude>
-    <Longitude>-161.02227006415373</Longitude>
+    <Latitude>13.891300316381333</Latitude>
+    <Longitude>-145.1950363541323</Longitude>
     <CustomerName>Maya Ron</CustomerName>
-    <CustomerAddress>Ashdod</CustomerAddress>
-    <CustomerPhone>0553688757</CustomerPhone>
-    <OrderDate>2024-02-08T00:00:00</OrderDate>
+    <CustomerAddress>Haifa</CustomerAddress>
+    <CustomerPhone>0558642416</CustomerPhone>
+    <OrderDate>2025-01-23T00:00:00</OrderDate>
     <Transport>Bicycle</Transport>
     <Fragility>NotFragile</Fragility>
     <Status>Created</Status>
@@ -29,12 +29,12 @@
   <Order>
     <Id>3</Id>
     <Type>Regular</Type>
-    <Latitude>62.878899431871446</Latitude>
-    <Longitude>-44.62392082321088</Longitude>
+    <Latitude>-81.75619073709969</Latitude>
+    <Longitude>5.473371687772811</Longitude>
     <CustomerName>Eli Shahar</CustomerName>
     <CustomerAddress>Jerusalem</CustomerAddress>
-    <CustomerPhone>0532787931</CustomerPhone>
-    <OrderDate>2024-10-02T00:00:00</OrderDate>
+    <CustomerPhone>0535029995</CustomerPhone>
+    <OrderDate>2025-04-23T00:00:00</OrderDate>
     <Transport>Bicycle</Transport>
     <Fragility>NotFragile</Fragility>
     <Status>Created</Status>
@@ -42,12 +42,12 @@
   <Order>
     <Id>4</Id>
     <Type>Regular</Type>
-    <Latitude>-65.01828187405417</Latitude>
-    <Longitude>-171.92948494168397</Longitude>
+    <Latitude>-55.59374150045595</Latitude>
+    <Longitude>39.41445177441872</Longitude>
     <CustomerName>Ruth Avital</CustomerName>
     <CustomerAddress>Jerusalem</CustomerAddress>
-    <CustomerPhone>0543602415</CustomerPhone>
-    <OrderDate>2025-11-16T00:00:00</OrderDate>
+    <CustomerPhone>0563640839</CustomerPhone>
+    <OrderDate>2025-08-17T00:00:00</OrderDate>
     <Transport>Bicycle</Transport>
     <Fragility>NotFragile</Fragility>
     <Status>Created</Status>
@@ -55,12 +55,12 @@
   <Order>
     <Id>5</Id>
     <Type>Regular</Type>
-    <Latitude>61.270948320801494</Latitude>
-    <Longitude>-41.09939507308539</Longitude>
+    <Latitude>-76.34596208051025</Latitude>
+    <Longitude>90.20228240115512</Longitude>
     <CustomerName>Ido Barkai</CustomerName>
-    <CustomerAddress>Tel Aviv</CustomerAddress>
-    <CustomerPhone>0535637703</CustomerPhone>
-    <OrderDate>2025-01-09T00:00:00</OrderDate>
+    <CustomerAddress>Ashdod</CustomerAddress>
+    <CustomerPhone>0564624562</CustomerPhone>
+    <OrderDate>2025-04-27T00:00:00</OrderDate>
     <Transport>Bicycle</Transport>
     <Fragility>NotFragile</Fragility>
     <Status>Created</Status>

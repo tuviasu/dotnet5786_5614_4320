@@ -51,7 +51,8 @@ namespace DalTest
 
 
         //static readonly IDal s_dal = new DalList(); // Stage 2 
-        static readonly IDal s_dal = new DalXml();  //stage 3
+        //static readonly IDal s_dal = new DalXml();  //stage 3
+        static readonly IDal s_dal = Factory.Get; //stage 4
 
         static void Main(string[] args)
         {
@@ -111,7 +112,8 @@ namespace DalTest
                         //Initialization.Do(s_dalCourier, s_dalOrder, s_dalDelivery, s_dalConfig);
 
                         // ----- Stage 2 -----
-                        Initialization.Do(s_dal);
+                        //Initialization.Do(s_dal);//
+                        Initialization.Do(); //stage 4
                         Console.WriteLine("Data initialization completed successfully!");
                         //Console.ReadKey();
                         break;

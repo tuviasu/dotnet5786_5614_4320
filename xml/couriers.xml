@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCourier>
   <Courier>
-    <Id>250321240</Id>
+    <Id>288967648</Id>
     <Name>Avi Cohen</Name>
-    <Phone>0595843467</Phone>
+    <Phone>0580700090</Phone>
     <Email>avi.cohen@example.com</Email>
     <Password>Password123</Password>
     <IsActive>false</IsActive>
@@ -11,39 +11,39 @@
     <MaxDistance>20</MaxDistance>
   </Courier>
   <Courier>
-    <Id>311279677</Id>
+    <Id>216481495</Id>
     <Name>Dana Levi</Name>
-    <Phone>0507009486</Phone>
+    <Phone>0515142148</Phone>
     <Email>dana.levi@example.com</Email>
     <Password>Password123</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bicycle</Transport>
+    <IsActive>false</IsActive>
+    <Transport>Car</Transport>
     <MaxDistance>20</MaxDistance>
   </Courier>
   <Courier>
-    <Id>282119726</Id>
+    <Id>278100596</Id>
     <Name>Yossi Bar</Name>
-    <Phone>0559982208</Phone>
+    <Phone>0533172625</Phone>
     <Email>yossi.bar@example.com</Email>
     <Password>Password123</Password>
-    <IsActive>false</IsActive>
-    <Transport>Bicycle</Transport>
+    <IsActive>true</IsActive>
+    <Transport>Car</Transport>
     <MaxDistance>20</MaxDistance>
   </Courier>
   <Courier>
-    <Id>204631938</Id>
+    <Id>348059258</Id>
     <Name>Noa Regev</Name>
-    <Phone>0587615504</Phone>
+    <Phone>0558175372</Phone>
     <Email>noa.regev@example.com</Email>
     <Password>Password123</Password>
-    <IsActive>false</IsActive>
-    <Transport>Bicycle</Transport>
+    <IsActive>true</IsActive>
+    <Transport>Car</Transport>
     <MaxDistance>20</MaxDistance>
   </Courier>
   <Courier>
-    <Id>222856594</Id>
+    <Id>295046875</Id>
     <Name>Ron Azulay</Name>
-    <Phone>0574463229</Phone>
+    <Phone>0548251544</Phone>
     <Email>ron.azulay@example.com</Email>
     <Password>Password123</Password>
     <IsActive>false</IsActive>
@@ -51,13 +51,13 @@
     <MaxDistance>20</MaxDistance>
   </Courier>
   <Courier>
-    <Id>260831916</Id>
+    <Id>270342828</Id>
     <Name>Galit Saban</Name>
-    <Phone>0564807196</Phone>
+    <Phone>0592335664</Phone>
     <Email>galit.saban@example.com</Email>
     <Password>Password123</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bicycle</Transport>
+    <IsActive>false</IsActive>
+    <Transport>Foot</Transport>
     <MaxDistance>20</MaxDistance>
   </Courier>
 </ArrayOfCourier>

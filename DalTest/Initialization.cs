@@ -26,6 +26,14 @@ public static class Initialization
     {
         string[] courierNames = { "Avi Cohen", "Dana Levi", "Yossi Bar", "Noa Regev", "Ron Azulay", "Galit Saban" };
 
+        DeliveryTransport[] transports =
+         {
+         DeliveryTransport.Foot,
+         DeliveryTransport.Bicycle,
+         DeliveryTransport.Motorcycle,
+         DeliveryTransport.Car
+         };
+
         foreach (var name in courierNames)
         {
             int id;
@@ -36,7 +44,8 @@ public static class Initialization
             string email = $"{name.Replace(" ", ".").ToLower()}@example.com";
             string password = "Password123"; // or generate random password
             bool isActive = s_rand.Next(0, 2) == 1;
-            DeliveryTransport transport = DeliveryTransport.Bicycle; // or any default value
+            DeliveryTransport transport = transports[s_rand.Next(transports.Length)];
+            DateTime startWorkingDate = DateTime.Now.AddYears(-s_rand.Next(1, 10)); // Example: random start date in last 10 years
             double? maxDistance = 20.0; // or any default value
 
             s_dal!.Courier.Create(new Courier(
@@ -47,6 +56,7 @@ public static class Initialization
                 password,
                 isActive,
                 transport,
+                startWorkingDate, 
                 maxDistance
             ));
         }
@@ -78,7 +88,7 @@ public static class Initialization
 
             s_dal!.Order.Create(new Order(
                 id,
-                OrderType.Regular, // fixed: use a defined enum value
+                OrderType.Regular, 
                 latitude,
                 longitude,
                 name,
@@ -137,9 +147,11 @@ public static class Initialization
         }
     }
 
-    public static void Do(IDal dal) //stage 2
+    // public static void Do(IDal dal) //stage 2
+    public static void Do() //stage 4
     {
-        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
+        //s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
+        s_dal = DalApi.Factory.Get; //stage 4
         s_dal.ResetDB();//stage 2
         createCouriers();
         createOrders();

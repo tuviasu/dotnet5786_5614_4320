@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dal;
+﻿namespace Dal;
 
 /// <summary>
 /// Central, in-memory configuration holder for the delivery system.

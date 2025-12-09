@@ -30,9 +30,12 @@ public record Courier
     string Password,
     bool IsActive,
     DeliveryTransport Transport,
+    DateTime StartWorkingDate,
     double? MaxDistance = null
 )
 {
+    public readonly string? Address;
+
     /// <summary>
     /// Parameterless constructor that initializes a courier with safe defaults.
     /// </summary>
@@ -44,5 +47,5 @@ public record Courier
     /// - Transport = <see cref="DeliveryTransport.Car"/>
     /// - MaxDistance = null
     /// </remarks>
-    public Courier() : this(0, "", "", "", "", false, DeliveryTransport.Car) { } // Keep MaxDistance default (null)
+    public Courier() : this(0, "", "", "", "", false, DeliveryTransport.Car, default, null) { }
 }

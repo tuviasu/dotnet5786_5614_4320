@@ -1,0 +1,117 @@
+﻿<Window x:Class="PL.Courier.CourierListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Courier"
+        mc:Ignorable="d"
+        Title="Courier List"
+        Height="640"
+        Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+
+    <Grid>
+
+        <!-- ================= ROW DEFINITIONS ================= -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ================= FILTER ROW ================= -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Content="Filter by delivery type:"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+            <ComboBox Grid.Column="1"
+                      Margin="5"
+                      ItemsSource="{Binding Source={StaticResource CourierTypesCollectionKey}}"
+                      SelectedValue="{Binding Transport, Mode=TwoWay}"
+                      SelectionChanged="OnTransportSelectionChanged"/>
+        </Grid>
+
+        <!-- ================= COURIERS LIST ================= -->
+        <DataGrid Grid.Row="1"
+                  Margin="5"
+                  ItemsSource="{Binding CourierList}"
+                  SelectedItem="{Binding SelectedCourier}"
+                  MouseDoubleClick="dgCouriers_MouseDoubleClick"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  EnableRowVirtualization="True">
+
+            <DataGrid.Columns>
+
+                <!-- Id -->
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Id}"
+                                    Width="Auto"/>
+
+                <!-- Name -->
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"
+                                    Width="*"/>
+
+                <!-- Transport with color converter -->
+                <DataGridTemplateColumn Header="Transport" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Transport}"
+                                       Padding="5"
+                                       Background="{Binding Transport,
+                                           Converter={StaticResource ConvertTransportToColorKey}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Deliveries count -->
+                <DataGridTextColumn Header="Deliveries"
+                                    Binding="{Binding DeliveriesCount}"
+                                    Width="Auto"/>
+
+                <!-- Active -->
+                <DataGridTemplateColumn Header="Active" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsActive}"
+                                      IsEnabled="False"
+                                      HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Delete button -->
+                <DataGridTemplateColumn Header="Delete" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete"
+                                    Padding="5"
+                                    Click="btnDeleteCourier_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- ================= ADD BUTTON ================= -->
+        <Button Grid.Row="2"
+                Content="Add"
+                Height="40"
+                Width="120"
+                Margin="10"
+                HorizontalAlignment="Center"
+                Click="btnAdd_Click"/>
+
+    </Grid>
+</Window>

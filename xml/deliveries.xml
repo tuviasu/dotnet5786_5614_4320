@@ -3,31 +3,31 @@
   <Delivery>
     <Id>1</Id>
     <OrderedId>1</OrderedId>
-    <CourierId>260831916</CourierId>
+    <CourierId>288967648</CourierId>
     <DeliveryType>Bicycle</DeliveryType>
-    <StartDelivery>2024-04-16T00:00:00</StartDelivery>
+    <StartDelivery>2025-03-11T00:00:00</StartDelivery>
     <ActualDistance xsi:nil="true" />
     <CompletionType>Successful</CompletionType>
-    <EndDelivery>2024-04-16T04:00:00</EndDelivery>
+    <EndDelivery>2025-03-11T04:00:00</EndDelivery>
     <status />
   </Delivery>
   <Delivery>
     <Id>2</Id>
     <OrderedId>2</OrderedId>
-    <CourierId>260831916</CourierId>
-    <DeliveryType>Bicycle</DeliveryType>
-    <StartDelivery>2024-08-12T00:00:00</StartDelivery>
+    <CourierId>348059258</CourierId>
+    <DeliveryType>Car</DeliveryType>
+    <StartDelivery>2025-02-21T00:00:00</StartDelivery>
     <ActualDistance xsi:nil="true" />
-    <CompletionType xsi:nil="true" />
-    <EndDelivery xsi:nil="true" />
+    <CompletionType>Successful</CompletionType>
+    <EndDelivery>2025-02-21T03:00:00</EndDelivery>
     <status />
   </Delivery>
   <Delivery>
     <Id>3</Id>
     <OrderedId>3</OrderedId>
-    <CourierId>311279677</CourierId>
-    <DeliveryType>Bicycle</DeliveryType>
-    <StartDelivery>2025-06-06T00:00:00</StartDelivery>
+    <CourierId>278100596</CourierId>
+    <DeliveryType>Car</DeliveryType>
+    <StartDelivery>2025-08-28T00:00:00</StartDelivery>
     <ActualDistance xsi:nil="true" />
     <CompletionType xsi:nil="true" />
     <EndDelivery xsi:nil="true" />
@@ -36,20 +36,20 @@
   <Delivery>
     <Id>4</Id>
     <OrderedId>4</OrderedId>
-    <CourierId>311279677</CourierId>
-    <DeliveryType>Bicycle</DeliveryType>
-    <StartDelivery>2025-02-05T00:00:00</StartDelivery>
+    <CourierId>216481495</CourierId>
+    <DeliveryType>Car</DeliveryType>
+    <StartDelivery>2025-08-04T00:00:00</StartDelivery>
     <ActualDistance xsi:nil="true" />
     <CompletionType>Successful</CompletionType>
-    <EndDelivery>2025-02-05T03:00:00</EndDelivery>
+    <EndDelivery>2025-08-04T01:00:00</EndDelivery>
     <status />
   </Delivery>
   <Delivery>
     <Id>5</Id>
     <OrderedId>5</OrderedId>
-    <CourierId>311279677</CourierId>
-    <DeliveryType>Bicycle</DeliveryType>
-    <StartDelivery>2024-04-25T00:00:00</StartDelivery>
+    <CourierId>348059258</CourierId>
+    <DeliveryType>Car</DeliveryType>
+    <StartDelivery>2025-02-26T00:00:00</StartDelivery>
     <ActualDistance xsi:nil="true" />
     <CompletionType xsi:nil="true" />
     <EndDelivery xsi:nil="true" />
