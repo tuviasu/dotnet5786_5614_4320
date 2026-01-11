@@ -16,7 +16,7 @@ internal class OrderImplementation : IOrder
         XMLTools.SaveListToXMLSerializer(list, Config.s_orders_xml);
 
 
-    // ─────────────── CREATE ───────────────
+    // ─────────────── CREATE ORDER ───────────────
     public void Create(Order item)
     {
         var list = LoadList();
