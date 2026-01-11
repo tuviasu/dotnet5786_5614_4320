@@ -138,8 +138,8 @@ internal static class Config
 
         Clock = DateTime.Now;
 
-        ManagerId = 0;
-        ManagerPassword = "";
+        ManagerId = 111111111;
+        ManagerPassword = "1234";
         CompanyAddress = "";
 
         Latitude = null;

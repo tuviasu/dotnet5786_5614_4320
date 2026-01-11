@@ -101,7 +101,7 @@ internal class AdminImplementation : IAdmin
     /// Performs validation on time ranges, speeds, and geographical coordinates before saving.
     /// </summary>
     /// <param name="config">A <see cref="Config"/> object containing the configuration values to update.</param>
-    /// <exception cref="BO.BlInvalidInputException">Thrown if any configuration value (e.g., non-positive speed, invalid coordinate range) is invalid.</exception>
+    /// <exception cref="BO.BlInvalidInputException">Thrown if any configuration courier (e.g., non-positive speed, invalid coordinate range) is invalid.</exception>
     /// <exception cref="BO.BlProcessingException">Thrown if an underlying error occurs while trying to save the configuration.</exception>
     public void SetConfig(Config config)
     {
@@ -129,19 +129,19 @@ internal class AdminImplementation : IAdmin
             // 2. Validate average speeds (must be positive)
             if (config.AvgCarSpeed <= 0)
             {
-                throw new BO.BlInvalidInputException("Average car speed must be a positive value.");
+                throw new BO.BlInvalidInputException("Average car speed must be a positive courier.");
             }
             if (config.AvgMotorbikeSpeed <= 0)
             {
-                throw new BO.BlInvalidInputException("Average motorcycle speed must be a positive value.");
+                throw new BO.BlInvalidInputException("Average motorcycle speed must be a positive courier.");
             }
             if (config.AvgBicycleSpeed <= 0)
             {
-                throw new BO.BlInvalidInputException("Average bike speed must be a positive value.");
+                throw new BO.BlInvalidInputException("Average bike speed must be a positive courier.");
             }
             if (config.AvgWalkingSpeed <= 0)
             {
-                throw new BO.BlInvalidInputException("Average foot speed must be a positive value.");
+                throw new BO.BlInvalidInputException("Average foot speed must be a positive courier.");
             }
 
             // 3. Validate geographical coordinates and distance
@@ -199,7 +199,7 @@ internal class AdminImplementation : IAdmin
     {
         // Assuming AdminManager.GetConfig() returns a Config object with properties matching ConfigVariable
         var config = AdminManager.GetConfig();
-        // Use reflection or a switch to get the value by variable
+        // Use reflection or a switch to get the courier by variable
         // Example using switch (replace with actual logic as needed)
         return variable switch
         {
@@ -220,7 +220,7 @@ internal class AdminImplementation : IAdmin
     public void SetConfigValue(ConfigVariable variable, object? value)
     {
         var config = AdminManager.GetConfig();
-        // Use switch to set the value (replace with actual logic as needed)
+        // Use switch to set the courier (replace with actual logic as needed)
         switch (variable)
         {
             case ConfigVariable.MaxDeliveryTime:
@@ -278,4 +278,65 @@ internal class AdminImplementation : IAdmin
     {
         InitializeDB();
     }
+
+        public UserType Login(int id, string password)
+    {
+        try
+        {
+            if (id <= 0)
+                throw new BO.BlInvalidInputException("Invalid user id.");
+
+            if (string.IsNullOrWhiteSpace(password))
+                throw new BO.BlInvalidInputException("Password required.");
+
+            // Check manager/admin credentials from config
+            var config = GetConfig();
+            if (id == config.AdminId)
+            {
+                if (password == config.ManagerPassword)
+                    return BO.UserType.Admin;
+
+                throw new BO.BlInvalidInputException("Invalid credentials.");
+            }
+
+            // Courier authentication not yet wired: implement using your courier repository / DAL.
+            // Example: var courier = CourierManager.GetCourier(id); verify courier.Password, return Courier type.
+            throw new BO.BlInvalidInputException("Courier authentication not implemented. Provide courier lookup and password verification.");
+        }
+        catch (BO.BlInvalidInputException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new BO.BlProcessingException($"Login failed. Details: {ex}");
+        }
+    }
+    public UserType Login(int id)
+    {
+        try
+        {
+            if (id <= 0)
+                throw new BO.BlInvalidInputException("Invalid user id.");
+
+            // Admin identification by config
+            var config = GetConfig();
+            if (id == config.AdminId)
+                return BO.UserType.Admin;
+
+            // Try to identify as courier via BL
+            _ = BlApi.Factory.Get().Courier.ReadAll(id);
+            return BO.UserType.Courier;
+        }
+        catch (BO.BlInvalidInputException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new BO.BlProcessingException($"Login failed. Details: {ex}");
+        }
+    }
+
+
 }

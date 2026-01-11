@@ -7,6 +7,8 @@ using Helpers;
 /// </summary>
 public class Config
 {
+    internal readonly int ManagerId;
+
     // ---------------------------
     // Company Details
     // ---------------------------
@@ -40,6 +42,9 @@ public class Config
     // Time after which a courier is considered inactive.
     public TimeSpan InactivityRange { get; set; }
 
+    // Authentication
+    public int AdminId { get; init; }
+
     // ---------------------------
     // Internal display fields
     // ---------------------------
@@ -49,5 +54,6 @@ public class Config
     public int NextOrderId { get; init; }
     public int NextDeliveryId { get; init; }
 
+    public string? ManagerPassword { get; init; }
     public override string ToString() => this.ToStringProperty();
 }

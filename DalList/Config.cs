@@ -116,7 +116,7 @@ internal static class Config
 
         Clock = DateTime.Now;
 
-        ManagerId = 0;
+        ManagerId = 111111111;
         ManagerPassword = "1234";
 
         CompanyAddress = null;

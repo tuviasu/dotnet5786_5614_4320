@@ -1,0 +1,81 @@
+﻿<Window x:Class="PL.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login"
+        Height="300"
+        Width="360"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
+
+    <Border CornerRadius="12"
+            Padding="20"
+            Background="White"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0"
+                       Text="System Login"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="#333"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            <!-- ID -->
+            <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                <TextBlock Text="ID Number"
+                           FontWeight="SemiBold"
+                           Foreground="#555"/>
+                <TextBox Height="34"
+                         Padding="8"
+                         FontSize="14"
+                         Text="{Binding IdNumber, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <!-- Password -->
+            <StackPanel Grid.Row="2" Margin="0,0,0,20">
+                <TextBlock Text="Password"
+                           FontWeight="SemiBold"
+                           Foreground="#555"/>
+                <PasswordBox Height="34"
+                             Padding="8"
+                             FontSize="14"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
+            </StackPanel>
+
+            <!-- Login Button -->
+            <Button Grid.Row="3"
+                    Content="Login"
+                    Height="40"
+                    FontSize="15"
+                    FontWeight="SemiBold"
+                    Foreground="White"
+                    Background="#4F7FFF"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="Login_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </Grid>
+    </Border>
+</Window>
+

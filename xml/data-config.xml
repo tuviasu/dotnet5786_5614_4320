@@ -6,8 +6,8 @@
   <!-- System clock -->
   <Clock>09/01/2026 00:16:25</Clock>
   <!-- Manager info -->
-  <ManagerId>0</ManagerId>
-  <ManagerPassword></ManagerPassword>
+  <ManagerId>999999999</ManagerId>
+  <ManagerPassword>1234567</ManagerPassword>
   <!-- Company data -->
   <CompanyAddress></CompanyAddress>
   <Latitude>0</Latitude>

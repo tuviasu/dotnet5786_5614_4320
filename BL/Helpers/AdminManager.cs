@@ -58,6 +58,7 @@ internal static class AdminManager //stage 4
         // TO DO: //stage 4
         // add an assignment for each configuration property
         //...
+        AdminId = s_dal.Config.ManagerId,
         CompanyAddress = s_dal.Config.CompanyAddress,
         Latitude = s_dal.Config.Latitude,
         Longitude = s_dal.Config.Longitude,
@@ -70,6 +71,7 @@ internal static class AdminManager //stage 4
         InactivityRange = s_dal.Config.InactivityRange,
       
     };
+ 
 
     /// <summary>
     /// Method for setting current configuration variables values for any BL class that may need it
@@ -178,6 +180,15 @@ internal static class AdminManager //stage 4
             AdminManager.UpdateClock(AdminManager.Now);  //stage 5 - needed since we want the label on Pl to be updated           
             AdminManager.SetConfig(AdminManager.GetConfig()); //stage 5 - needed for update the PL
         }
+    }
+    /// <summary>
+    /// Validates the administrator password against DAL configuration.
+    /// </summary>
+    /// <param name="password">Password entered by the user</param>
+    /// <returns>True if password is correct, otherwise false</returns>
+    internal static bool ValidateAdminPassword(string password)
+    {
+        return password == s_dal.Config.ManagerPassword;
     }
 
     #endregion Stage 4-7

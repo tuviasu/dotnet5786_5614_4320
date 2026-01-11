@@ -79,7 +79,7 @@ namespace Helpers
         internal static BO.Courier GetCourier(int requesterId, int courierId)
         {
             var doCourier = dal.Courier.Read(courierId)
-                ?? throw new BO.BlDoesNotExistException($"Courier {courierId} not found.");
+                ?? throw new BO.BlDoesNotExistException($"Courier {courierId} not found."); 
 
             return ConvertToCourier(doCourier);
         }
@@ -199,6 +199,13 @@ namespace Helpers
 
             if (courierUpdated)
                 Observers.NotifyListUpdated(); //stage 5
+        }
+
+        internal static void GetCouriersList(int id)
+        {
+            var exists = dal.Courier.Read(id) != null;
+            if (!exists) throw new BO.BlDoesNotExistException($"Courier {id} not found.");
+            // or return something meaningful if originally intended
         }
     }
 }

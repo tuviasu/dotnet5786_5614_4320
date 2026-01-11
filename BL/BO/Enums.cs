@@ -246,6 +246,24 @@ public enum CourierListSortBy
         Transport,
         IsActive
     }
+    /// <summary>
+    /// Represents the type of user that logged into the system.
+    /// Used by the presentation layer to decide which main screen to open.
+    /// </summary>
+    public enum UserType
+    {
+        /// <summary>
+        /// System administrator.
+        /// Has access to the main management screen.
+        /// </summary>
+        Admin,
+
+        /// <summary>
+        /// Courier user.
+        /// Has access to the courier screen.
+        /// </summary>
+        Courier
+    }
 
 }
 

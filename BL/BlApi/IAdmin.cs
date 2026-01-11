@@ -51,9 +51,11 @@ namespace BlApi
         /// Initializes the database:
         /// resets database and then loads initial required data.
         /// </summary>
-        
+        BO.UserType Login(int id, string password);
+
         Config GetConfig();
         void SetConfig(Config config);
+        UserType Login(int id);
 
         void InitializeDatabase();
     }
