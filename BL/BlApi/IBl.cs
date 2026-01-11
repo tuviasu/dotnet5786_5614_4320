@@ -1,7 +1,7 @@
 ﻿
 namespace BlApi
 {
-    public interface IBl 
+    public interface IBl
     {
         ICourier Courier { get; }
         IOrder Order { get; }
