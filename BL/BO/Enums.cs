@@ -1,270 +1,150 @@
-﻿namespace BO
+﻿namespace BO;
 
-
-{ 
+/// <summary>
+/// Status of an order in the system.
+/// </summary>
 public enum OrderStatus
 {
-    /// <summary>
-    /// Order was created.
-    /// </summary>
-    Created,
-    /// <summary>
-    /// Order is being shipped.
-    /// </summary>
-    Shipping,
-    /// <summary>
-    /// Order was delivered.
-    /// </summary>
+    /// <summary>Order has been created but not yet processed.</summary>
+    Pending,
+
+    /// <summary>Order is currently being processed.</summary>
+    Processing,
+
+    /// <summary>Order has been delivered to the recipient.</summary>
     Delivered,
-    /// <summary>
-    /// Order was cancelled.
-    /// </summary>
-    Cancelled
+
+    /// <summary>Order was cancelled before shipment.</summary>
+    Canceled,
+
+    /// <summary>Order was returned after delivery.</summary>
+    Returned,
+
+    /// <summary> For all order statuses.</summary>
+    All
 }
 
+/// <summary>
+/// Outcome of a delivery attempt as reported by the courier or delivery subsystem.
+/// </summary>
+public enum DeliveredStatus
+{
+    /// <summary>Package successfully delivered to the recipient.</summary>
+    Delivered,
+
+    /// <summary>Recipient refused the delivery or returned the package on receipt.</summary>
+    Rejected,
+
+    /// <summary>Delivery was cancelled before completion (by sender, system or courier).</summary>
+    Canceled,
+
+    /// <summary>Recipient was absent at the delivery location when the courier attempted delivery.</summary>
+    Absent,
+
+    /// <summary>Delivery attempt failed due to an error (invalid address, vehicle issue, etc.).</summary>
+    Failed
+}
+
+/// <summary>
+/// Transport method used for delivery.
+/// </summary>
 public enum DeliveryTransport
 {
-    /// <summary>
-    /// difalt choise no  specifik transport
-    /// </summary>
-    None,                   
-    /// Delivery by bicycle.
-    /// </summary>
-    Bicycle,
-    /// <summary>
-    /// Delivery by motorcycle.
-    /// </summary>
+    /// <summary>Motorcycle (fast, urban deliveries).</summary>
     Motorcycle,
-    /// <summary>
-    /// Delivery by car.
-    /// </summary>
+
+    /// <summary>Bike (eco-friendly, short distances).</summary>
+    Bike,
+
+    /// <summary>Car (larger volumes or longer distances).</summary>
     Car,
-    /// <summary>
-    /// Delivery by foot
-    /// 
+
+    /// <summary>foot delivery.</summary>
     Foot,
-    /// <summary>
-    /// Delivery by drone.
-    /// </summary>
-    Drone,
 
-};
+    /// <summary> For all transport methods. </summary>
+    All
+}
 
+/// <summary>
+/// Type of order or delivery service.
+/// </summary>
 public enum OrderType
-{   /// <summary>
-    /// Regular order.
-    /// </summary>
-    Regular,
-    /// <summary>
-    /// Express order.
-    /// </summary>
-    Express,
-    /// <summary>
-    /// International order.
-    /// </summary>
-    International
-}
-
-public enum WeightCategory
 {
-    /// <summary>
-    /// Light weight category.
-    /// </summary>
-    Light,
-    /// <summary>
-    /// Medium weight category.
-    /// </summary>
-    Medium,
-    /// <summary>
-    /// Heavy weight category.
-    /// </summary>
-    Heavy
+    FastFood,
+    Pizza,
+    Suchi,
+    Shawarma,
+    Dessert
 }
 
+/// <summary>
+/// Priority level for order handling.
+/// </summary>
 public enum PriorityLevel
 {
-    /// <summary>
-    /// Low priority level.
-    /// </summary>
+    /// <summary>Low priority — standard handling.</summary>
     Low,
-    /// <summary>
-    /// Medium priority level.
-    /// </summary>
+
+    /// <summary>Normal priority.</summary>
     Medium,
-    /// <summary>
-    /// High priority level.
-    /// </summary>
-    High
+
+    /// <summary>High priority — expedited handling.</summary>
+    High,
+
+    /// <summary>Critical priority — immediate action required.</summary>
+    Critical
 }
 
-// chatGPT generated enum for fragility levels
-// give me enum in C# for order specifics about fragility
-
+/// <summary>
+/// Fragility level of the package content.
+/// </summary>
 public enum FragilityLevel
 {
-    /// <summary>
-    /// The item is not fragile and can be handled normally.
-    /// </summary>
-    NotFragile = 0,
+    /// <summary>Not fragile — no special handling required.</summary>
+    Low,
 
-    /// <summary>
-    /// The item has some delicate parts; handle with moderate care.
-    /// </summary>
-    SlightlyFragile = 1,
+    /// <summary>Moderately fragile — basic precautions required.</summary>
+    Medium,
 
-    /// <summary>
-    /// The item is fragile and should be handled carefully.
-    /// </summary>
-    Fragile = 2,
+    /// <summary>Fragile — careful handling required.</summary>
+    High,
 
-    /// <summary>
-    /// The item is very fragile and requires special packaging and handling.
-    /// </summary>
-    VeryFragile = 3,
-
-    /// <summary>
-    /// The item is extremely delicate (e.g., glass, fine art); handle with maximum care.
-    /// </summary>
-    ExtremelyFragile = 4
+    /// <summary>Extremely fragile — special packaging and transport required.</summary>
+    ExtremelyFragile
 }
+
+/// <summary>
+/// Schedule status indicating whether a delivery is on time, at risk of delay, or late.
+/// </summary>
 public enum ScheduleStatus
 {
-    Pending,      // Scheduled but not yet started
-    InProgress,   // Currently being executed
-    Completed,    // Successfully completed
-    Cancelled     // Cancelled before completion
-}
+    /// <summary>Delivery is on schedule or ahead of expected time.</summary>
+    OnTime,
 
-public enum DeliveryCompletionType
+    /// <summary>Delivery is at risk of being delayed;</summary>
+    InRisk,
+
+    /// <summary>Delivery has exceeded acceptable time thresholds and is considered late.</summary>
+    Late,
+
+    /// <summary>Schedule status cannot be determined due to lack of information.</summary>
+    Unknown
+
+}
+public enum TimeUnit
 {
-    Successful,   // Delivered successfully to the customer
-    Returned,     // Package was returned to the sender
-    Failed,        // Delivery attempt failed (no one received, address issue, etc.)
-        Cancelled
-    }
-public enum CourierListSortBy
+    Second,
+    Minute,
+    Hour,
+    Day,
+    Month,
+    Year
+}
+
+public enum Administrator
 {
-    Id,
-    Name,
-    DeliveriesCount,
-    ActiveStatus
+    Director,
+    Courier,
+    Customer
 }
-    // Filtering options for OrderInList
-    public enum OrderInListFilterBy
-    {
-        Status,
-        CustomerId,
-        CourierId,
-        OnTimeStatus
-    }
-
-    // Sorting options for OrderInList
-    public enum OrderInListSortBy
-    {
-        Id,
-        Status,
-        CustomerName,
-        CreatedDate,
-        OnTimeStatus
-    }
-
-    // Filtering options for ClosedDeliveryInList
-    public enum ClosedDeliveryFilterBy
-    {
-        DeliveryStatus,
-        OnTimeStatus
-    }
-
-    // Sorting options for ClosedDeliveryInList
-    public enum ClosedDeliverySortBy
-    {
-        DeliveryStatus,
-        EndTime,
-        OnTimeStatus
-    }
-
-    // Filtering options for OpenOrderInList
-    public enum OpenOrderFilterBy
-    {
-        Status,
-        Type,
-        OnTimeStatus
-    }
-
-    // Sorting options for OpenOrderInList
-    public enum OpenOrderSortBy
-    {
-        Distance,
-        Status,
-        OnTimeStatus
-    }
-    /// <summary>
-    /// Units of time for advancing the system clock.
-    /// </summary>
-    public enum TimeUnit
-    {
-        MINUTE,
-        HOUR,
-        DAY,
-        MONTH,
-        YEAR
-    }
-
-    /// <summary>
-    /// Enum representing each configuration variable name.
-    /// </summary>
-    public enum ConfigVariable
-    {
-        Clock,
-        ManagerId,
-        ManagerPassword,
-        CompanyAddress,
-        Latitude,
-        Longitude,
-        MaxRange,
-        AvgCarSpeed,
-        AvgMotorbikeSpeed,
-        AvgBicycleSpeed,
-        AvgWalkingSpeed,
-        MaxDeliveryTime,
-        RiskRange,
-        InactivityRange,
-        NextOrderId,
-        NextDeliveryId
-    }
-
-    /// <summary>
-    /// Represents the type of distance calculation (e.g., Driving, Walking).
-    /// </summary>
-    public enum DistanceType
-    {
-        Driving,
-        Walking
-    }
-    public enum CourierFieldFilter
-    {
-        Transport,
-        IsActive
-    }
-    /// <summary>
-    /// Represents the type of user that logged into the system.
-    /// Used by the presentation layer to decide which main screen to open.
-    /// </summary>
-    public enum UserType
-    {
-        /// <summary>
-        /// System administrator.
-        /// Has access to the main management screen.
-        /// </summary>
-        Admin,
-
-        /// <summary>
-        /// Courier user.
-        /// Has access to the courier screen.
-        /// </summary>
-        Courier
-    }
-
-}
-
-

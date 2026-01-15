@@ -1,66 +1,51 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical representation of a courier as displayed in list view.
-/// This BO is view-only and constructed entirely by BL.
+/// Lightweight view model for displaying couriers in lists.
 /// </summary>
 public class CourierInList
 {
-    // -------------------------------------------------------
-    // Basic Details
-    // -------------------------------------------------------
-
-    // Courier ID (unique identifier).
-    // Source: DO.Courier.Id
-    // Cannot be null. Not updatable.
+    /// <summary>
+    /// Unique identifier of the courier.
+    /// </summary>
     public int Id { get; init; }
 
-    // Full name of the courier.
-    // Source: DO.Courier.Name
-    // Cannot be null. Not updatable.
-    public string Name { get; init; } = string.Empty;
+    /// <summary>
+    /// Display name of the courier.
+    /// </summary>
+    public string Name { get; init; }
 
-    // -------------------------------------------------------
-    // Status
-    // -------------------------------------------------------
-
-    // Whether the courier is active in the system.
-    // Source: DO.Courier.IsActive
-    // Cannot be null. Updatable only through manager (BL logic).
+    /// <summary>
+    /// Indicates whether the courier is currently active and available.
+    /// </summary>
     public bool IsActive { get; init; }
 
-    // The courier's vehicle type.
-    // Source: DO.Courier.Vehicle (ENUM)
-    // Cannot be null. Not updatable.
-    public DeliveryTransport Transport{ get; init; }
+    /// <summary>
+    /// Primary transport method used by the courier.
+    /// </summary>
+    public DeliveryTransport Transport { get; init; }
 
-    // Date when the courier started working in the company.
-    // Source: DO.Courier.StartWorkingDate
-    // Cannot be null. Not updatable.
-    public DateTime StartWorkingDate { get; init; }
+    /// <summary>
+    /// Date when the courier started working.
+    /// </summary>
+    public DateTime StartDate { get; init; }
 
-    // -------------------------------------------------------
-    // Delivery Counters (calculated by BL)
-    // -------------------------------------------------------
+    /// <summary>
+    /// Number of deliveries completed on time.
+    /// </summary>
+    public int NumberOfOnTimeDeliveries { get; init; }
 
-    // Total number of deliveries completed by the courier.
-    // Calculated in BL based on DO.Order / DO.Delivery history.
-    // Cannot be null. Not updatable.
-    public int DeliveredCountOnTime { get; init; }
+    /// <summary>
+    /// Number of deliveries completed late.
+    /// </summary>
+    public int NumberOfLateDeliveries { get; init; }
 
-    // Number of deliveries completed recently (last period defined by system).
-    // Calculated in BL. Cannot be null. Not updatable.
-    public int DeliveredCountLate { get; init; }
-
-    // -------------------------------------------------------
-    // Real-Time Activity
-    // -------------------------------------------------------
-
-
-    // The ID of the order currently assigned to this courier.
-    // Nullable: null if the courier has no active order.
-    // Calculated in BL.
-    public int? ActiveOrderId { get; init; }
+    /// <summary>
+    /// Identifier of the current order assigned to the courier, or <c>null</c> if idle.
+    /// </summary>
+    public int? ActualOrder { get; init; }
 
     public override string ToString() => this.ToStringProperty();
 }

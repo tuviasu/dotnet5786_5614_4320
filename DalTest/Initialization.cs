@@ -1,202 +1,295 @@
 ﻿namespace DalTest;
+
+using Dal;
 using DalApi;
 using DO;
+using System.Diagnostics.Metrics;
 
 public static class Initialization
 {
-    // private static IDelivery? s_dalDelivery; //stage 1
-    // private static ICourier? s_dalCourier; //stage 1
-    // private static IOrder? s_dalOrder; //stage 1
-    // private static IConfig? s_dalConfig; //stage 1
-    private static IDal? s_dal; //stage 2
+
+    private static IDal? s_dal;
+
     private static readonly Random s_rand = new();
     private const int MIN_ID = 200000000;
     private const int MAX_ID = 400000000;
 
 
-    //...
+    public class Adresses
+    {
+        public string Street { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double DistanceFromCompany { get; set; }
+        public double DistanceWalkingFromCompany { get; set; }
+        public double DistanceCarFromCompany { get; set; }
 
+        public Adresses(string street, double latitude, double longitude, double distanceFromCompany, double distanceWalkingFromCompany, double distanceCarFromCompany)
+        {
+            Street = street;
+            Latitude = latitude;
+            Longitude = longitude;
+            DistanceFromCompany = distanceFromCompany;
+            DistanceWalkingFromCompany = distanceWalkingFromCompany;
+            DistanceCarFromCompany = distanceCarFromCompany;
+        }
+        // methode pour calculer la distance entre deux points geographiques si besoin
+    }
 
-
-
-    /// <summary>
-    /// Initialize courier list with random realistic data
-    /// </summary>
     private static void createCouriers()
     {
-        string[] courierNames = { "Avi Cohen", "Dana Levi", "Yossi Bar", "Noa Regev", "Ron Azulay", "Galit Saban" };
+        s_dal!.Courier.Create(new Courier(
+            Id: 326205614,
+            Name: "Boss",
+            Phone: "+111111111",
+            Email: "boss@company.com",
+            Password: "admin",
+            IsActive: true,
+            Transport: DeliveryTransport.Car, // 0–2 km
+            StartDate: DateTime.Now, // 3–7 km
+            MaxDistance: 999, // 8–14 km
+            Administrator: Administrator.Director// 15–49 km
+        ));
 
-        DeliveryTransport[] transports =
-         {
-         DeliveryTransport.Foot,
-         DeliveryTransport.Bicycle,
-         DeliveryTransport.Motorcycle,
-         DeliveryTransport.Car
-         };
+        string[] firstNames =
+{
+    "Daniel", "Noam", "Eitan", "Amit", "Yonatan",
+    "David", "Ariel", "Itay", "Omer", "Lior"
+};
 
-        foreach (var name in courierNames)
+        string[] lastNames =
         {
+    "Cohen", "Levi", "Mizrahi", "Peretz", "Biton",
+    "Dahan", "Amar", "Friedman", "Shapiro", "Katz"
+};
+
+        HashSet<int> usedIds = new();
+
+        for (int i = 0; i < 40; i++)
+        {
+            DeliveryTransport transport = (DeliveryTransport)s_rand.Next(0, 4);
+
+            double maxDistance = transport switch
+            {
+                DeliveryTransport.Foot => s_rand.Next(0, 3),
+                DeliveryTransport.Bike => s_rand.Next(3, 8),
+                DeliveryTransport.Motorcycle => s_rand.Next(8, 15),
+                DeliveryTransport.Car => s_rand.Next(15, 50),
+                _ => 1
+            };
+
+            bool isActive = s_rand.Next(1, 101) <= 80;
+
+            // Unique random ID
             int id;
-            do id = s_rand.Next(200000000, 400000000);
-            while (s_dal!.Courier.Read(id) != null);
+            do
+            {
+                id = s_rand.Next(100000, 999999);
+            }
+            while (!usedIds.Add(id));
 
-            string phone = "05" + s_rand.Next(0, 100000000).ToString("D8");
-            string email = $"{name.Replace(" ", ".").ToLower()}@example.com";
-            string password = "Password123"; // or generate random password
-            bool isActive = s_rand.Next(0, 2) == 1;
-            DeliveryTransport transport = transports[s_rand.Next(transports.Length)];
-            DateTime startWorkingDate = DateTime.Now.AddYears(-s_rand.Next(1, 10)); // Example: random start date in last 10 years
-            double? maxDistance = 20.0; // or any default value
+            string firstName = firstNames[s_rand.Next(firstNames.Length)];
+            string lastName = lastNames[s_rand.Next(lastNames.Length)];
 
-            s_dal!.Courier.Create(new Courier(
-                id,
-                name,
-                phone,
-                email,
-                password,
-                isActive,
-                transport,
-                startWorkingDate, 
-                maxDistance
-            ));
+            Courier courier = new Courier(
+                Id: id,
+                Name: $"{firstName} {lastName}",
+                Phone: $"+9725{s_rand.Next(10000000, 99999999)}",
+                Email: $"{firstName.ToLower()}.{lastName.ToLower()}{s_rand.Next(1, 99)}@gmail.com",
+                Password: "password",
+                IsActive: isActive,
+                Transport: transport,
+                StartDate: DateTime.Now.AddDays(s_rand.Next(-365, 0)),
+                MaxDistance: maxDistance,
+                Administrator: Administrator.Courier
+            );
+
+            s_dal!.Courier.Create(courier);
         }
+
     }
 
-    /// <summary>
-    /// Initialize order list with random realistic data
-    /// </summary>
     private static void createOrders()
     {
-        string[] customerNames = { "David Levi", "Maya Ron", "Eli Shahar", "Ruth Avital", "Ido Barkai" };
-        string[] cities = { "Jerusalem", "Tel Aviv", "Haifa", "Eilat", "Ashdod" };
-
-        
-
-        if (s_dal!.Config == null)
-            throw new InvalidOperationException("s_dalConfig must be initialized before calling createOrders.");
-
-        foreach (var name in customerNames)
+        for (int i = 0; i < 60; i++)
         {
-            int id = s_dal!.Config.NextOrderId;
-            string address = cities[s_rand.Next(cities.Length)];
-            double latitude = s_rand.NextDouble() * 180 - 90; // Random latitude (-90 to 90)
-            double longitude = s_rand.NextDouble() * 360 - 180; // Random longitude (-180 to 180)
-            string phone = "05" + s_rand.Next(0, 100000000).ToString("D8");
-            DateTime start = new DateTime(s_dal!.Config.Clock.Year - 1, 1, 1);
-            int range = (s_dal!.Config.Clock - start).Days;
-            DateTime orderDate = start.AddDays(s_rand.Next(range));
+            OrderType Type;
+            if (i < 25)
+                Type = OrderType.FastFood;
+            else if (i < 37)
+                Type = OrderType.Pizza;
+            else
+                Type = (OrderType)s_rand.Next(2, 5);
 
-            s_dal!.Order.Create(new Order(
-                id,
-                OrderType.Regular, 
-                latitude,
-                longitude,
-                name,
-                address,
-                phone,
-                orderDate,
-                DeliveryTransport.Bicycle, // or any default DeliveryTransport
-                FragilityLevel.NotFragile,     // or any default FragilityLevel
-                null,                     // Description
-                OrderStatus.Created        // or any default OrderStatus
-            ));
+            var adress = addresses[s_rand.Next(0, 5)];
+            Order order = new Order
+            (
+                Id: 0,
+                CustomerName: $"Customer_{i + 1}",
+                CustomerAddress: adress.Street,
+                CustomerPhone: $"+200000000{i + 1:D2}",
+                Type: Type,
+                // use DAL clock to keep all dates consistent with BL clock
+                OrderDate: s_dal.Config.Clock.AddMinutes(-s_rand.Next(0, 48)),
+                Latitude: adress.Latitude,
+                Longitude: adress.Longitude
+            );
+            s_dal!.Order.Create(order);
         }
     }
 
-    /// <summary>
-    /// Initialize delivery list with logical connections between couriers and orders
-    /// </summary>
     private static void createDeliveries()
     {
-        if (s_dal!.Config == null) //stage 2
+        // Get all existing orders and couriers
+        var orders = s_dal!.Order.ReadAll().ToList();
+        var allCouriers = s_dal!.Courier.ReadAll().ToList();
+        var deliveriesSnapshot = s_dal!.Delivery.ReadAll().ToList();
 
-            throw new InvalidOperationException("s_dalConfig must be initialized before calling createDeliveries.");
+        // Filter: active, not Director
+        var availableCouriers = allCouriers
+            .Where(c => c.IsActive && c.Administrator != Administrator.Director)
+            .ToList();
 
-        var couriers = s_dal!.Courier.ReadAll();//stage 2
-        var orders = s_dal!.Order.ReadAll();//stage 2
-    
-
-
-
-
-        foreach (var order in orders)
+        if (orders.Count == 0 || availableCouriers.Count == 0)
         {
-            // only part of the orders will be already delivered
-            bool delivered = s_rand.Next(0, 2) == 1;
-
-            // choose a random courier
-            var courierList = couriers.ToList();
-            var courier = courierList[s_rand.Next(courierList.Count)];
-
-            int id = s_dal!.Config.NextDeliveryId;
-            DateTime start = new DateTime(s_dal!.Config.Clock.Year - 1, 1, 1);
-            int range = (s_dal!.Config.Clock - start).Days;
-            DateTime deliveryDate = start.AddDays(s_rand.Next(range));
-
-            // Fix: Pass DeliveryTransport as argument 4, and set other required fields
-            s_dal!.Delivery!.Create(new Delivery(
-                id,
-                order.Id,
-                courier.Id,
-                courier.Transport, // DeliveryTransport argument
-                deliveryDate,      // StartDelivery argument
-                null,              // ActualDistance
-                delivered ? DeliveryCompletionType.Successful : null, // CompletionType
-                delivered ? deliveryDate.AddHours(s_rand.Next(1, 5)) : null // EndDelivery
-            ));
+            Console.WriteLine("No orders or available couriers to create deliveries.");
+            return;
         }
+
+        // Create deliveries with various statuses
+        int attempts = 0;
+        int created = 0;
+        var usedOrders = new HashSet<int>();
+
+        while (created < Math.Min(45, orders.Count) && attempts < 1000)
+        {
+            attempts++;
+
+            // Pick a random order that hasn't been used yet
+            var order = orders[s_rand.Next(orders.Count)];
+            if (usedOrders.Contains(order.Id)) continue;
+
+            // Pick a random available courier
+            var courier = availableCouriers[s_rand.Next(availableCouriers.Count)];
+
+            // Random pickup time - équilibré
+            DateTime pickup = order.OrderDate.AddMinutes(s_rand.Next(3, 20)); // 3-20 minutes après commande
+
+            // Determine delivery status and timing
+            DO.OrderStatus? deliveryStatus;
+            DateTime? arrivalTime = null;
+
+            // Create different scenarios plus équilibrés:
+            // 60% delivered, 20% processing, 15% pending, 5% canceled
+            int statusRoll = s_rand.Next(1, 101);
+
+            if (statusRoll <= 60) // 60% - Delivered
+            {
+                deliveryStatus = DO.OrderStatus.Delivered;
+
+                // Temps de livraison basés sur le type de transport pour être plus réalistes
+                int deliveryTime = courier.Transport switch
+                {
+                    DeliveryTransport.Foot => s_rand.Next(20, 35),      // 20-35 minutes
+                    DeliveryTransport.Bike => s_rand.Next(15, 25),      // 15-25 minutes  
+                    DeliveryTransport.Motorcycle => s_rand.Next(10, 20), // 10-20 minutes
+                    DeliveryTransport.Car => s_rand.Next(8, 18),        // 8-18 minutes
+                    _ => s_rand.Next(15, 30)
+                };
+
+                arrivalTime = pickup.AddMinutes(deliveryTime);
+            }
+            else if (statusRoll <= 80) // 20% - Processing (picked up but not delivered yet)
+            {
+                deliveryStatus = DO.OrderStatus.Processing;
+                arrivalTime = null; // still in transit
+            }
+            else if (statusRoll <= 95) // 15% - Pending (not picked up yet)
+            {
+                deliveryStatus = null; // not yet started
+                // Pickup dans le futur proche pour certains pending
+                pickup = s_dal.Config.Clock.AddMinutes(s_rand.Next(-2, 15));
+            }
+            else // 5% - Canceled
+            {
+                deliveryStatus = DO.OrderStatus.Canceled;
+                arrivalTime = pickup.AddMinutes(s_rand.Next(5, 15));
+            }
+
+            // Calculate distance for completed deliveries
+            double? distance = null;
+            if (arrivalTime.HasValue)
+            {
+                var address = addresses[s_rand.Next(addresses.Length)];
+                distance = s_rand.NextDouble() * address.DistanceFromCompany + 0.8;
+            }
+
+            // Create delivery
+            Delivery delivery = new Delivery
+            (
+                Id: 0,
+                OrderId: order.Id,
+                CourierId: courier.Id,
+                PickupTime: pickup,
+                Transport: courier.Transport,
+                ArrivalTime: arrivalTime,
+                Distance: distance,
+                Status: deliveryStatus
+            );
+
+            s_dal!.Delivery.Create(delivery);
+            usedOrders.Add(order.Id);
+            created++;
+        }
+
+        Console.WriteLine($"Created {created} deliveries with various statuses.");
     }
 
-    // public static void Do(IDal dal) //stage 2
-    public static void Do() //stage 4
+    public static Adresses[] addresses = new Adresses[]
     {
-        //s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!"); // stage 2
-        s_dal = DalApi.Factory.Get; //stage 4
-        s_dal.ResetDB();//stage 2
+        new Adresses("2 Kadish Luz St israel", 31.759170644410922, 35.18416389561243, 2.2, 2.6, 3.3),
+        new Adresses("21 HaVaad Leumi israel",31.76503763226389, 35.19018701095478, 1.5, 12.0, 3.7),
+        new Adresses("31 HaRav Frank", 31.768730189008583, 35.184873153283796, 1.1, 18.0, 2.5),
+        new Adresses("73 HaRav Uziel", 31.770329906428557, 35.1847366055818, 0.9, 24.0, 1.8),
+        new Adresses("87 Arieh Ben Eliezer", 31.761875305999634, 35.19177485143465, 1.9, 30.0, 3.3)
+    };
+
+    public static Adresses CompanyAdress = new Adresses("22 HaMeyasdim jerusalem", 31.778449894212013, 35.18761502733661, 0.0, 0.0, 0.0);
+
+    public static void Do()
+    {
+        s_dal = DalApi.Factory.Get;
+
+        Console.WriteLine("Reset Configaration values and List values...");
+        s_dal.ResetDB();
+
+        // Initialize config to consistent values so BL AdminManager.Now is sane
+        try
+        {
+            // set company address and coordinates (avoid (0,0))
+            s_dal.Config.CompanyAdress = CompanyAdress.Street;
+            s_dal.Config.Latitude = CompanyAdress.Latitude;
+            s_dal.Config.Longitude = CompanyAdress.Longitude;
+
+            // set the central clock to the current system time
+            s_dal.Config.Clock = DateTime.Now;
+
+            // Ajuster les paramètres pour avoir un équilibre réaliste
+            if (s_dal.Config.MaxTimeDelivery == TimeSpan.Zero)
+                s_dal.Config.MaxTimeDelivery = TimeSpan.FromMinutes(45); // 45 minutes
+            if (s_dal.Config.RiskRange == TimeSpan.Zero)
+                s_dal.Config.RiskRange = TimeSpan.FromMinutes(8); // 8 minutes avant la limite
+        }
+        catch
+        {
+            // best-effort, never crash init
+        }
+
+        Console.WriteLine("Initializing Delivery list...");
         createCouriers();
         createOrders();
         createDeliveries();
-       
-
     }
-
-    /*
-    /// <summary>
-    /// Main method that initializes all DAL lists. //stage 1
-
-    /// </summary>
-    public static void Do(
-        ICourier? dalCourier,
-        IOrder? dalOrder,
-        IDelivery? dalDelivery,
-        IConfig? dalConfig)
-    {
-
-        // ========== 1. Assign interface instances and validate ==========
-
-        s_dalCourier = dalCourier;
-        s_dalOrder = dalOrder;
-        s_dalDelivery = dalDelivery;
-        s_dalConfig = dalConfig; 
-
-        // ========== 2. Reset all lists and configuration ==========
-        Console.WriteLine("Reset configuration values and list data...");
-        s_dalConfig!.Reset();
-        s_dalCourier!.DeleteAll();
-        s_dalOrder!.DeleteAll();
-        s_dalDelivery!.DeleteAll();
-
-        // ========== 3. Initialize lists ==========
-        Console.WriteLine("Initializing Couriers list...");
-        createCouriers();
-
-        Console.WriteLine("Initializing Orders list...");
-        createOrders();
-
-        Console.WriteLine("Initializing Deliveries list...");
-        createDeliveries();
-
-        Console.WriteLine("Initialization completed successfully!");
-    }
-    */
 }
+
+

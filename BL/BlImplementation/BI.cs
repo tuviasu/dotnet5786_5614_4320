@@ -1,14 +1,15 @@
 ﻿using BlApi;
+using BLApi;
+using BLImplementation;
 
-namespace BlImplementation
+namespace BlImplementation;
+
+internal class Bl : IBl
 {
-    internal class Bl : IBl
-    {
-        public ICourier Courier { get; } = new CourierImplementation();
+    public IAdmin Admin => new AdminImplementation();
 
-        public IOrder Order { get; } = new OrderImplementation();
+    public ICourier Courier => new CourierImplementation();
 
-        public IAdmin Admin { get; } = new AdminImplementation();
-    }
-
+    public IOrder Order => new OrderImplementation();
 }
+

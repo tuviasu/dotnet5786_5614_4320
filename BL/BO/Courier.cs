@@ -1,58 +1,78 @@
-﻿
+﻿using Helpers;
 
 namespace BO;
-using Helpers;
+
+/// <summary>
+/// Represents a courier who performs deliveries.
+/// </summary>
 public class Courier
 {
-    // Unique identifier of the courier
-    // DO: Courier.Id (int)
-    public int Id { get; set; }
+    /// <summary>
+    /// Unique identifier of the courier.
+    /// </summary>
+    public int Id { get; init; }
 
-    // Courier full name
-    // DO: Courier.Name (string)
-    public string Name { get; set; }= string.Empty;
+    /// <summary>
+    /// Full name of the courier.
+    /// </summary>
+    public string Name { get; set; }
 
+    /// <summary>
+    /// Contact phone number for the courier.
+    /// </summary>
+    public string Phone { get; set; }
 
-    // Courier phone number
-    // DO: Courier.Phone (string)
-    public string Phone { get; set; } = string.Empty;
-    // Courier login password
-    // Source: DO.Courier.Password
-    // Cannot be null, cannot be updated directly
-    // Validation (length, characters) is done in BL
-    public string Password { get; set; } = string.Empty;
+    /// <summary>
+    /// Contact email address for the courier.
+    /// </summary>
+    public string Email { get; set; }
 
+    /// <summary>
+    /// password for the courier's account.
+    ///</summary>
+    public string Password { get; set; }
 
-    public string Email { get; set; } = string.Empty;
-    // Indicates whether the courier is active or disabled
-    // DO: Courier.IsActive (bool)
+    /// <summary>
+    /// Indicates whether the courier is currently active and available for assignments.
+    /// </summary>
     public bool IsActive { get; set; }
-    // Max travel distance that the courier is willing/capable to cover
-    // According to business logic – must be checked in BL before setting
-    // DO: Courier.MaxRange (double)
-    public double? MaxRange { get; set; }
 
-    // Vehicle type used by the courier (Enum)
-    // DO: Courier.Vehicle (Enum)
-    public DeliveryTransport Transport { get; init; }
+    /// <summary>
+    /// Primary transport method used by the courier.
+    /// </summary>
+    public DeliveryTransport Transport { get; set; }
 
-    // The date the courier started working in the company
-    // DO: Courier.StartWorkingDate (DateTime)
-    public DateTime StartWorkingDate { get; init; }
+    /// <summary>
+    /// Date when the courier started working (immutable after creation).
+    /// </summary>
+    public DateTime StartDate { get; init; }
 
-    // Count of deliveries performed by the courier in time (to show in full details screen)
-    // Calculated in BL (not taken directly from DO)
-    public int DeliveriesCountOnTime { get; init; }
-    // Count of deliveries completed late (to show in full details screen)
-    // Calculated in BL (not taken directly from DO)
-    public int DeliveriesCountLate { get; init; }
-    // Count of deliveries completed by the courier recently (optional, depends on BL logic)
-    public int DeliveredRecently { get; set; }
+    /// <summary>
+    /// Total number of deliveries completed on time.
+    /// </summary>
+    public int NumberOfOnTimeDeliveries { get; init; }
 
-    // Order currently assigned to the courier (if exists)
-    // BO: OrderInProgress (PDS partial allowed)
-    public OrderInProgress? CurrentOrder { get; set; }
+    /// <summary>
+    /// Total number of deliveries completed late.
+    /// </summary>
+    public int NumberOfLateDeliveries { get; init; }
 
-    // Use extension method to auto-generate formatted ToString
+    /// <summary>
+    /// The order the courier is currently working on, or <c>null</c> when idle.
+    /// </summary>
+    public OrderInProgress? CurrentOrder { get; init; }
+
+    /// <summary>
+    /// Maximum distance (in kilometers) the courier is willing or allowed to travel for a delivery.
+    /// Nullable when no limit is specified.
+    /// </summary>
+    public double? MaxDistance { get; set; }
+
+    /// <summary>
+    /// Say if the courier is administrator or director
+    /// </summary>
+    public Administrator Administrator { get; init; }
+
     public override string ToString() => this.ToStringProperty();
+
 }

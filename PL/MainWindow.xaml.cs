@@ -1,204 +1,200 @@
-﻿using PL.Courier;
-using System.Text;
+﻿using BlApi;
+using BO;
+using PL.Courier;
+using PL.Order;
+using System;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PL
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        // ================================
+        //  ACCESS TO BL LAYER (REQUIRED)
+        // ================================
+        static readonly IBl s_bl = Factory.Get();
+
+        // ================================
+        //   DEPENDENCY PROPERTY: CLOCK
+        // ================================
         public DateTime CurrentTime
         {
-            get { return (DateTime)GetValue(CurrentTimeProperty); }
-            set { SetValue(CurrentTimeProperty, value); }
+            get => (DateTime)GetValue(CurrentTimeProperty);
+            set => SetValue(CurrentTimeProperty, value);
         }
 
         public static readonly DependencyProperty CurrentTimeProperty =
-            DependencyProperty.Register(
-                "CurrentTime",
-                typeof(DateTime),
-                typeof(MainWindow)
-            );
+            DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow));
 
-        public MainWindow()
+        // ================================
+        //   DEPENDENCY PROPERTY: CONFIG
+        // ================================
+        public Config Configuration
         {
-            InitializeComponent();
-            Configuration = s_bl.Admin.GetConfig();
-            //CurrentTime = DateTime.Now;
-
-        }
-
-        private void btnAddOneMinute_Click(object sender, RoutedEventArgs e)
-        {
-            s_bl.Admin.ForwardClock(BO.TimeUnit.MINUTE);
-        }
-
-        private void btnAddOneMonth_Click(object sender, RoutedEventArgs e)
-        {
-            s_bl.Admin.ForwardClock(BO.TimeUnit.MONTH);
-        }
-
-        private void btnAddOneYear_Click(object sender, RoutedEventArgs e)
-        {
-            s_bl.Admin.ForwardClock(BO.TimeUnit.YEAR);
-        }
-
-        
-
-        private void btnAddOneHour_Click(object sender, RoutedEventArgs e)
-        {
-            s_bl.Admin.ForwardClock(BO.TimeUnit.HOUR);
-        }
-
-        private void btnAddOneDay_Click(object sender, RoutedEventArgs e)
-        {
-            s_bl.Admin.ForwardClock(BO.TimeUnit.DAY);
-        }
-
-        public BO.Config Configuration
-        {
-            get { return (BO.Config)GetValue(ConfigurationProperty); }
-            set { SetValue(ConfigurationProperty, value); }
+            get => (Config)GetValue(ConfigurationProperty);
+            set => SetValue(ConfigurationProperty, value);
         }
 
         public static readonly DependencyProperty ConfigurationProperty =
-            DependencyProperty.Register(
-                "Configuration",
-                typeof(BO.Config),
-                typeof(MainWindow)
-            );
+            DependencyProperty.Register("Configuration", typeof(Config), typeof(MainWindow));
 
-        private void UpdateConfig_Click(object sender, RoutedEventArgs e)
+        // ================================
+        //           CONSTRUCTOR
+        // ================================
+        public MainWindow()
         {
-            s_bl.Admin.SetConfig(Configuration);
+            InitializeComponent();
+
+            Loaded += MainWindow_Loaded;
+            Closing += MainWindow_Closing;
         }
-        // Observer method for system clock updates
+
+        // ================================
+        //      OBSERVER: CLOCK
+        // ================================
         private void ClockObserver()
         {
-            // Update the dependency property with the current clock value from BL
-            CurrentTime = s_bl.Admin.GetClock();
+            try
+            {
+                CurrentTime = s_bl.Admin.GetClock();
+            }
+            catch { }
         }
 
-        // Observer method for configuration updates
+        // ================================
+        //      OBSERVER: CONFIG
+        // ================================
         private void ConfigObserver()
         {
-            // Update the dependency property with the current configuration from BL
-            Configuration = s_bl.Admin.GetConfig();
+            try
+            {
+                Configuration = s_bl.Admin.GetConfig();
+            }
+            catch { }
         }
-        // This method is called when the MainWindow is fully loaded
+
+        // ================================
+        //   INITIALIZATION ON OPENING
+        // ================================
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Initialize the system clock display
+            // Load current data
             CurrentTime = s_bl.Admin.GetClock();
-
-            // Initialize configuration values
             Configuration = s_bl.Admin.GetConfig();
 
-            // Register clock observer
+            // Register observers
             s_bl.Admin.AddClockObserver(ClockObserver);
-
-            // Register configuration observer
             s_bl.Admin.AddConfigObserver(ConfigObserver);
         }
-        // Called when the main window is closed
-        private void MainWindow_Closed(object sender, System.EventArgs e)
-        {
-            // Remove clock observer
-            s_bl.Admin.RemoveClockObserver(ClockObserver);
 
-            // Remove configuration observer
-            s_bl.Admin.RemoveConfigObserver(ConfigObserver);
+        // ================================
+        //      CLEANUP ON CLOSING
+        // ================================
+        private void MainWindow_Closing(object? sender, CancelEventArgs e)
+        {
+            try
+            {
+                s_bl.Admin.RemoveClockObserver(ClockObserver);
+                s_bl.Admin.RemoveConfigObserver(ConfigObserver);
+            }
+            catch
+            {
+                // Some BL versions do not implement RemoveObserver — ignore.
+            }
         }
 
-        private void OpenCouriersList_Click(object sender, RoutedEventArgs e)
+        // =======================================================
+        //          BUTTONS: CLOCK (ADVANCE TIME)
+        // =======================================================
+
+      
+
+        private void AddOneMinute_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.ForwardClock(TimeUnit.Minute);
+        }
+
+        private void AddOneHour_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.ForwardClock(TimeUnit.Hour);
+        }
+
+        private void AddOneDay_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.ForwardClock(TimeUnit.Day);
+        }
+
+        private void AddOneMonth_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.ForwardClock(TimeUnit.Month);
+        }
+
+        private void AddOneYear_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Admin.ForwardClock(TimeUnit.Year);
+        }
+
+        // =======================================================
+        //           CONFIGURATION: LOAD / APPLY
+        // =======================================================
+
+        private void LoadAllConfig_Click(object sender, RoutedEventArgs e)
+        {
+            Configuration = s_bl.Admin.GetConfig();
+        }
+
+        private void ApplyConfig_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                s_bl.Admin.SetConfig(Configuration);
+                MessageBox.Show("Configuration updated successfully.",
+                                "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating configuration:\n{ex.Message}",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // =======================================================
+        //              BUTTONS: DATABASE
+        // =======================================================
+
+        private void InitDB_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Initialize database?", "Confirm",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                s_bl.Admin.InitializeDB();
+                MessageBox.Show("Database initialized.");
+            }
+        }
+
+        private void ResetDB_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Reset database?", "Confirm",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                s_bl.Admin.ResetDB();
+                MessageBox.Show("Database reset.");
+            }
+        }
+
+        // =======================================================
+        //     BUTTONS: OPENING LIST SCREENS
+        // =======================================================
+
+        private void CouriersList_Click(object sender, RoutedEventArgs e)
         {
             new CourierListWindow().Show();
         }
-        private void btnResetDb_Click(object sender, RoutedEventArgs e)
+
+        private void OrdersList_Click(object sender, RoutedEventArgs e)
         {
-            // Ask the user for confirmation before resetting the database
-            var result = MessageBox.Show(
-                "Are you sure you want to RESET the database?\nAll data will be deleted!",
-                "Confirm Reset",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            // If the user clicked "No" – do nothing
-            if (result != MessageBoxResult.Yes)
-                return;
-
-            try
-            {
-                // Show wait cursor while operation is running
-                Mouse.OverrideCursor = Cursors.Wait;
-
-                // Close all open windows except the main window
-                CloseAllWindowsExceptMain();
-
-                // Call BL to reset the database
-                s_bl.Admin.ResetDatabase();
-            }
-            finally
-            {
-                // Restore default mouse cursor
-                Mouse.OverrideCursor = null;
-            }
+            new OrderListWindow().Show();
         }
-        private void btnInitializeDb_Click(object sender, RoutedEventArgs e)
-        {
-            // Ask the user for confirmation before initializing the database
-            var result = MessageBox.Show(
-                "Are you sure you want to INITIALIZE the database?",
-                "Confirm Initialize",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            // If the user clicked "No" – do nothing
-            if (result != MessageBoxResult.Yes)
-                return;
-
-            try
-            {
-                // Show wait cursor while operation is running
-                Mouse.OverrideCursor = Cursors.Wait;
-
-                // Close all open windows except the main window
-                CloseAllWindowsExceptMain();
-
-                // Call BL to initialize the database
-                s_bl.Admin.InitializeDatabase();
-            }
-            finally
-            {
-                // Restore default mouse cursor
-                Mouse.OverrideCursor = null;
-            }
-        }
-
-        private void CloseAllWindowsExceptMain()
-        {
-            // Iterate over all currently open windows
-            foreach (Window window in Application.Current.Windows)
-            {
-                // Close every window except this one (MainWindow)
-                if (window != this)
-                    window.Close();
-            }
-        }
-
-
-
     }
-
 }

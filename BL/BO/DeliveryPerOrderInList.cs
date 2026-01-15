@@ -1,62 +1,47 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical view of a delivery record inside an order (list view).
-/// Read-only object fully constructed by BL.
+/// Lightweight view model representing a delivery entry associated with an order,
+/// used for listing deliveries per order.
 /// </summary>
 public class DeliveryPerOrderInList
 {
-    public BO.ScheduleStatus? ScheduleStatus { get; init; }
-
-
-    // ---------------------------------------------------------
-    // Identifiers
-    // ---------------------------------------------------------
-
-    // ID of the delivery.
-    // Source: DO.Delivery.Id
-    // Cannot be updated.
+    /// <summary>
+    /// Unique identifier of the delivery record.
+    /// </summary>
     public int DeliveryId { get; init; }
 
-    // ID of the courier who handled this delivery.
-    // Source: DO.Delivery.CourierId
-    // Cannot be updated.
+    /// <summary>
+    /// Identifier of the courier assigned to the delivery, or <c>null</c> if none.
+    /// </summary>
     public int? CourierId { get; init; }
 
-    // ---------------------------------------------------------
-    // Courier Details
-    // ---------------------------------------------------------
+    /// <summary>
+    /// Display name of the courier assigned to the delivery.
+    /// </summary>
+    public string Name { get; init; }
 
-    // Full name of the courier (from DO.Courier).
-    // Cannot be updated.
-    public string CourierName { get; init; } = string.Empty;
+    /// <summary>
+    /// Type of the order associated with this delivery.
+    /// </summary>
+    public DeliveryTransport transport { get; init; }
 
-    // Courier's vehicle type (enum).
-    // Cannot be updated.
-    public DeliveryTransport DeliveryType { get; init; }
+    /// <summary>
+    /// Time when the courier picked up the order for delivery.
+    /// </summary>
+    public DateTime PickupTime { get; init; }
 
-    // ---------------------------------------------------------
-    // Timing
-    // ---------------------------------------------------------
+    /// <summary>
+    /// Current status of the order, or <c>null</c> when not available.
+    /// </summary>
+    public OrderStatus? OrderStatus { get; init; }
 
-    // Time when delivery was picked up.
-    // Source: DO.Delivery.PickedUpTime
-    // Cannot be null. Cannot be updated.
-    public DateTime  StartDeliver { get; init; }
-
-    // Time when delivery was completed.
-    // May be null if not yet delivered.
-    // Cannot be updated.
-    public DateTime? EndDelivery { get; init; }
-
-    // ---------------------------------------------------------
-    // Status
-    // ---------------------------------------------------------
-
-    // Delivery status (enum).
-    // Derived in BL.
-    // Cannot be updated.
-    public DeliveryCompletionType? CompletionType { get; init; }
+    /// <summary>
+    /// Time when the delivery arrived at the destination, or <c>null</c> if not yet arrived.
+    /// </summary>
+    public DateTime? ArrivalTime { get; init; }
 
     public override string ToString() => this.ToStringProperty();
 }

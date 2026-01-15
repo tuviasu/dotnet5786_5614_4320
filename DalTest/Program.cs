@@ -2,453 +2,126 @@
 using DalApi;
 using DO;
 
-namespace DalTest
+namespace DalTest;
+
+internal class Program
 {
-    // ====== ENUMS FOR MENUS ======
-    internal enum MainMenuOption
+    static readonly IDal s_dal = Factory.Get;
+
+    private enum Menu
     {
         Exit = 0,
-        Couriers = 1,
-        Orders = 2,
-        Deliveries = 3,
-        InitializeData = 4,
-        ShowAllData = 5,
-        Config = 6,
-        ResetDatabaseAndConfig = 7
+        Initialize = 1,
+        ShowAllCouriers = 2,
+        ShowAllOrders = 3,
+        ShowAllDeliveries = 4,
+        AddCourier = 5,
+        ReadCourier = 6,
+        DeleteCourier = 7
     }
 
-    internal enum CrudMenuOption
+    private static void Main(string[] args)
     {
-        Exit = 0,
-        Create = 1,
-        Read = 2,
-        ReadAll = 3,
-        Update = 4,
-        Delete = 5,
-        DeleteAll = 6
-    }
-
-    internal enum ConfigMenuOption
-    {
-        Exit = 0,
-        AdvanceOneMinute = 1,
-        AdvanceOneHour = 2,
-        AdvanceOneDay = 3,
-        ShowClock = 4,
-        SetClock = 5,
-        ShowConfigValues = 6,
-        ResetConfig = 7
-    }
-
-    internal class Program
-    {
-        // ====== DAL instances ======
-        // ----- Stage 1 -----
-        //private static ICourier s_dalCourier = new CourierImplementation();
-        //private static IOrder s_dalOrder = new OrderImplementation();
-        //private static IDelivery s_dalDelivery = new DeliveryImplementation();
-        //private static IConfig s_dalConfig = new ConfigImplementation();
-
-
-        //static readonly IDal s_dal = new DalList(); // Stage 2 
-        //static readonly IDal s_dal = new DalXml();  //stage 3
-        static readonly IDal s_dal = Factory.Get; //stage 4
-
-        static void Main(string[] args)
+        try
         {
-            try
+            Menu choice;
+            do
             {
-                MainMenu();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"\n*** Exception caught in main: {ex.Message}");
-            }
+                Console.WriteLine("\n--- MAIN MENU ---");
+                Console.WriteLine("1. Initialize Data");
+                Console.WriteLine("2. Show all Couriers");
+                Console.WriteLine("3. Show all Orders");
+                Console.WriteLine("4. Show all Deliveries");
+                Console.WriteLine("5. Add Courier");
+                Console.WriteLine("6. Read Courier by ID");
+                Console.WriteLine("7. Delete Courier");
+                Console.WriteLine("0. Exit");
+                Console.Write("Enter your choice: ");
 
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
-        }
-
-        // ==================== MAIN MENU ====================
-
-        private static void MainMenu()
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                PrintMainMenu();
-
-                string? input = Console.ReadLine();
-                Console.WriteLine();
-
-                if (!int.TryParse(input, out int choiceInt))
-                {
-                    Console.WriteLine("Invalid choice, please enter a number.");
-                    continue;
-                }
-
-                MainMenuOption choice = (MainMenuOption)choiceInt;
+                choice = (Menu)int.Parse(Console.ReadLine() ?? "0");
 
                 switch (choice)
                 {
-                    case MainMenuOption.Exit:
-                        exit = true;
+                    case Menu.Initialize:
+
+                        Initialization.Do();
+                        Console.WriteLine("Data initialized successfully!");
                         break;
 
-                    case MainMenuOption.Couriers:
-                        CourierMenu();
+                    case Menu.ShowAllCouriers:
+                        foreach (var c in s_dal!.Courier.ReadAll())
+                            Console.WriteLine(c);
                         break;
 
-                    case MainMenuOption.Orders:
-                        OrderMenu();
+                    case Menu.ShowAllOrders:
+                        foreach (var o in s_dal!.Order.ReadAll())
+                            Console.WriteLine(o);
                         break;
 
-                    case MainMenuOption.Deliveries:
-                        DeliveryMenu();
+                    case Menu.ShowAllDeliveries:
+                        foreach (var d in s_dal!.Delivery.ReadAll())
+                            Console.WriteLine(d);
                         break;
 
-                    case MainMenuOption.InitializeData:
-                        // ----- Stage 1 -----
-                        //Initialization.Do(s_dalCourier, s_dalOrder, s_dalDelivery, s_dalConfig);
+                    case Menu.AddCourier:
+                        Console.Write("Enter courier name: ");
+                        string? name = Console.ReadLine();
+                        Console.Write("Enter phone: ");
+                        string? phone = Console.ReadLine();
+                        Console.Write("Enter email: ");
+                        string? email = Console.ReadLine();
+                        Console.Write("Enter Id: ");
+                        int ID = int.Parse(Console.ReadLine() ?? "0");
 
-                        // ----- Stage 2 -----
-                        //Initialization.Do(s_dal);//
-                        Initialization.Do(); //stage 4
-                        Console.WriteLine("Data initialization completed successfully!");
-                        //Console.ReadKey();
+                        // Administrator is an enum in DO; pass the enum value directly.
+                        Courier newCourier = new Courier(
+                            Id: ID,
+                            Name: name ?? "Unknown",
+                            Phone: phone ?? "0000000000",
+                            Email: email ?? "none@gmail.com",
+                            Password: "password",
+                            IsActive: true,
+                            Transport: DeliveryTransport.Bike,
+                            StartDate: DateTime.Now,
+                            Administrator: Administrator.Courier,
+                            MaxDistance: 10
+                        );
+
+                        s_dal!.Courier.Create(newCourier);
+                        Console.WriteLine("Courier added successfully!");
                         break;
 
-                    case MainMenuOption.ShowAllData:
-                        ShowAllData();
+                    case Menu.ReadCourier:
+                        Console.Write("Enter courier ID: ");
+                        int id = int.Parse(Console.ReadLine() ?? "0");
+                        Courier? courier = s_dal!.Courier.Read(id);
+                        if (courier != null)
+                            Console.WriteLine(courier);
+                        else
+                            Console.WriteLine("Courier not found.");
                         break;
 
-                    case MainMenuOption.Config:
-                        ConfigMenu();
+                    case Menu.DeleteCourier:
+                        Console.Write("Enter courier ID to delete: ");
+                        int idDel = int.Parse(Console.ReadLine() ?? "0");
+                        s_dal!.Courier.Delete(idDel);
+                        Console.WriteLine("Courier deleted.");
                         break;
 
-                    case MainMenuOption.ResetDatabaseAndConfig:
-                        ResetAllData();
+                    case Menu.Exit:
+                        Console.WriteLine("Exiting program...");
                         break;
 
                     default:
-                        Console.WriteLine("Invalid choice, try again.");
+                        Console.WriteLine("Invalid choice.");
                         break;
                 }
-            }
+
+            } while (choice != Menu.Exit);
         }
-
-        private static void PrintMainMenu()
+        catch (Exception ex)
         {
-            Console.WriteLine("\n===== MAIN MENU =====");
-            Console.WriteLine("0. Exit");
-            Console.WriteLine("1. Couriers menu");
-            Console.WriteLine("2. Orders menu");
-            Console.WriteLine("3. Deliveries menu");
-            Console.WriteLine("4. Initialize data (Initialization.Do)");
-            Console.WriteLine("5. Show ALL data (Couriers + Orders + Deliveries)");
-            Console.WriteLine("6. Config menu");
-            Console.WriteLine("7. Reset all data (DeleteAll + Config.Reset)");
-            Console.Write("Choose option: ");
-        }
-
-        // ==================== GLOBAL RESET & SHOW ALL DATA ====================
-
-        private static void ResetAllData()
-        {
-            Console.WriteLine("Resetting all DAL data and configuration...");
-
-            // ----- Stage 1 -----
-            //s_dalCourier.DeleteAll();
-            //s_dalOrder.DeleteAll();
-            //s_dalDelivery.DeleteAll();
-            //s_dalConfig.Reset();
-
-            // ----- Stage 2 -----
-            s_dal.Courier.DeleteAll();
-            s_dal.Order.DeleteAll();
-            s_dal.Delivery.DeleteAll();
-            s_dal.Config.Reset();
-
-            Console.WriteLine("Reset completed.");
-        }
-
-        private static void ShowAllData()
-        {
-            Console.WriteLine("===== ALL DATA IN SYSTEM =====\n");
-
-            // ----- Stage 1 -----
-            //Console.WriteLine("--- Couriers ---");
-            //foreach (Courier c in s_dalCourier.ReadAll())
-            //    Console.WriteLine(c);
-            //Console.WriteLine("\n--- Orders ---");
-            //foreach (Order o in s_dalOrder.ReadAll())
-            //    Console.WriteLine(o);
-            //Console.WriteLine("\n--- Deliveries ---");
-            //foreach (Delivery d in s_dalDelivery.ReadAll())
-            //    Console.WriteLine(d);
-
-            // ----- Stage 2 -----
-            Console.WriteLine("--- Couriers ---");
-            foreach (Courier c in s_dal.Courier.ReadAll())
-                Console.WriteLine(c);
-
-            Console.WriteLine("\n--- Orders ---");
-            foreach (Order o in s_dal.Order.ReadAll())
-                Console.WriteLine(o);
-
-            Console.WriteLine("\n--- Deliveries ---");
-            foreach (Delivery d in s_dal.Delivery.ReadAll())
-                Console.WriteLine(d);
-        }
-
-        // ==================== COURIER MENU ====================
-
-        private static void CourierMenu()
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                PrintCrudMenu("Courier");
-
-                string? input = Console.ReadLine();
-                Console.WriteLine();
-
-                if (!int.TryParse(input, out int choiceInt))
-                {
-                    Console.WriteLine("Invalid choice.");
-                    continue;
-                }
-
-                CrudMenuOption choice = (CrudMenuOption)choiceInt;
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case CrudMenuOption.Exit:
-                            exit = true;
-                            break;
-
-                        case CrudMenuOption.DeleteAll:
-                            // ----- Stage 1 -----
-                            //s_dalCourier.DeleteAll();
-                            // ----- Stage 2 -----
-                            s_dal.Courier.DeleteAll();
-                            Console.WriteLine("All couriers deleted.");
-                            break;
-
-                        default:
-                            Console.WriteLine("Other CRUD actions are unchanged.");
-                            break;
-                    }
-                }
-                catch (DalAlreadyExistsException ex)
-                {
-                    Console.WriteLine($"Courier creation failed: {ex.Message}");
-                }
-                catch (DalDoesNotExistException ex)
-                {
-                    Console.WriteLine($"Courier operation failed: {ex.Message}");
-                }
-                catch (DalAccessException ex)
-                {
-                    Console.WriteLine($"Data access error: {ex.Message}");
-                }
-                catch (DalInvalidDataException ex)
-                {
-                    Console.WriteLine($"Invalid data error: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Unexpected error: {ex.Message}");
-                }
-            }
-        }
-
-        // ==================== ORDER MENU ====================
-
-        private static void OrderMenu()
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                PrintCrudMenu("Order");
-
-                string? input = Console.ReadLine();
-                Console.WriteLine();
-
-                if (!int.TryParse(input, out int choiceInt))
-                {
-                    Console.WriteLine("Invalid choice.");
-                    continue;
-                }
-
-                CrudMenuOption choice = (CrudMenuOption)choiceInt;
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case CrudMenuOption.Exit:
-                            exit = true;
-                            break;
-
-                        case CrudMenuOption.DeleteAll:
-                            // ----- Stage 1 -----
-                            //s_dalOrder.DeleteAll();
-                            // ----- Stage 2 -----
-                            s_dal.Order.DeleteAll();
-                            Console.WriteLine("All orders deleted.");
-                            break;
-
-                        default:
-                            Console.WriteLine("Other CRUD actions are unchanged.");
-                            break;
-                    }
-                }
-                catch (DalAlreadyExistsException ex)
-                {
-                    Console.WriteLine($"Order creation failed: {ex.Message}");
-                }
-                catch (DalDoesNotExistException ex)
-                {
-                    Console.WriteLine($"Order not found: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Unexpected error: {ex.Message}");
-                }
-
-            }
-        }
-
-        // ==================== DELIVERY MENU ====================
-
-        private static void DeliveryMenu()
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                PrintCrudMenu("Delivery");
-
-                string? input = Console.ReadLine();
-                Console.WriteLine();
-
-                if (!int.TryParse(input, out int choiceInt))
-                {
-                    Console.WriteLine("Invalid choice.");
-                    continue;
-                }
-
-                CrudMenuOption choice = (CrudMenuOption)choiceInt;
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case CrudMenuOption.Exit:
-                            exit = true;
-                            break;
-
-                        case CrudMenuOption.DeleteAll:
-                            // ----- Stage 1 -----
-                            //s_dalDelivery.DeleteAll();
-                            // ----- Stage 2 -----
-                            s_dal.Delivery.DeleteAll();
-                            Console.WriteLine("All deliveries deleted.");
-                            break;
-
-                        default:
-                            Console.WriteLine("Other CRUD actions are unchanged.");
-                            break;
-                    }
-                }
-                catch (DalDoesNotExistException ex)
-                {
-                    Console.WriteLine($"Delivery not found: {ex.Message}");
-                }
-                catch (DalInvalidDataException ex)
-                {
-                    Console.WriteLine($"Invalid delivery data: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Unexpected error: {ex.Message}");
-                }
-
-            }
-        }
-
-        // ==================== CONFIG MENU ====================
-
-        private static void ConfigMenu()
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                PrintConfigMenu();
-
-                string? input = Console.ReadLine();
-                Console.WriteLine();
-
-                if (!int.TryParse(input, out int choiceInt))
-                {
-                    Console.WriteLine("Invalid choice.");
-                    continue;
-                }
-
-                ConfigMenuOption choice = (ConfigMenuOption)choiceInt;
-
-                try
-                {
-                    switch (choice)
-                    {
-                        case ConfigMenuOption.Exit:
-                            exit = true;
-                            break;
-
-                        case ConfigMenuOption.ResetConfig:
-                            // ----- Stage 1 -----
-                            //s_dalConfig.Reset();
-                            // ----- Stage 2 -----
-                            s_dal.Config.Reset();
-                            Console.WriteLine("Config reset to initial values.");
-                            break;
-
-                        default:
-                            Console.WriteLine("Other config options remain the same.");
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error in config menu: {ex.Message}");
-                }
-            }
-        }
-
-        // ==================== MENU HELPERS ====================
-
-        private static void PrintCrudMenu(string entityName)
-        {
-            Console.WriteLine($"\n--- {entityName.ToUpper()} MENU ---");
-            Console.WriteLine("0. Back to main menu");
-            Console.WriteLine("1. Create new");
-            Console.WriteLine("2. Read by Id");
-            Console.WriteLine("3. Show all");
-            Console.WriteLine("4. Update");
-            Console.WriteLine("5. Delete");
-            Console.WriteLine("6. Delete ALL");
-            Console.Write("Choose option: ");
-        }
-
-        private static void PrintConfigMenu()
-        {
-            Console.WriteLine("\n--- CONFIG MENU ---");
-            Console.WriteLine("0. Back to main menu");
-            Console.WriteLine("6. Show current config values");
-            Console.WriteLine("7. Reset all config values");
-            Console.Write("Choose option: ");
+            Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
 }

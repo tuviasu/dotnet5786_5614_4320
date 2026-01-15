@@ -1,41 +1,18 @@
-﻿namespace DalApi;
+﻿using DO;
 
-/// <summary>
-/// Generic CRUD interface for all data entities.
-/// Defines basic Create, Read, Update and Delete operations.
-/// </summary>
-/// <typeparam name="T">Entity type (for example: Student, Course, etc.)</typeparam>
+namespace DalApi;
+
 public interface ICrud<T> where T : class
 {
-    /// <summary>
-    /// Creates a new entity in the data source.
-    /// </summary>
     void Create(T item);
-
-    /// <summary>
-    /// Reads a single entity by its unique ID.
-    /// Returns null if the entity does not exist.
-    /// </summary>
+    // Creates new entity object in DAL
     T? Read(int id);
-
-    /// <summary>
-    /// Reads all entities (stage 1 version - returns all items in a List).
-    /// </summary>
-    IEnumerable<T> ReadAll(Func<T, bool>? filter = null); // stage 2
-
-    /// <summary>
-    /// Updates an existing entity in the data source.
-    /// </summary>
+    // Reads entity object by its ID
+    IEnumerable<T> ReadAll(Func<T, bool>? filter = null);
+    // stage 1 only, Reads all entity objects
     void Update(T item);
-
-    /// <summary>
-    /// Deletes an entity by its unique ID.
-    /// </summary>
+    // Updates entity object
     void Delete(int id);
-
-    /// <summary>
-    /// Deletes all entities from the data source.
-    /// </summary>
+    // Deletes an object by its Id
     void DeleteAll();
-    T? Read(Func<T, bool> filter); // stage 2
 }

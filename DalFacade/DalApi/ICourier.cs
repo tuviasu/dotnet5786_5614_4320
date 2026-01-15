@@ -1,7 +1,4 @@
-﻿namespace DalApi;
-using DO;
+﻿using DO;
+namespace DalApi;
 
-public interface ICourier: ICrud<Courier>
-{
-   
-}
+public interface ICourier : ICrud<Courier> { }

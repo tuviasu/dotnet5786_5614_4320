@@ -2,168 +2,87 @@
 using DalApi;
 using DO;
 using System.Xml.Linq;
-using System.Globalization;
 
 internal class CourierImplementation : ICourier
 {
-    private string Path => Config.s_couriers_xml;
-
-    private XElement LoadRoot()
+    static Courier getCourier(XElement c)
     {
-        // Loads XML → XElement
-        return XMLTools.LoadListFromXMLElement(Path);
+        return new DO.Courier()
+        {
+            Id = c.ToIntNullable("Id") ?? throw new DalFormatException("cant convert id"),
+            Name = (string?)c.Element("Name") ?? "",
+            Phone = (string?)c.Element("Phone") ?? "",
+            Email = (string?)c.Element("Email") ?? "",
+            Password = (string?)c.Element("Password") ?? "",
+            IsActive = (bool?)c.Element("IsActive") ?? false,
+            Transport = c.ToEnumNullable<DeliveryTransport>("Transport") ?? DeliveryTransport.Car,
+            StartDate = c.ToDateTimeNullable("StartDate") ?? DateTime.Now,
+            Administrator = c.ToEnumNullable<Administrator>("Administrator") ?? Administrator.Courier,
+            MaxDistance = c.ToDoubleNullable("MaxDistance")
+
+        };
     }
-
-    private void SaveRoot(XElement root)
-    {
-        XMLTools.SaveListToXMLElement(root, Path);
-    }
-
-
-    // ─────────────── CREATE ───────────────
     public void Create(Courier item)
     {
-        XElement root = LoadRoot();
-
-        // Check duplicate
-        if (root.Elements("Courier").Any(e => (int)e.Element("Id")! == item.Id))
-            throw new DalAlreadyExistsException($"Courier ID {item.Id} exists");
-
-        XElement newCourier = new XElement("Courier",
-            new XElement("Id", item.Id),
-            new XElement("Name", item.Name),
-            new XElement("Phone", item.Phone),
-            new XElement("Email", item.Email),
-            new XElement("Password", item.Password),
-            new XElement("IsActive", item.IsActive),
-            new XElement("Transport", item.Transport),
-            new XElement("MaxDistance", item.MaxDistance)
-        );
-
-        root.Add(newCourier);
-        SaveRoot(root);
+        // Load existing couriers, add the new one and save.
+        List<Courier> couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
+        couriers.Add(item);
+        XmlTools.SaveListToXMLSerializer(couriers, Config.s_couriers_xml);
     }
 
-
-    // ─────────────── READ BY ID ───────────────
-    public Courier? Read(int id)
-    {
-        XElement root = LoadRoot();
-
-        var elem = root.Elements("Courier")
-                       .FirstOrDefault(e => int.TryParse(e.Element("Id")?.Value, out var iid) && iid == id);
-
-        if (elem == null) return null;
-
-        // Parse Id and required strings
-        int idVal = int.Parse(elem.Element("Id")!.Value);
-        string name = elem.Element("Name")?.Value ?? string.Empty;
-        string phone = elem.Element("Phone")?.Value ?? string.Empty;
-
-        // Optional numeric
-        double? maxDistance = null;
-        var mdStr = elem.Element("MaxDistance")?.Value;
-        if (!string.IsNullOrWhiteSpace(mdStr)
-            && double.TryParse(mdStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var md))
-            maxDistance = md;
-
-        // Optional DateTime
-        DateTime startWorkingDate = default;
-        if (!string.IsNullOrWhiteSpace(elem.Element("StartWorkingDate")?.Value))
-            DateTime.TryParse(elem.Element("StartWorkingDate")!.Value, CultureInfo.InvariantCulture, DateTimeStyles.None, out startWorkingDate);
-
-        // Enum safe parse
-        Enum.TryParse<DeliveryTransport>(elem.Element("Transport")?.Value ?? "", true, out var transport);
-
-        bool isActive = bool.TryParse(elem.Element("IsActive")?.Value, out var ia) && ia;
-
-        return new Courier(
-            Id: idVal,
-            Name: name,
-            Phone: phone,
-            Email: elem.Element("Email")?.Value ?? string.Empty,
-            Password: elem.Element("Password")?.Value ?? string.Empty,
-            IsActive: isActive,
-            Transport: transport,
-            StartWorkingDate: startWorkingDate,
-            MaxDistance: maxDistance
-        );
-    }
-
-    // Add implementation for ICrud<Courier>.Read(Func<Courier, bool> filter)
-    public Courier? Read(Func<Courier, bool> filter)
-    {
-        return ReadAll(filter).FirstOrDefault();
-    }
-
-
-    // ─────────────── READ ALL ───────────────
-    public IEnumerable<Courier> ReadAll(Func<Courier, bool>? filter = null)
-    {
-        XElement root = LoadRoot();
-
-        var list = root.Elements("Courier")
-                       .Select(e => new Courier(
-                           Id: (int)e.Element("Id")!,
-                           Name: (string)e.Element("Name")!,
-                           Phone: (string)e.Element("Phone")!,
-                           Email: (string)e.Element("Email")!,
-                           Password: (string)e.Element("Password")!,
-                           IsActive: (bool)e.Element("IsActive")!,
-                           Transport: (DeliveryTransport)Enum.Parse(typeof(DeliveryTransport), (string)e.Element("Transport")!),
-                           StartWorkingDate: e.Element("StartWorkingDate") != null
-                               ? DateTime.Parse((string)e.Element("StartWorkingDate")!)
-                               : default,
-                           // reading
-                           MaxDistance: double.TryParse(e.Element("MaxDistance")?.Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var md) ? md : (double?)null
-                       ));
-
-        return filter is null ? list : list.Where(filter);
-    }
-
-
-    // ─────────────── UPDATE ───────────────
-    public void Update(Courier item)
-    {
-        XElement root = LoadRoot();
-
-        var elem = root.Elements("Courier")
-                       .FirstOrDefault(e => (int)e.Element("Id")! == item.Id);
-
-        if (elem == null)
-            throw new DalDoesNotExistException($"Courier ID {item.Id} not found");
-
-        elem.Element("Name")!.SetValue(item.Name);
-        elem.Element("Phone")!.SetValue(item.Phone);
-        elem.Element("Email")!.SetValue(item.Email);
-        elem.Element("Password")!.SetValue(item.Password);
-        elem.Element("IsActive")!.SetValue(item.IsActive);
-        elem.Element("Transport")!.SetValue(item.Transport);
-        elem.Element("MaxDistance")!.SetValue(item.MaxDistance ?? 0.0);
-
-        SaveRoot(root);
-    }
-
-
-    // ─────────────── DELETE ───────────────
     public void Delete(int id)
     {
-        XElement root = LoadRoot();
-
-        var elem = root.Elements("Courier")
-                       .FirstOrDefault(e => (int)e.Element("Id")! == id);
-
-        if (elem == null)
-            throw new DalDoesNotExistException($"Courier ID {id} not found");
-
-        elem.Remove();
-        SaveRoot(root);
+        List<Courier> Couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
+        foreach (var it in Couriers) // check all courier in courier list
+        {
+            if (it.Id == id)
+            {
+                Couriers.Remove(it);
+                XmlTools.SaveListToXMLSerializer(Couriers, Config.s_couriers_xml);
+                return;
+            }
+        }
+        throw new DalDoesNotExistException($"Object Courier whit ID {id} doesnt exist"); // if not found
     }
 
-
-    // ─────────────── DELETE ALL ───────────────
     public void DeleteAll()
     {
-        SaveRoot(new XElement("ArrayOfCourier"));
+        XmlTools.SaveListToXMLSerializer(new List<Courier>(), Config.s_couriers_xml);
+    }
+
+    public Courier? Read(int id)
+    {
+        XElement? courierElem = XmlTools.LoadListFromXMLElement(Config.s_couriers_xml).Elements()
+            .FirstOrDefault(c => (int?)c.Element("Id") == id);
+        return courierElem == null ? null : getCourier(courierElem);
+    }
+
+    public IEnumerable<Courier> ReadAll(Func<Courier, bool>? filter = null)
+    {
+        List<Courier> couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
+        foreach (var item in couriers)
+        {
+            if (filter == null || filter(item))
+            {
+                yield return item;
+            }
+        }
+    }
+
+    public void Update(Courier item)
+    {
+        List<Courier> Couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
+        foreach (var it in Couriers) // check all courier in courier list
+        {
+            if (it.Id == item.Id)
+            {
+                Couriers.Remove(it);
+                Couriers.Add(item);
+                XmlTools.SaveListToXMLSerializer(Couriers, Config.s_couriers_xml);
+                return;
+            }
+        }
+        throw new DalDoesNotExistException($"Object Courier whit ID {item.Id} doesnt exist"); // if not found
+
     }
 }

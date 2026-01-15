@@ -1,116 +1,106 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical representation of an order (for managerial use).
-/// All fields marked as non-updatable use 'init' and are constructed in BL.
+/// Represents a customer order with its delivery and scheduling information.
 /// </summary>
 public class Order
 {
     /// <summary>
-    /// Unique order identifier (read-only after construction).
-    /// Maps to DO.Order.Id.
+    /// Unique identifier of the order.
     /// </summary>
     public int Id { get; init; }
 
     /// <summary>
-    /// Optional textual description of the order contents.
-    /// May be empty when no description was provided.
+    /// Type of the order or delivery service.
     /// </summary>
-    public string? Description { get; set; } = string.Empty;
+    public OrderType Type { get; set; }
 
     /// <summary>
-    /// Customer full name for this order (used for display and contact).
+    /// Optional description provided with the order.
     /// </summary>
-    public string CustomerName { get; set; } = string.Empty;
+    public string? OrderDescription { get; set; }
 
     /// <summary>
-    /// Customer phone number (used by couriers/support to contact the customer).
-    /// Validation/normalization should be done in BL before persistence.
+    /// Delivery address provided by the customer.
     /// </summary>
-    public string CustomerPhone { get; set; } = string.Empty;
+    public string CustomerAddress { get; set; }
 
     /// <summary>
-    /// Full textual address where delivery should be performed.
-    /// Prepared/validated by BL (street, number, city, etc.).
-    /// </summary>
-    public string FullAddressForDelivery { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Geographic latitude of delivery address (decimal degrees).
-    /// Used to calculate distances and for courier assignment.
+    /// Geographic latitude of the delivery address.
     /// </summary>
     public double Latitude { get; set; }
 
     /// <summary>
-    /// Geographic longitude of delivery address (decimal degrees).
+    /// Geographic longitude of the delivery address.
     /// </summary>
     public double Longitude { get; set; }
 
     /// <summary>
-    /// Straight-line (air) distance from origin/warehouse to delivery address.
-    /// Calculated by BL; used for estimates and routing heuristics.
+    /// Calculated route distance or fallback straight-line distance to the delivery address.
     /// </summary>
-    public double AirDistance { get; set; }
+    public double Distance { get; set; }
 
     /// <summary>
-    /// Weight or size indicator for the order contents.
-    /// Kept as object to allow flexible representation — BL should define and validate the expected format.
+    /// Customer full name.
     /// </summary>
-    public object? weight { get; set; }
+    public string CustomerName { get; set; }
 
     /// <summary>
-    /// Date and time when the order was placed (read-only after creation).
+    /// Customer contact phone number.
     /// </summary>
-    public DateTime OrderDate { get; init; }
+    public string CustomerPhone { get; set; }
 
     /// <summary>
-    /// Nullable expected delivery date/time (computed or provided by BL when available).
+    /// Weight of the package in kilograms, if provided.
     /// </summary>
-    public DateTime? ExpectedDelivery { get; init; }
+    public double? Weight { get; set; }
 
     /// <summary>
-    /// The latest allowed delivery DateTime (deadline). Read-only after BL constructs the object.
-    /// </summary>
-    public DateTime MaxDeliveryTime { get; init; }
-
-    /// <summary>
-    /// Remaining time until the delivery deadline (MaxDeliveryTime - now).
-    /// Calculated/populated by BL for scheduling and UI.
-    /// </summary>
-    public TimeSpan RemainingTime { get; init; }
-
-    /// <summary>
-    /// High-level status of the order (Created, Shipping, Delivered, Cancelled).
-    /// Set and updated by BL business workflows.
-    /// </summary>
-    public OrderStatus Status { get; init; }
-
-    /// <summary>
-    /// Optional order type (Regular, Express, International).
-    /// Influences scheduling and expected delivery logic.
-    /// </summary>
-    public OrderType? Type { get; set; }
-
-    /// <summary>
-    /// Optional fragility classification for handling instructions.
-    /// Use <see cref="FragilityLevel"/> values defined in BO.
+    /// Fragility level of the package, if specified.
     /// </summary>
     public FragilityLevel? Fragility { get; set; }
 
     /// <summary>
-    /// Scheduling state used by the dispatcher/scheduler (Pending, InProgress, Completed, Cancelled).
+    /// Volume of the package, if provided.
     /// </summary>
-    public ScheduleStatus ScheduleStatus_ { get; init; }
-
-    // A list of all deliveries associated with this order.
-    // May be null if the order has no recorded deliveries yet.
-    // Populated by the BL layer. Not updatable.
-    public List<DeliveryPerOrderInList>? DeliveriesHistory { get; init; }
+    public double? Volume { get; set; }
 
     /// <summary>
-    /// Returns a formatted string representation of the order.
-    /// Relies on a `ToStringProperty` extension/helper being available in the project.
-    /// If missing, implement that extension or replace this override with a self-contained implementation.
+    /// Date and time when the order was placed.
     /// </summary>
+    public DateTime OrderDate { get; init; }
+
+    /// <summary>
+    /// Estimated arrival date and time for the delivery, when available.
+    /// </summary>
+    public DateTime? ArrivalDateEstimeted { get; init; }
+
+    /// <summary>
+    /// Latest acceptable arrival date and time for the delivery.
+    /// </summary>
+    public DateTime? ArrivalDateMax { get; init; }
+
+    /// <summary>
+    /// Current workflow status of the order.
+    /// </summary>
+    public OrderStatus Status { get; init; }
+
+    /// <summary>
+    /// Scheduling status indicating whether delivery is on time, at risk, or late.
+    /// </summary>
+    public ScheduleStatus ScheduleStatus { get; init; }
+
+    /// <summary>
+    /// Estimated duration required to complete the delivery.
+    /// </summary>
+    public TimeSpan ArrivalTimeEstimeted { get; init; }
+
+    /// <summary>
+    /// List of deliveries associated with this order, useful for displaying delivery history.
+    /// </summary>
+    public List<DeliveryPerOrderInList>? DeliveriesPerOrder { get; init; }
+
     public override string ToString() => this.ToStringProperty();
 }

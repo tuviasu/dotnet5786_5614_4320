@@ -15,7 +15,7 @@ namespace PL
             base.OnStartup(e);
 
             // Open Login window as the first screen
-            new LoginWindow().Show();
+           // new LoginWindow().Show();
         }
     }
 }

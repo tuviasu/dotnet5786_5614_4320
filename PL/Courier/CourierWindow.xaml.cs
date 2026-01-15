@@ -1,177 +1,199 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
-namespace PL.Courier
+using BlApi;
+using BO;
+
+namespace PL.Courier;
+
+public partial class CourierWindow : Window, INotifyPropertyChanged
 {
-    public partial class CourierWindow : Window
+    private static readonly IBl s_bl = Factory.Get();
+
+    private int bossId = s_bl.Admin.GetConfig().BossId;
+    private readonly bool _isCreateMode;
+
+    private readonly int? _courierId;
+    private readonly Action? _courierObserver;
+
+    private bool _isIdReadOnly;
+    public bool IsReadOnly
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
-        // =======================
-        // Constructor
-        // =======================
-        public CourierWindow(int id = 0)
+        get => _isIdReadOnly;
+        private set
         {
-            InitializeComponent();
-
-            ButtonText = id == 0 ? "Add" : "Update";
-
-            CurrentCourier = (id != 0)
-                ? s_bl.Courier.Read(0, id)
-                : new BO.Courier
-                {
-                    Id = 0,
-                    IsActive = true,
-                    Transport = BO.DeliveryTransport.Bicycle,
-                    StartWorkingDate = s_bl.Admin.GetClock(),
-                };
-
-            // initialize mask for the initial courier
-            UpdatePasswordMask();
+            _isIdReadOnly = value;
+            OnPropertyChanged();
         }
-        // =======================
-        // Dependency Property: CurrentCourier
-        // =======================
-        public BO.Courier? CurrentCourier
+    }
+
+    private BO.Courier? _courierCurrent;
+    public BO.Courier CourierCurrent
+    {
+        get => _courierCurrent!;
+        set
         {
-            get => (BO.Courier?)GetValue(CurrentCourierProperty);
-            set => SetValue(CurrentCourierProperty, value);
+            _courierCurrent = value;
+            OnPropertyChanged();
         }
+    }
 
-        public static readonly DependencyProperty CurrentCourierProperty =
-            DependencyProperty.Register(
-                "CurrentCourier",
-                typeof(BO.Courier),
-                typeof(CourierWindow),
-                new PropertyMetadata(null, OnCurrentCourierChanged));
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-        private static void OnCurrentCourierChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    /// <summary>
+    /// Create mode constructor (new courier).
+    /// </summary>
+    public CourierWindow()
+    {
+        InitializeComponent();
+        _isCreateMode = true;
+        IsReadOnly = false;
+
+        CourierCurrent = new BO.Courier
         {
-            var win = (CourierWindow)d;
-            win.UpdatePasswordMask();
-        }
+            Id = 0,
+            Name = string.Empty,
+            Phone = string.Empty,
+            Email = string.Empty,
+            Password = string.Empty,
+            IsActive = true,
+            Transport = DeliveryTransport.All,
+            MaxDistance = null,
+            StartDate = s_bl.Admin.GetClock(),
+            Administrator = BO.Administrator.Courier
+        };
+    }
 
-        private void UpdatePasswordMask()
-        {
-            var len = !string.IsNullOrEmpty(CurrentCourier?.Password)
-                ? CurrentCourier!.Password.Length
-                : 6;
-            PasswordMask = new string('•', len);
-        }
+    /// <summary>
+    /// Update mode constructor (existing courier).
+    /// </summary>
+    public CourierWindow(int courierId)
+    {
+        InitializeComponent();
+        _isCreateMode = false;
+        IsReadOnly = true;
 
-        // =======================
-        // Dependency Property: ButtonText
-        // =======================
-        public string ButtonText
-        {
-            get => (string)GetValue(ButtonTextProperty);
-            set => SetValue(ButtonTextProperty, value);
-        }
+        _courierId = courierId;
+        _courierObserver = RefreshCourierFromBl;
 
-        public static readonly DependencyProperty ButtonTextProperty =
-            DependencyProperty.Register(
-                "ButtonText",
-                typeof(string),
-                typeof(CourierWindow),
-                new PropertyMetadata(string.Empty));
-
-
-        // =======================
-        // Add / Update
-        // =======================
-       
-        /// <summary>
-        /// Handles Add / Update button click
-        /// </summary>
-        private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
+        Loaded += async (_, __) =>
         {
             try
             {
-                if (ButtonText == "Add")
-                {
-                    // Create new courier
-                    s_bl.Courier.Create(0, CurrentCourier!);
-
-                    MessageBox.Show(
-                        "Courier added successfully",
-                        "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-                else
-                {
-                    // Update existing courier
-                    s_bl.Courier.Update(0, CurrentCourier!);
-
-                    MessageBox.Show(
-                        "Courier updated successfully",
-                        "Success",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-                }
-
-                // Close the single-item window
-                Close();
+                Mouse.OverrideCursor = Cursors.Wait;
+                s_bl.Courier.AddObserver(courierId, _courierObserver);
+                CourierCurrent = await Task.Run(() =>
+                    s_bl.Courier.GetCourierDetails(bossId, courierId));
             }
             catch (Exception ex)
             {
-                // Handle BL exception
-                MessageBox.Show(
-                    ex.Message,
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error loading courier",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
-        }
-        /// <summary>
-        /// Observer method for single courier updates
-        /// </summary>
-        private void courierObserver()
-        {
-            int id = CurrentCourier!.Id;
-
-            // Force refresh of the dependency property
-            CurrentCourier = null;
-            CurrentCourier = s_bl.Courier.Read(0, id);
-
-            // Ensure mask is updated after reload
-            UpdatePasswordMask();
-        }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Register observer only in Update mode
-            if (CurrentCourier != null && CurrentCourier.Id != 0)
+            finally
             {
-                s_bl.Courier.AddObserver(CurrentCourier.Id, courierObserver);
+                Mouse.OverrideCursor = null;
             }
-        }
-        private void Window_Closed(object sender, EventArgs e)
+        };
+
+        Closed += (_, __) =>
         {
-            // Unregister observer
-            if (CurrentCourier != null && CurrentCourier.Id != 0)
-            {
-                s_bl.Courier.RemoveObserver(CurrentCourier.Id, courierObserver);
-            }
-        }
-        public IEnumerable<BO.DeliveryTransport> CourierTypes =>
-          Enum.GetValues(typeof(BO.DeliveryTransport)).Cast<BO.DeliveryTransport>();
-
-        // PasswordMask is now writable so the UI can bind to it and it can be updated.
-        public string PasswordMask
-        {
-            get => (string)GetValue(PasswordMaskProperty);
-            set => SetValue(PasswordMaskProperty, value);
-        }
-
-        public static readonly DependencyProperty PasswordMaskProperty =
-            DependencyProperty.Register(
-                "PasswordMask",
-                typeof(string),
-                typeof(CourierWindow),
-                new PropertyMetadata(string.Empty));
-
-
+            if (_courierObserver is not null)
+                s_bl.Courier.RemoveObserver(courierId, _courierObserver);
+        };
     }
 
-}
+    private void RefreshCourierFromBl()
+    {
+        Dispatcher.Invoke(async () =>
+        {
+            if (_isCreateMode || _courierId is null)
+                return;
 
+            CourierCurrent = await Task.Run(() =>
+                s_bl.Courier.GetCourierDetails(bossId, _courierId.Value));
+        });
+    }
+
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void btnSave_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (!ValidateFields())
+                return;
+
+            if (_isCreateMode)
+            {
+                s_bl.Courier.addCourier(bossId, CourierCurrent);
+                MessageBox.Show("Courier created successfully.", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                s_bl.Courier.UpdateCourier(bossId, CourierCurrent);
+                MessageBox.Show("Courier updated successfully.", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            Close();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Save failed: {ex.Message}", "Error",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private bool ValidateFields()
+    {
+        var errors = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(CourierCurrent.Name))
+            errors.Add("Courier name is required.");
+
+        if (string.IsNullOrWhiteSpace(CourierCurrent.Phone))
+            errors.Add("Courier phone is required.");
+
+        if (string.IsNullOrWhiteSpace(CourierCurrent.Email))
+            errors.Add("Courier email is required.");
+
+        if (string.IsNullOrWhiteSpace(CourierCurrent.Password))
+            errors.Add("Courier password is required.");
+
+        if (!CourierCurrent.MaxDistance.HasValue || CourierCurrent.MaxDistance <= 0)
+            errors.Add("Courier max distance must be a positive number.");
+
+        if (CourierCurrent.StartDate > s_bl.Admin.GetClock().AddDays(1))
+            errors.Add("Courier start date cannot be in the future.");
+
+        if (CourierCurrent.Transport == DeliveryTransport.All)
+            errors.Add("Courier transport type cannot be 'All'.");
+
+        if (errors.Count > 0)
+        {
+            MessageBox.Show(
+                "Please fix the following issues:\n\n" + string.Join("\n", errors),
+                "Validation Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+
+            return false;
+        }
+
+        return true;
+    }
+}

@@ -1,14 +1,15 @@
 ﻿namespace Dal;
 
 using DO;
+using System;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-static class XMLTools
+static class XmlTools
 {
     const string s_xmlDir = @"..\xml\";
-    static XMLTools()
+    static XmlTools()
     {
         if (!Directory.Exists(s_xmlDir))
             Directory.CreateDirectory(s_xmlDir);
@@ -17,16 +18,38 @@ static class XMLTools
     #region SaveLoadWithXMLSerializer
     public static void SaveListToXMLSerializer<T>(List<T> list, string xmlFileName) where T : class
     {
-        string xmlFilePath = s_xmlDir + xmlFileName;
+        string dir = s_xmlDir;
+        Directory.CreateDirectory(dir); // idempotent
+        string targetPath = Path.Combine(dir, xmlFileName);
+        string tmpPath = targetPath + ".tmp";
 
-        try
+        // Inter-process mutual exclusion (optional but recommended)
+        bool createdMutex = false;
+        using (var mutex = new Mutex(false, @"Global\MyApp_OrdersXml_Mutex", out createdMutex))
         {
-            using FileStream file = new(xmlFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-            new XmlSerializer(typeof(List<T>)).Serialize(file, list);
-        }
-        catch (Exception ex)
-        {
-            throw new DalXMLFileLoadCreateException($"fail to create xml file: {s_xmlDir + xmlFilePath}, {ex.Message}");
+            try
+            {
+                // Wait a short time for other writers
+                if (!mutex.WaitOne(TimeSpan.FromSeconds(5)))
+                    throw new IOException("Timeout waiting for file mutex");
+
+                // Serialize into temporary file first
+                using (var fs = new FileStream(tmpPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    new XmlSerializer(typeof(List<T>)).Serialize(fs, list);
+                    fs.Flush(true);
+                }
+
+                // Replace atomically (overwrites target). If not available, use Move with overwrite.
+                if (File.Exists(targetPath))
+                    File.Replace(tmpPath, targetPath, null);
+                else
+                    File.Move(tmpPath, targetPath);
+            }
+            finally
+            {
+                try { mutex.ReleaseMutex(); } catch { /* ignore if not held */ }
+            }
         }
     }
     public static List<T> LoadListFromXMLSerializer<T>(string xmlFileName) where T : class
@@ -83,35 +106,59 @@ static class XMLTools
     #region XmlConfig
     public static int GetAndIncreaseConfigIntVal(string xmlFileName, string elemName)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        int nextId = root.ToIntNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        int nextId = root.ToIntNullable(elemName) ?? throw new DalFormatException($"can't convert:  {xmlFileName}, {elemName}");
         root.Element(elemName)?.SetValue((nextId + 1).ToString());
-        XMLTools.SaveListToXMLElement(root, xmlFileName);
+        XmlTools.SaveListToXMLElement(root, xmlFileName);
         return nextId;
     }
     public static int GetConfigIntVal(string xmlFileName, string elemName)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        int num = root.ToIntNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        int num = root.ToIntNullable(elemName) ?? throw new DalFormatException($"can't convert:  {xmlFileName}, {elemName}");
         return num;
     }
     public static DateTime GetConfigDateVal(string xmlFileName, string elemName)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        DateTime dt = root.ToDateTimeNullable(elemName) ?? throw new FormatException($"can't convert:  {xmlFileName}, {elemName}");
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        DateTime dt = root.ToDateTimeNullable(elemName) ?? throw new DalFormatException($"can't convert:  {xmlFileName}, {elemName}");
         return dt;
     }
     public static void SetConfigIntVal(string xmlFileName, string elemName, int elemVal)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
         root.Element(elemName)?.SetValue((elemVal).ToString());
-        XMLTools.SaveListToXMLElement(root, xmlFileName);
+        XmlTools.SaveListToXMLElement(root, xmlFileName);
     }
     public static void SetConfigDateVal(string xmlFileName, string elemName, DateTime elemVal)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
         root.Element(elemName)?.SetValue((elemVal).ToString());
-        XMLTools.SaveListToXMLElement(root, xmlFileName);
+        XmlTools.SaveListToXMLElement(root, xmlFileName);
+    }
+    public static double? GetConfigDoubleVal(string xmlFileName, string elemName)
+    {
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        double? num = root.ToDoubleNullable(elemName) ?? throw new DalFormatException($"can't convert:  {xmlFileName}, {elemName}");
+        return num;
+    }
+    public static void SetConfigDoubleVal(string xmlFileName, string elemName, double elemVal)
+    {
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        root.Element(elemName)?.SetValue((elemVal).ToString());
+        XmlTools.SaveListToXMLElement(root, xmlFileName);
+    }
+    public static string? GetConfigStringVal(string xmlFileName, string elemName)
+    {
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        string? str = (string?)root.Element(elemName) ?? throw new DalFormatException($"can't convert:  {xmlFileName}, {elemName}");
+        return str;
+    }
+    public static void SetConfigStringVal(string xmlFileName, string elemName, string elemVal)
+    {
+        XElement root = XmlTools.LoadListFromXMLElement(xmlFileName);
+        root.Element(elemName)?.SetValue(elemVal);
+        XmlTools.SaveListToXMLElement(root, xmlFileName);
     }
     #endregion
 
@@ -126,77 +173,4 @@ static class XMLTools
     public static int? ToIntNullable(this XElement element, string name) =>
         int.TryParse((string?)element.Element(name), out var result) ? (int?)result : null;
     #endregion
-    // ─────────────────────────────────────────────────────────
-    // String (required)
-    // ─────────────────────────────────────────────────────────
-    public static string GetConfigStringVal(string xmlFileName, string elemName)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        return (string?)root.Element(elemName)
-            ?? throw new FormatException($"Missing or invalid: {elemName}");
-    }
-
-    public static void SetConfigStringVal(string xmlFileName, string elemName, string value)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        root.Element(elemName)?.SetValue(value);
-        SaveListToXMLElement(root, xmlFileName);
-    }
-
-
-    // ─────────────────────────────────────────────────────────
-    // String? (nullable)
-    // ─────────────────────────────────────────────────────────
-    public static string? GetConfigStringNullableVal(string xmlFileName, string elemName)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        return (string?)root.Element(elemName);
-    }
-
-
-    // ─────────────────────────────────────────────────────────
-    // Double (nullable)
-    // ─────────────────────────────────────────────────────────
-    public static double? GetConfigDoubleNullableVal(string xmlFileName, string elemName)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        return root.ToDoubleNullable(elemName);
-    }
-
-    public static double GetConfigDoubleVal(string xmlFileName, string elemName)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        return root.ToDoubleNullable(elemName)
-            ?? throw new FormatException($"Missing or invalid: {elemName}");
-    }
-
-    public static void SetConfigDoubleVal(string xmlFileName, string elemName, double value)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        root.Element(elemName)?.SetValue(value.ToString());
-        SaveListToXMLElement(root, xmlFileName);
-    }
-
-
-    // ─────────────────────────────────────────────────────────
-    // TimeSpan
-    // ─────────────────────────────────────────────────────────
-    public static TimeSpan GetConfigTimeSpanVal(string xmlFileName, string elemName)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-
-        string? text = (string?)root.Element(elemName);
-        if (TimeSpan.TryParse(text, out TimeSpan ts))
-            return ts;
-
-        throw new FormatException($"Invalid TimeSpan: {elemName}");
-    }
-
-    public static void SetConfigTimeSpanVal(string xmlFileName, string elemName, TimeSpan value)
-    {
-        XElement root = LoadListFromXMLElement(xmlFileName);
-        root.Element(elemName)?.SetValue(value.ToString());
-        SaveListToXMLElement(root, xmlFileName);
-    }
-
 }

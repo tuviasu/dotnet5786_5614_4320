@@ -1,95 +1,94 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical representation of an order currently being handled by a courier.
-/// This BO object is read-only for fields defined as "not updatable", and is
-/// fully constructed by the BL layer.
+/// Represents the live state of an order that is currently being delivered.
+/// Provides both timeline and contact details needed while the delivery is in progress.
 /// </summary>
 public class OrderInProgress
 {
     /// <summary>
-    /// Gets the name of the customer.
+    /// Identifier of the delivery record handling this order.
     /// </summary>
-    public string CustomerName { get; init; } = string.Empty;
+    public int DeliveryId { get; init; }
 
     /// <summary>
-    /// Gets the delivery address.
+    /// Identifier of the related order.
     /// </summary>
-    public string DeliveryAddress { get; init; } = string.Empty;
+    public int OrderId { get; init; }
 
     /// <summary>
-    /// Gets the phone number of the customer.
+    /// Numeric representation of the order status.
+    /// This value can be used when a numeric code is required (for example when interacting with lower-level DAL).
     /// </summary>
-    public string CustomerPhone { get; init; } = string.Empty;
-    
+    public OrderStatus OrderStatus { get; init; }
+
     /// <summary>
-    /// Gets or initializes the description associated with the object.
+    /// Calculated or measured route distance for the delivery, in kilometers when available.
+    /// </summary>
+    public double? Distance { get; init; }
+
+    /// <summary>
+    /// Time when the courier picked up the order.
+    /// </summary>
+    public DateTime PickupTime { get; init; }
+
+    /// <summary>
+    /// Time when the delivery arrived at the destination, or <c>null</c> if not yet arrived.
+    /// </summary>
+    public DateTime? ArrivalTime { get; init; }
+
+    /// <summary>
+    /// Scheduling status indicating whether the delivery is on time, at risk, or late.
+    /// </summary>
+    public ScheduleStatus ScheduleStatus { get; init; }
+
+    /// <summary>
+    /// Typed enum representation of the order status.
+    /// Use this property in business logic when the enum form is required.
+    /// </summary>
+    public OrderStatus OrderStatusEnum { get; init; }
+
+    /// <summary>
+    /// Optional textual description of the order or delivery notes.
     /// </summary>
     public string? Description { get; init; }
 
     /// <summary>
-    /// Gets the unique identifier of the delivered item.
+    /// Customer full name.
     /// </summary>
-    public int DeliveredId { get; init; }
-
-   /// <summary>
-   /// Gets the unique identifier for the order.
-   /// </summary>
-    public int OrderId { get; init; }
-
-  /// <summary>
-  /// Gets the actual distance value, if available.
-  /// </summary>
-    private double? ActualDistance { get; init; }
+    public string CustomerName { get; init; }
 
     /// <summary>
-    /// Gets the air distance in units determined by the context, such as kilometers or miles.
+    /// Customer contact phone number.
     /// </summary>
-    public double AirDistance { get; init; }
+    public string CustomerPhone { get; init; }
 
     /// <summary>
-    /// Gets the date and time when the order was placed.
+    /// Customer delivery address.
     /// </summary>
-    public DateTime  OrderDate { get; init; }
-    
-    /// <summary>
-    /// Gets the date and time when the delivery process is scheduled to start.
-    /// </summary>
-    public DateTime StartDelivery { get; init; }
-   
-    /// <summary>
-    /// Gets the expected delivery time for the item.
-    /// </summary>
-    public DateTime ExpectedDeliveryTime { get; init; }
+    public string CustomerAddress { get; init; }
 
     /// <summary>
-    /// Gets the maximum delivery time for the operation.
+    /// Date and time when the order was placed.
+    /// </summary>
+    public DateTime OrderDate { get; init; }
+
+    /// <summary>
+    /// Estimated arrival time for the delivery.
+    /// </summary>
+    public DateTime EstimatedArrivalTime { get; init; }
+
+    /// <summary>
+    /// Latest allowed delivery time for the order.
     /// </summary>
     public DateTime MaxDeliveryTime { get; init; }
 
     /// <summary>
-    /// Gets the remaining time for the operation or process.
+    /// Time the order has been waiting since pickup or since it was queued, as applicable.
     /// </summary>
-    public TimeSpan RemainingTime { get; init; }
+    public TimeSpan WaitingTime { get; init; }
 
-    /// <summary>
-    /// Gets the current schedule status of the entity.
-    /// </summary>
-    public ScheduleStatus ScheduleStatus_ { get; init; }
-
-    /// <summary>
-    /// Gets the type of the order.
-    /// </summary>
-    public OrderType Type { get; init; }
-
-    /// <summary>
-    /// Gets the current status of the order.
-    /// </summary>
-    public OrderStatus Status { get; init; }
-
-    /// <summary>
-    /// Returns a string representation of the current object.
-    /// </summary>
-    /// <returns>A string that represents the current object.</returns>
     public override string ToString() => this.ToStringProperty();
 }

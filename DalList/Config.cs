@@ -1,136 +1,138 @@
 ﻿namespace Dal;
 
 /// <summary>
-/// Central, in-memory configuration holder for the delivery system.
-/// Contains global constants, runtime settings and simple auto-increment ID generators.
-/// This type is internal to the DAL implementation and is not thread-safe.
+/// Global configuration settings used by the DAL.
+/// All members are static and the class is initialized once via the static constructor.
 /// </summary>
 internal static class Config
 {
     /// <summary>
-    /// Starting value for order IDs.
-    /// IDs produced by <see cref="NextOrderId"/> begin from this value.
+    /// Starting order identifier (constant).
     /// </summary>
-    internal const int startOrderId = 1000;
+    internal const int InitialOrderId = 1000;
 
     /// <summary>
-    /// Backing counter for order IDs; initialized from <see cref="startOrderId"/>.
+    /// Backing field for <see cref="NextOrderId"/>.
     /// </summary>
-    private static int nextOrderId = startOrderId;
+    private static int nextOrderId = InitialOrderId;
 
     /// <summary>
-    /// Returns the next order ID (post-increment).
-    /// NOTE: this property is not synchronized — concurrent calls may race.
+    /// Returns the next available order identifier and advances the internal counter.
     /// </summary>
     internal static int NextOrderId { get => nextOrderId++; }
 
     /// <summary>
-    /// Starting value for deliver (courier) IDs.
-    /// IDs produced by <see cref="NextDeliverId"/> begin from this value.
+    /// Starting delivery identifier (constant).
     /// </summary>
-    internal const int startDeliverId = 2000;
+    internal const int NextDeliveryId = 5000;
 
     /// <summary>
-    /// Backing counter for deliver IDs; initialized from <see cref="startDeliverId"/>.
+    /// Backing field for <see cref="NextDeliveryIdValue"/>.
     /// </summary>
-    private static int nextDeliverId = startDeliverId;
+    private static int nextDeliveryId = NextDeliveryId;
 
     /// <summary>
-    /// Returns the next deliver ID (post-increment).
-    /// NOTE: this property is not synchronized — concurrent calls may race.
+    /// Returns the next available delivery identifier and advances the internal counter.
     /// </summary>
-    internal static int NextDeliverId { get => nextDeliverId++; }
+    internal static int NextDeliveryIdValue { get => nextDeliveryId++; }
 
     /// <summary>
-    /// Application clock used by the DAL (defaults to <see cref="DateTime.Now"/>).
-    /// Can be set for testing or simulation.
+    /// Global clock used by the DAL (current or simulated time).
     /// </summary>
-    internal static DateTime Clock { get; set; } = DateTime.Now;
+    internal static DateTime Clock;
 
     /// <summary>
-    /// Manager national ID (or system manager unique identifier).
-    /// Default: 111111111. Note: <see cref="Reset"/> sets this to 0.
+    /// Boss / administrator identifier.
     /// </summary>
-    internal static int ManagerId { get; set; } = 111111111;
+    internal static int BossId;
 
     /// <summary>
-    /// Manager password (plain text here for simplicity).
-    /// SECURITY: Do NOT store plain-text passwords in production — use secure storage and hashing.
-    /// Default: "1234".
+    /// Boss / administrator password.
     /// </summary>
-    internal static string ManagerPassword { get; set; } = "1234";
+    internal static string BossPassword;
 
     /// <summary>
-    /// Optional company address used as the delivery origin.
+    /// Average car speed in km/h.
     /// </summary>
-    internal static string? CompanyAddress { get; set; } = null;
+    internal static double CarSpeed = 40; // in km/h
 
     /// <summary>
-    /// Optional company latitude (decimal degrees). Null when unspecified.
+    /// Average motorcycle speed in km/h.
     /// </summary>
-    internal static double? Latitude { get; set; } = null;
+    internal static double MotorcycleSpeed = 50; // in km/h
 
     /// <summary>
-    /// Optional company longitude (decimal degrees). Null when unspecified.
+    /// Average bicycle speed in km/h.
     /// </summary>
-    internal static double? Longitude { get; set; } = null;
+    internal static double BikeSpeed = 20; // in km/h
 
     /// <summary>
-    /// Optional maximum delivery range (in kilometers). Null indicates no explicit range limit.
+    /// Average walking speed in km/h.
     /// </summary>
-    internal static int? MaxRange { get; set; } = null;
+    internal static double WalkingSpeed = 5; // in km/h
 
     /// <summary>
-    /// Average speeds used for travel time estimations (units: km/h).
-    /// Defaults are conservative average values per transport type.
+    /// Maximum allowed delivery time span.
     /// </summary>
-    internal static double AvgCarSpeed { get; set; } = 50;
-    internal static double AvgMotorbikeSpeed { get; set; } = 40;
-    internal static double AvgBicycleSpeed { get; set; } = 15;
-    internal static double AvgWalkingSpeed { get; set; } = 5;
+    internal static TimeSpan MaxTimeDelivery;
 
     /// <summary>
-    /// Time span after which a delivery is considered too long (default: 4 hours).
+    /// Time range after which a delivery is considered at risk.
     /// </summary>
-    internal static TimeSpan MaxDeliveryTime { get; set; } = TimeSpan.FromHours(4);
+    internal static TimeSpan RiskRange;
 
     /// <summary>
-    /// Time window used to determine risk-related behaviors (default: 1 hour).
+    /// Inactivity time after which the courier is considered inactive.
     /// </summary>
-    internal static TimeSpan RiskRange { get; set; } = TimeSpan.FromHours(1);
+    internal static TimeSpan Inactivity;
 
     /// <summary>
-    /// Time span used to detect courier inactivity (default: 2 hours).
+    /// Company address, if known.
     /// </summary>
-    internal static TimeSpan InactivityRange { get; set; } = TimeSpan.FromHours(2);
+    internal static string? CompanyAddress = null;
 
     /// <summary>
-    /// Reset all configuration values to their defaults.
-    /// Resets ID counters, clears location data, and restores default speeds and time windows.
-    /// Note: default ManagerId initial value (111111111) differs from the Reset value (0).
+    /// Company latitude, if known.
     /// </summary>
+    internal static double? Latitude = null;
+
+    /// <summary>
+    /// Company longitude, if known.
+    /// </summary>
+    internal static double? Longitude = null;
+
+    /// <summary>
+    /// Maximum delivery distance, if applicable.
+    /// </summary>
+    internal static double? MaxDistance = null;
+
+    /// <summary>
+    /// Static constructor: initializes default values for the configuration.
+    /// Executes once before the first use of the class.
+    /// </summary>
+    static Config()
+    {
+        Clock = DateTime.Now;
+        BossId = 0;
+        BossPassword = "";
+        MaxTimeDelivery = TimeSpan.FromHours(1);
+        RiskRange = TimeSpan.FromMinutes(30);
+        Inactivity = TimeSpan.FromDays(30);
+    }
+
     internal static void Reset()
     {
-        nextOrderId = startOrderId;
-        nextDeliverId = startDeliverId;
-
+        nextOrderId = InitialOrderId;
+        nextDeliveryId = NextDeliveryId;
         Clock = DateTime.Now;
-
-        ManagerId = 111111111;
-        ManagerPassword = "1234";
-
+        BossId = 0;
+        BossPassword = "";
+        MaxTimeDelivery = TimeSpan.FromHours(1);
+        RiskRange = TimeSpan.FromMinutes(30);
+        Inactivity = TimeSpan.FromDays(30);
         CompanyAddress = null;
         Latitude = null;
         Longitude = null;
-
-        MaxRange = 4;
-        AvgCarSpeed = 50;
-        AvgMotorbikeSpeed = 40;
-        AvgBicycleSpeed = 15;
-        AvgWalkingSpeed = 5;
-
-        MaxDeliveryTime = TimeSpan.FromHours(4);
-        RiskRange = TimeSpan.FromHours(1);
-        InactivityRange = TimeSpan.FromHours(2);
+        MaxDistance = null;
     }
 }

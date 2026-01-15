@@ -1,5 +1,6 @@
-﻿//using BO;
+//using BO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Helpers;
 
@@ -19,6 +20,8 @@ internal static class AdminManager //stage 4
     internal static event Action? ConfigUpdatedObservers; //stage 5 - for config update observers
     internal static event Action? ClockUpdatedObservers; //stage 5 - for clock update observers
 
+    private static Task? _periodicTask = null; //stage 7
+
     /// <summary>
     /// Method to update application's clock from any BL class as may be required
     /// </summary>
@@ -34,10 +37,9 @@ internal static class AdminManager //stage 4
         // - Go through all students to update properties that are affected by the clock update
         // - (students become not active after 5 years etc.)
 
-        //TO_DO: //stage 4
-        // StudentManager.PeriodicStudentsUpdates(oldClock, newClock); //stage 4. to be removed in stage 7 and replaced as below
-        //...
-        Helpers.CourierManager.PeriodicCourierUpdates();
+        CourierManager.PeriodicCouriersUpdates(oldClock, newClock);
+        OrderManager.PeriodicOrdersUpdates(oldClock, newClock);
+
         //TO_DO: //stage 7
         //if (_periodicTask is null || _periodicTask.IsCompleted) //stage 7
         //    _periodicTask = Task.Run(() => StudentManager.PeriodicStudentsUpdates(oldClock, newClock));
@@ -54,24 +56,24 @@ internal static class AdminManager //stage 4
     internal static BO.Config GetConfig() //stage 4
     => new BO.Config()
     {
-        MaxRange = s_dal.Config.MaxRange,
-        // TO DO: //stage 4
-        // add an assignment for each configuration property
-        //...
-        AdminId = s_dal.Config.ManagerId,
-        CompanyAddress = s_dal.Config.CompanyAddress,
-        Latitude = s_dal.Config.Latitude,
-        Longitude = s_dal.Config.Longitude,
-        AvgCarSpeed = s_dal.Config.AvgCarSpeed,
-        AvgMotorbikeSpeed = s_dal.Config.AvgMotorbikeSpeed,
-        AvgBicycleSpeed = s_dal.Config.AvgBicycleSpeed,
-        AvgWalkingSpeed = s_dal.Config.AvgWalkingSpeed,
-        MaxDeliveryTime = s_dal.Config.MaxDeliveryTime,
+        Clock = s_dal.Config.Clock,
+        BossId = s_dal.Config.BossId,
+        BossPassword = s_dal.Config.BossPassword,
+        CarSpeed = s_dal.Config.CarSpeed,
+        MotorcycleSpeed = s_dal.Config.MotorcycleSpeed,
+        BikeSpeed = s_dal.Config.BikeSpeed,
+        WalkingSpeed = s_dal.Config.WalkingSpeed,
+        MaxDeliveryTime = s_dal.Config.MaxTimeDelivery,
         RiskRange = s_dal.Config.RiskRange,
-        InactivityRange = s_dal.Config.InactivityRange,
-      
+        InactivityThreshold = s_dal.Config.Inactivity,
+        CompanyAddress = s_dal.Config.CompanyAdress,
+        CompanyLatitude = s_dal.Config.Latitude,
+        CompanyLongitude = s_dal.Config.Longitude,
+        MaxDistance = s_dal.Config.MaxDistance,
+
+
+
     };
- 
 
     /// <summary>
     /// Method for setting current configuration variables values for any BL class that may need it
@@ -81,62 +83,45 @@ internal static class AdminManager //stage 4
     {
         bool configChanged = false; // stage 5
 
-        if (s_dal.Config.MaxRange != configuration.MaxRange) //stage 4
+        if (s_dal.Config.BossId != configuration.BossId)
         {
-            s_dal.Config.MaxRange = configuration.MaxRange;
-            configChanged = true;
-        }
-        //TO_DO: //stage 4
-        //add a condition+assignment for each configuration property
-        //...
-
-
-
-        if (s_dal.Config.CompanyAddress != configuration.CompanyAddress)
-        {
-            s_dal.Config.CompanyAddress = configuration.CompanyAddress;
+            s_dal.Config.BossId = configuration.BossId;
             configChanged = true;
         }
 
-        if (s_dal.Config.Latitude != configuration.Latitude)
+        if (s_dal.Config.BossPassword != configuration.BossPassword)
         {
-            s_dal.Config.Latitude = configuration.Latitude;
+            s_dal.Config.BossPassword = configuration.BossPassword;
             configChanged = true;
         }
 
-        if (s_dal.Config.Longitude != configuration.Longitude)
+        if (s_dal.Config.CarSpeed != configuration.CarSpeed)
         {
-            s_dal.Config.Longitude = configuration.Longitude;
+            s_dal.Config.CarSpeed = configuration.CarSpeed;
             configChanged = true;
         }
 
-        if (s_dal.Config.AvgCarSpeed != configuration.AvgCarSpeed)
+        if (s_dal.Config.MotorcycleSpeed != configuration.MotorcycleSpeed)
         {
-            s_dal.Config.AvgCarSpeed = configuration.AvgCarSpeed;
+            s_dal.Config.MotorcycleSpeed = configuration.MotorcycleSpeed;
             configChanged = true;
         }
 
-        if (s_dal.Config.AvgMotorbikeSpeed != configuration.AvgMotorbikeSpeed)
+        if (s_dal.Config.BikeSpeed != configuration.BikeSpeed)
         {
-            s_dal.Config.AvgMotorbikeSpeed = configuration.AvgMotorbikeSpeed;
+            s_dal.Config.BikeSpeed = configuration.BikeSpeed;
             configChanged = true;
         }
 
-        if (s_dal.Config.AvgBicycleSpeed != configuration.AvgBicycleSpeed)
+        if (s_dal.Config.WalkingSpeed != configuration.WalkingSpeed)
         {
-            s_dal.Config.AvgBicycleSpeed = configuration.AvgBicycleSpeed;
+            s_dal.Config.WalkingSpeed = configuration.WalkingSpeed;
             configChanged = true;
         }
 
-        if (s_dal.Config.AvgWalkingSpeed != configuration.AvgWalkingSpeed)
+        if (s_dal.Config.MaxTimeDelivery != configuration.MaxDeliveryTime)
         {
-            s_dal.Config.AvgWalkingSpeed = configuration.AvgWalkingSpeed;
-            configChanged = true;
-        }
-
-        if (s_dal.Config.MaxDeliveryTime != configuration.MaxDeliveryTime)
-        {
-            s_dal.Config.MaxDeliveryTime = configuration.MaxDeliveryTime;
+            s_dal.Config.MaxTimeDelivery = configuration.MaxDeliveryTime;
             configChanged = true;
         }
 
@@ -146,18 +131,39 @@ internal static class AdminManager //stage 4
             configChanged = true;
         }
 
-        if (s_dal.Config.InactivityRange != configuration.InactivityRange)
+        if (s_dal.Config.Inactivity != configuration.InactivityThreshold)
         {
-            s_dal.Config.InactivityRange = configuration.InactivityRange;
+            s_dal.Config.Inactivity = configuration.InactivityThreshold;
             configChanged = true;
         }
 
-       
+        if (s_dal.Config.CompanyAdress != configuration.CompanyAddress)
+        {
+            s_dal.Config.CompanyAdress = configuration.CompanyAddress;
+            (double lat, double lon) = Tools.GetCoordinatesFromAddressAsync(configuration.CompanyAddress).GetAwaiter().GetResult();
+            s_dal.Config.Latitude = lat;
+            s_dal.Config.Longitude = lon;
+            configChanged = true;
+        }
 
-        if (configChanged)
-            ConfigUpdatedObservers?.Invoke();
+        //if (s_dal.Config.Latitude != configuration.CompanyLatitude)
+        //{
+        //    s_dal.Config.Latitude = configuration.CompanyLatitude;
+        //    configChanged = true;
+        //}
 
-        //Calling all the observers of configuration update
+        //if (s_dal.Config.Longitude != configuration.CompanyLongitude)
+        //{
+        //    s_dal.Config.Longitude = configuration.CompanyLongitude;
+        //    configChanged = true;
+        //}
+
+        if (s_dal.Config.MaxDistance != configuration.MaxDistance)
+        {
+            s_dal.Config.MaxDistance = configuration.MaxDistance;
+            configChanged = true;
+        }
+
         if (configChanged) // stage 5
             ConfigUpdatedObservers?.Invoke(); // stage 5
     }
@@ -181,15 +187,6 @@ internal static class AdminManager //stage 4
             AdminManager.SetConfig(AdminManager.GetConfig()); //stage 5 - needed for update the PL
         }
     }
-    /// <summary>
-    /// Validates the administrator password against DAL configuration.
-    /// </summary>
-    /// <param name="password">Password entered by the user</param>
-    /// <returns>True if password is correct, otherwise false</returns>
-    internal static bool ValidateAdminPassword(string password)
-    {
-        return password == s_dal.Config.ManagerPassword;
-    }
 
     #endregion Stage 4-7
 
@@ -210,7 +207,7 @@ internal static class AdminManager //stage 4
     private static int s_interval = 1;
     /// <summary>
     /// The flag that signs whether simulator is running
-    /// </summary>
+    /// 
     private static volatile bool s_stop = false;
 
     [MethodImpl(MethodImplOptions.Synchronized)] //stage 7                                                 
@@ -267,5 +264,6 @@ internal static class AdminManager //stage 4
                 catch (ThreadInterruptedException) { }
         }
     }
-}
+   
     #endregion Stage 7 base
+}

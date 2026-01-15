@@ -1,6 +1,4 @@
-﻿namespace DalApi;
-using DO;
+﻿using DO;
+namespace DalApi;
 
-public interface IOrder: ICrud<Order>
-{
-}
+public interface IOrder : ICrud<Order> { }

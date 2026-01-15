@@ -1,29 +1,24 @@
-﻿
+﻿using DO;
 
 namespace DalApi;
-
-using System;
 
 public interface IConfig
 {
     DateTime Clock { get; set; }
-    int ManagerId { get; set; }
-    string ManagerPassword { get; set; }
-    string? CompanyAddress { get; set; }
-    double? Latitude { get; set; }
-    double? Longitude { get; set; }
-    int MaxRange { get; set; }
-    double AvgCarSpeed { get; set; }
-    double AvgMotorbikeSpeed { get; set; }
-    double AvgBicycleSpeed { get; set; }
-    double AvgWalkingSpeed { get; set; }
-    TimeSpan MaxDeliveryTime { get; set; }
+    int BossId { get; set; }
+    string BossPassword { get; set; }
+    double CarSpeed { get; set; }
+    double MotorcycleSpeed { get; set; }
+    double BikeSpeed { get; set; }
+    double WalkingSpeed { get; set; }
+    TimeSpan MaxTimeDelivery { get; set; }
     TimeSpan RiskRange { get; set; }
-    TimeSpan InactivityRange { get; set; }
-    int NextOrderId { get; set; }
-    int NextDeliveryId { get; set; }
+    TimeSpan Inactivity { get; set; }
+    string CompanyAdress { get; set; }
+    double Latitude { get; set; }
+    double Longitude { get; set; }
+    double MaxDistance { get; set; }
+
 
     void Reset();
 }
-
-

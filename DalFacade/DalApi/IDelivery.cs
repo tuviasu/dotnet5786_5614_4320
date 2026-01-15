@@ -1,7 +1,4 @@
-﻿namespace DalApi;
-using DO;
+﻿using DO;
+namespace DalApi;
 
-public interface IDelivery:ICrud<Delivery>
-{
-  
-}
+public interface IDelivery : ICrud<Delivery> { }

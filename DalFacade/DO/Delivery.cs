@@ -1,51 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace DO
+﻿namespace DO
 {
     /// <summary>
-    /// Represents a delivery operation between a sender and a receiver.
-    /// Each delivery has a unique running ID, assigned automatically from the Config class.
+    /// Represents a delivery assignment linking an order to a courier, with timing,
+    /// distance and transport metadata used to track and manage the delivery lifecycle.
     /// </summary>
-    /// <param name="Id">Unique running ID for each delivery (auto-generated, from Config)</param>
-    /// <param name="OrderedId">ID of the order associated with this delivery</param>
-    /// <param name="CourierId">ID of the courier assigned for this delivery</param>
-    /// <param name="DeliveryType">Type of delivery (enum: Drone, Motorbike, Truck)</param>
-    /// <param name="StartDelivery">Date and time when the delivery started</param>
-    /// <param name="ActualDistance">Actual distance covered by the courier during delivery (in kilometers)</param> 
-    /// <param name="EndDelivery">Date and time when the delivery ended (nullable if not finished yet)</param> 
+    /// <param name="Id">Unique identifier of the delivery.</param>
+    /// <param name="OrderId">Identifier of the associated order.</param>
+    /// <param name="CourierId">Identifier of the assigned courier.</param>
+    /// <param name="PickupTime">
+    /// Scheduled or actual pickup time for the delivery. Prefer using UTC to avoid
+    /// ambiguity across services; callers should normalize to UTC when appropriate.
+    /// </param>
+    /// <param name="ArrivalTime">Optional arrival / completion time. Null until delivery is completed or recorded.</param>
+    /// <param name="Distance">Optional measured distance of the delivery in kilometers. Null when not measured.</param>
+    /// <param name="Transport">Transport mode used for the delivery. See <see cref="DeliveryTransport"/>.</param>
+    /// <param name="Status">Current delivery status. See <see cref="OrderStatus"/>; null if not set.</param>
+    /// <remarks>
+    /// - Nullable fields (<see cref="ArrivalTime"/>, <see cref="Distance"/>, <see cref="Status"/>) indicate values
+    ///   that may not be known at creation time and can be populated later.
+    /// - Use UTC for time fields across services to avoid timezone issues.
+    /// - Validate and sanitize any external input used to populate address or distance-related fields before persisting.
+    /// </remarks>
     public record Delivery
     (
-        int Id,                             // Auto-generated running ID (from Config)
-        int OrderedId,                      // Linked order ID
-        int CourierId,                      // Courier ID
-        DeliveryTransport DeliveryType,     // Delivery type (enum)
-        DateTime StartDelivery,             // Delivery start date and time
-        double? ActualDistance = null,              // Actual distance covered during delivery
-        DeliveryCompletionType? CompletionType = null, // Delivery completion type (enum)
-        DateTime? EndDelivery = null        // Nullable - set only when delivery is completed
+        int Id,
+        int OrderId,
+        DeliveryTransport Transport,
+        int CourierId,
+        DateTime PickupTime,
+        DateTime? ArrivalTime = null,
+        double? Distance = null,
+        OrderStatus? Status = null
     )
     {
         /// <summary>
-        /// Default constructor required for Stage 3.
+        /// Initializes a new instance of <see cref="Delivery"/> with default values.
         /// </summary>
-        public Delivery() : this(0, 0, 0,  DeliveryTransport.Motorcycle ,DateTime.Now)
-        {
-            status = new object();
-        }
-
-        // Fix CS8862: Add 'this' initializer to call the primary constructor.
-        // Fix CS8618: Initialize 'status' property to a non-null value.
-        // Fix IDE0060: Remove unused parameters 'orderId', 'deliveryDate', 'v'.
-        public Delivery(int id, int courierId)
-            : this(id, 0, courierId, DeliveryTransport.Motorcycle, DateTime.Now)
-        {
-            status = new object();
-        }
-
-        public object status { get; set; } = new object();
+        /// <remarks>
+        /// Defaults:
+        /// - Id = 0
+        /// - OrderId = 0
+        /// - CourierId = 0
+        /// - PickupTime = <see cref="DateTime.Now"/> (consider using UTC in callers)
+        /// - ArrivalTime = null
+        /// - Distance = null
+        /// - Transport = <see cref="DeliveryTransport.Car"/>
+        /// - Status = <see cref="OrderStatus.Pending"/> (may be null depending on caller)
+        /// </remarks>
+        public Delivery() : this(0, 0, DeliveryTransport.Car, 0, DateTime.Now) { }
     }
 }
-

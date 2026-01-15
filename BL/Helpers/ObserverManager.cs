@@ -1,4 +1,4 @@
-﻿namespace Helpers;
+namespace Helpers;
 
 /// <summary>
 /// This class is a helper class allowing to manage observers for different logical entities

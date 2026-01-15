@@ -1,85 +1,67 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical representation of an open (not yet completed) order inside a list view.
-/// This BO object is constructed entirely by the BL layer and is view-only.
+/// Lightweight view model representing an open order shown in lists and selection views.
 /// </summary>
 public class OpenOrderInList
 {
-    // ---------------------------------------------------------
-    // Identifiers
-    // ---------------------------------------------------------
-
-    // ID of the courier currently associated with the order (if exists).
-    // May be null if no courier is assigned yet.
-    // Not updatable.
+    /// <summary>
+    /// Identifier of the courier assigned to the order, or <c>null</c> if none assigned.
+    /// </summary>
     public int? CourierId { get; init; }
 
-    // Order ID.
-    // Cannot be null. Not updatable.
+    /// <summary>
+    /// Identifier of the order.
+    /// </summary>
     public int OrderId { get; init; }
 
-    // ---------------------------------------------------------
-    // Order Type
-    // ---------------------------------------------------------
-
-    // The type of the order (ENUM defined in BO).
-    // Cannot be null. Not updatable.
-    public OrderType Type { get; init; }
-
-    // ---------------------------------------------------------
-    // Distances
-    // ---------------------------------------------------------
-
-    // Air distance between courier and destination (if courier exists).
-    // May be null if order is unassigned.
-    // Not updatable.
-    public double? AirDistance { get; init; }
-
-    // Actual distance (calculated, may be null depending on BL logic).
-    // Not updatable.
-    public double? ActualDistance { get; init; }
-
-    // ---------------------------------------------------------
-    // Time Calculations
-    // ---------------------------------------------------------
-
-    // Time already spent on processing the order.
-    // If no courier is assigned yet → 00:00:00.
-    // Calculated in BL. Cannot be null. Not updatable.
-    public TimeSpan HandlingTime { get; init; }
     /// <summary>
-    /// Gets the address of the customer.
+    /// Type of the order or delivery service.
     /// </summary>
-    public string CustomerAddress { get; init; }= string.Empty;
+    public OrderType OrderType { get; init; }
+
     /// <summary>
-    ///  Gets the fragility level of the order.
+    /// Fragility level of the package, or <c>null</c> when not specified.
     /// </summary>
     public FragilityLevel? Fragility { get; init; }
-    // ---------------------------------------------------------
-    // Work Schedule
-    // ---------------------------------------------------------
 
-    // Status of courier’s progress (Assigned, InTransit, Delayed, etc.).
-    // Enum defined in BO. Not updatable.
+    /// <summary>
+    /// Customer delivery address.
+    /// </summary>
+    public string CustomerAddress { get; init; }
+
+    /// <summary>
+    /// Straight-line ("as-the-crow-flies") distance from the company to the customer, in kilometers.
+    /// </summary>
+    public double BirdDistance { get; init; }
+
+    /// <summary>
+    /// Route distance to the customer in kilometers, or <c>null</c> when not calculated.
+    /// </summary>
+    public double? Distance { get; init; }
+
+    /// <summary>
+    /// Time elapsed since the order was added to the system, or <c>null</c> when not applicable.
+    /// </summary>
+    public TimeSpan? AddedTime { get; init; }
+
+    /// <summary>
+    /// Current scheduling status indicating whether the delivery is on time, at risk, or late.
+    /// </summary>
     public ScheduleStatus ScheduleStatus { get; init; }
 
-    // ---------------------------------------------------------
-    // Delivery Timing
-    // ---------------------------------------------------------
+    /// <summary>
+    /// Estimated time required to deliver the order.
+    /// </summary>
+    public TimeSpan EstimatedDeliveryTime { get; init; }
 
-    // Remaining time until the maximum delivery deadline.
-    // Calculated in BL. Cannot be null. Not updatable.
-    public TimeSpan RemainingTime { get; init; }
-
-    // Maximum allowed delivery time.
-    // Not updatable. Never null.
-    public DateTime MaxDeliveryTime { get; init; }
-    // Actual time efficiency of handling the order.
-    // Calculated in BL based on expected handling time vs. actual handling time.
-    // Nullable: may be null if efficiency cannot be determined yet.
-    // Not updatable.
-    public TimeSpan? ActualEfficiency { get; init; }
+    /// <summary>
+    /// Latest acceptable delivery time for the order.
+    /// </summary>
+    public DateTime MaxDeliveredTime { get; init; }
 
     public override string ToString() => this.ToStringProperty();
+
 }

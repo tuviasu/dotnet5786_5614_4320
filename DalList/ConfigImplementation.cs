@@ -1,104 +1,34 @@
-﻿namespace Dal;
-using DalApi;
-using System;
+﻿using DalApi;
+
+namespace Dal;
 
 internal class ConfigImplementation : IConfig
 {
-    public DateTime Clock
-    {
-        get => Config.Clock;
-        set => Config.Clock = value;
-    }
+    public DateTime Clock { get => Config.Clock; set => Config.Clock = value; }
 
-    public int ManagerId
-    {
-        get => Config.ManagerId;
-        set => Config.ManagerId = value;
-    }
+    public int BossId { get => Config.BossId; set => Config.BossId = value; }
 
-    public string ManagerPassword
-    {
-        get => Config.ManagerPassword;
-        set => Config.ManagerPassword = value;
-    }
+    public string BossPassword { get => Config.BossPassword; set => Config.BossPassword = value; }
 
-    public string? CompanyAddress
-    {
-        get => Config.CompanyAddress;
-        set => Config.CompanyAddress = value;
-    }
+    public double CarSpeed { get => Config.CarSpeed; set => Config.CarSpeed = value; }
 
-    public double? Latitude
-    {
-        get => Config.Latitude;
-        set => Config.Latitude = value;
-    }
+    public double MotorcycleSpeed { get => Config.MotorcycleSpeed; set => Config.MotorcycleSpeed = value; }
 
-    public double? Longitude
-    {
-        get => Config.Longitude;
-        set => Config.Longitude = value;
-    }
+    public double BikeSpeed { get => Config.BikeSpeed; set => Config.BikeSpeed = value; }
 
-    public int MaxRange
-    {
-        get => Config.MaxRange ?? throw new InvalidOperationException("MaxRange is not set.");
-        set => Config.MaxRange = value;
-    }
+    public double WalkingSpeed { get => Config.WalkingSpeed; set => Config.WalkingSpeed = value; }
 
-    public double AvgCarSpeed
-    {
-        get => Config.AvgCarSpeed;
-        set => Config.AvgCarSpeed = value;
-    }
+    public TimeSpan MaxTimeDelivery { get => Config.MaxTimeDelivery; set => Config.MaxTimeDelivery = value; }
 
-    public double AvgMotorbikeSpeed
-    {
-        get => Config.AvgMotorbikeSpeed;
-        set => Config.AvgMotorbikeSpeed = value;
-    }
+    public TimeSpan RiskRange { get => Config.RiskRange; set => Config.RiskRange = value; }
 
-    public double AvgBicycleSpeed
-    {
-        get => Config.AvgBicycleSpeed;
-        set => Config.AvgBicycleSpeed = value;
-    }
+    public TimeSpan Inactivity { get => Config.Inactivity; set => Config.Inactivity = value; }
 
-    public double AvgWalkingSpeed
-    {
-        get => Config.AvgWalkingSpeed;
-        set => Config.AvgWalkingSpeed = value;
-    }
+    public string CompanyAdress { get => Config.CompanyAddress ?? string.Empty; set => Config.CompanyAddress = value; }
+    public double Latitude { get => Config.Latitude ?? 0.0; set => Config.Latitude = value; }
+    public double Longitude { get => Config.Longitude ?? 0.0; set => Config.Longitude = value; }
+    public double MaxDistance { get => Config.MaxDistance ?? 0.0; set => Config.MaxDistance = value; }
 
-    public TimeSpan MaxDeliveryTime
-    {
-        get => Config.MaxDeliveryTime;
-        set => Config.MaxDeliveryTime = value;
-    }
-
-    public TimeSpan RiskRange
-    {
-        get => Config.RiskRange;
-        set => Config.RiskRange = value;
-    }
-
-    public TimeSpan InactivityRange
-    {
-        get => Config.InactivityRange;
-        set => Config.InactivityRange = value;
-    }
-
-    public int NextOrderId
-    {
-        get => Config.NextOrderId;
-        set => throw new NotSupportedException("NextOrderId is read-only.");
-    }
-
-    public int NextDeliveryId
-    {
-        get => Config.NextDeliverId;
-        set => throw new NotSupportedException("NextDeliveryId is read-only.");
-    }
 
     public void Reset()
     {

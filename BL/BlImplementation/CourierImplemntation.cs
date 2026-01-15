@@ -1,93 +1,39 @@
-﻿namespace BlImplementation
+﻿namespace BLImplementation;
+
+using BlApi;
+using BO;
+using Helpers;
+using System.Collections.Generic;
+
+internal class CourierImplementation : ICourier
 {
-    using BlApi;
-    using BO;
-    using Helpers;
-    using System.Collections.Generic;
+    public void AddObserver(Action listObserver) =>
+        CourierManager.Observers.AddListObserver(listObserver); //stage 5
+    public void AddObserver(int id, Action observer) =>
+        CourierManager.Observers.AddObserver(id, observer); //stage 5
+    public void RemoveObserver(Action listObserver) =>
+        CourierManager.Observers.RemoveListObserver(listObserver); //stage 5
+    public void RemoveObserver(int id, Action observer) =>
+        CourierManager.Observers.RemoveObserver(id, observer); //stage 5
 
-    internal class CourierImplementation : ICourier
-    {
-        // ---------------------------------------------------------
-        // CREATE COURIER
-        // ---------------------------------------------------------
-        public void Create(int requesterId, BO.Courier courier)
-        {
-            CourierManager.CreateCourier(requesterId, courier);
-        }
+    public void addCourier(int requesterId, Courier newCourier)
+        => CourierManager.addCourier(requesterId, newCourier);
 
-        // ---------------------------------------------------------
-        // DELETE COURIER
-        // ---------------------------------------------------------
-        public void Delete(int requesterId, int courierId)
-        {
-            CourierManager.DeleteCourier(requesterId, courierId);
-        }
+    public Courier GetCourierDetails(int requesterId, int courierId)
+        => CourierManager.GetCourierDetails(requesterId, courierId);
 
-        // ---------------------------------------------------------
-        // LOGIN (by username)
-        // ---------------------------------------------------------
-        public string Login(string username)
-        {
-            return CourierManager.LoginCourier(username);
-        }
+    public IEnumerable<CourierInList> GetCouriersList(int requesterId, bool? isActive, DeliveryTransport? status)
+        => CourierManager.GetCouriersList(requesterId, isActive, status);
 
-        // ---------------------------------------------------------
-        // READ COURIER BY ID
-        // ---------------------------------------------------------
-        public BO.Courier Read(int requesterId, int courierId)
-        {
-            return CourierManager.GetCourier(requesterId, courierId);
-        }
+    public BO.Administrator Login(int Id, string password)
+        => CourierManager.Login(Id, password);
 
-        // ---------------------------------------------------------
-        // READ ALL COURIERS
-        // ---------------------------------------------------------
-        public IEnumerable<BO.CourierInList> ReadAll(
-            int requesterId,
-            bool? activeFilter = null,
-            CourierListSortBy? sortBy = null)
-        {
-            return CourierManager.GetCouriersList(requesterId, activeFilter, sortBy);
-        }
-        public IEnumerable<BO.CourierInList> ReadAll(
-    int requesterId,
-    BO.CourierFieldFilter filterField,
-    object filterValue)
-        {
-            var couriers = CourierManager.GetCouriersList(requesterId, null, null);
+    public void removeCourier(int requesterId, int courierId)
+        => CourierManager.removeCourier(requesterId, courierId);
 
-            return filterField switch
-            {
-                BO.CourierFieldFilter.Transport =>
-                    couriers.Where(c => c.Transport == (BO.DeliveryTransport)filterValue),
+    public void UpdateCourier(int requesterId, Courier updatedCourier)
+        => CourierManager.UpdateCourier(requesterId, updatedCourier);
 
-                BO.CourierFieldFilter.IsActive =>
-                    couriers.Where(c => c.IsActive == (bool)filterValue),
-
-                _ => couriers
-            };
-        }
-
-
-        // ---------------------------------------------------------
-        // UPDATE COURIER
-        // ---------------------------------------------------------
-        public void Update(int requesterId, BO.Courier courier)
-        {
-            CourierManager.UpdateCourier(requesterId, courier);
-        }
-
-        #region Stage 5
-        public void AddObserver(Action listObserver) =>
-                   CourierManager.Observers.AddListObserver(listObserver); //stage 5
-        public void AddObserver(int id, Action observer) =>
-                   CourierManager.Observers.AddObserver(id, observer); //stage 5
-        public void RemoveObserver(Action listObserver) =>
-                   CourierManager.Observers.RemoveListObserver(listObserver); //stage 5
-        public void RemoveObserver(int id, Action observer) =>
-                  CourierManager.Observers.RemoveObserver(id, observer); //stage 5
-        #endregion Stage 5
-
-
-    }
+    public void PromoteToDirector(int requesterId, int courierId)
+        => CourierManager.PromoteCourierToDirector(requesterId, courierId);
 }

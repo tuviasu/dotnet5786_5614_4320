@@ -1,58 +1,52 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Logical representation of a closed (completed) delivery inside a list.
-/// This BO is view-only and fully constructed by BL.
+/// Represents a summary entry for a completed delivery shown in lists.
 /// </summary>
 public class ClosedDeliveryInList
 {
-    internal ScheduleStatus ScheduleStatus;
-    internal DeliveryCompletionType? completionType;
+    /// <summary>
+    /// Unique identifier of the delivery record.
+    /// </summary>
+    public int DeliveryId { get; init; }
 
-    // ---------------------------------------------------------
-    // Identifiers
-    // ---------------------------------------------------------
-
-    // ID of the delivery.
-    // Source: DO.Delivery.Id
-    // This field can be null if no valid delivery record exists.
-    // Not updatable.
-    public int? DeliveredId { get; init; }
-
-    // ID of the related order.
-    // Source: DO.Delivery.OrderId
-    // Cannot be null. Not updatable.
+    /// <summary>
+    /// Identifier of the associated order.
+    /// </summary>
     public int OrderId { get; init; }
 
-
-    // Order type (ENUM).
-    // Cannot be updated.
-    public OrderType Type { get; init; }
     /// <summary>
-    /// Gets the actual distance measured, in units relevant to the context, or <see langword="null"/> if the distance
-    /// is not available.
+    /// Type of the order (e.g., Standard, Express, Scheduled, Pickup).
+    /// </summary>
+    public OrderType OrderType { get; init; }
+
+    /// <summary>
+    /// Delivery address provided by the customer.
+    /// </summary>
+    public string CustomerAdress { get; init; }
+
+    /// <summary>
+    /// Transport method used to perform the delivery.
+    /// </summary>
+    public DeliveryTransport DeliveryTransport { get; init; }
+
+    /// <summary>
+    /// Actual distance travelled for the delivery, in kilometers when available.
     /// </summary>
     public double? ActualDistance { get; init; }
 
-    // Total time spent handling the delivery.
-    // Calculated by BL using pickup and delivery timestamps.
-    // Cannot be updated.
-    public TimeSpan HandlingTime { get; init; }
+    /// <summary>
+    /// Total time elapsed to complete the delivery.
+    /// </summary>
+    public TimeSpan DeliveryTotalTime { get; init; }
 
     /// <summary>
-    /// Gets the type of delivery transport used for the operation.
+    /// Final outcome of the delivery attempt.
     /// </summary>
-    public DeliveryTransport DeliveryType { get; init; }
-
-    /// <summary>
-    /// Gets the completion type of the delivery.
-    /// </summary>
-    DeliveryCompletionType? CompletionType { get; init; }
-    /// <summary>
-    /// Gets the address of the customer.
-    /// </summary>
-    public string CustomerAddress { get; init; }= string.Empty;
-    public object? EndDelivery { get; internal set; }
+    public DeliveredStatus DeliveredStatus { get; init; }
 
     public override string ToString() => this.ToStringProperty();
+
 }

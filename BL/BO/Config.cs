@@ -1,59 +1,81 @@
-﻿namespace BO;
-using Helpers;
+﻿using Helpers;
+
+namespace BO;
+
 /// <summary>
-/// Public configuration settings exposed to the presentation layer (PL).
-/// Contains only properties that the manager can view or modify.
-/// Internal system values from DAL.Config are *not* shown here.
+/// Configuration settings exposed to the presentation layer.
 /// </summary>
 public class Config
 {
-    internal readonly int ManagerId;
+    /// <summary>
+    /// Current system clock value.
+    /// </summary>
+    public DateTime Clock { get; set; }
 
-    // ---------------------------
-    // Company Details
-    // ---------------------------
+    /// <summary>
+    /// Administrator ID.
+    /// </summary>
+    public int BossId { get; set; }
 
-    // Company address. Nullable because it is optional.
-    public string? CompanyAddress { get; set; }
+    /// <summary>
+    /// Administrator password.
+    /// </summary>
+    public string BossPassword { get; set; } = string.Empty;
 
-    // Company geographic coordinates (optional).
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
+    /// <summary>
+    /// Speed of cars.
+    /// </summary>
+    public double CarSpeed { get; set; }
 
-    // ---------------------------
-    // Operational Settings
-    // ---------------------------
+    /// <summary>
+    /// Speed of motorcycles.
+    /// </summary>
+    public double MotorcycleSpeed { get; set; }
 
-    // Maximum allowed delivery range (km).
-    public int MaxRange { get; set; }
+    /// <summary>
+    /// Speed of bicycles.
+    /// </summary>
+    public double BikeSpeed { get; set; }
 
-    // Average speeds for distance/time calculations.
-    public double AvgCarSpeed { get; set; }
-    public double AvgMotorbikeSpeed { get; set; }
-    public double AvgBicycleSpeed { get; set; }
-    public double AvgWalkingSpeed { get; set; }
+    /// <summary>
+    /// Walking speed.
+    /// </summary>
+    public double WalkingSpeed { get; set; }
 
-    // Maximum allowed delivery time (deadline).
+    /// <summary>
+    /// Maximum allowed delivery time.
+    /// </summary>
     public TimeSpan MaxDeliveryTime { get; set; }
 
-    // Risk range (time window for potential delay).
+    /// <summary>
+    /// Time range indicating risk of delay.
+    /// </summary>
     public TimeSpan RiskRange { get; set; }
 
-    // Time after which a courier is considered inactive.
-    public TimeSpan InactivityRange { get; set; }
+    /// <summary>
+    /// Time after which a courier is considered inactive.
+    /// </summary>
+    public TimeSpan InactivityThreshold { get; set; }
 
-    // Authentication
-    public int AdminId { get; init; }
+    /// <summary>
+    /// Company address.
+    /// </summary>
+    public string CompanyAddress { get; set; } = string.Empty;
 
-    // ---------------------------
-    // Internal display fields
-    // ---------------------------
+    /// <summary>
+    /// Company latitude coordinate.
+    /// </summary>
+    public double CompanyLatitude { get; set; }
 
-    // For display only – manager cannot change the running IDs.
-    // (These values appear on the settings screen as read-only.)
-    public int NextOrderId { get; init; }
-    public int NextDeliveryId { get; init; }
+    /// <summary>
+    /// Company longitude coordinate.
+    /// </summary>
+    public double CompanyLongitude { get; set; }
 
-    public string? ManagerPassword { get; init; }
+    /// <summary>
+    /// Maximum allowed distance in the system.
+    /// </summary>
+    public double MaxDistance { get; set; }
+
     public override string ToString() => this.ToStringProperty();
 }
