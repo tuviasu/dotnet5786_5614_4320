@@ -248,8 +248,34 @@ public partial class MainWindow : Window
 
     private void btnUpdateConfig_Click(object sender, RoutedEventArgs e)
     {
-        // Intentionally disabled for now.
-        return;
+        try
+        {
+            var currentConfig = s_bl.Admin.GetConfig(requesterId);
+
+            currentConfig.MaxDeliveryDistance = EditableMaxDeliveryDistance;
+            currentConfig.MaxDeliveryTimeRange = EditableMaxDeliveryTimeRange;
+            currentConfig.RiskRange = EditableRiskRange;
+            currentConfig.InactivityTimeRange = EditableInactivityTimeRange;
+
+            s_bl.Admin.SetConfig(requesterId, currentConfig);
+
+            Configuration = s_bl.Admin.GetConfig(requesterId);
+            LoadConfigFieldsFromConfiguration();
+
+            MessageBox.Show(
+                "Configuration updated successfully!",
+                "Update Configuration",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                ex.Message,
+                "Configuration Update Failed",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
     }
 
     private void LoadConfigFieldsFromConfiguration()

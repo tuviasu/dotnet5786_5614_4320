@@ -4,18 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Available Orders"
-        Height="540"
-        Width="900"
-        MinHeight="480"
-        MinWidth="820"
+        Title="Order Selection"
+        Height="520"
+        Width="820"
+        MinHeight="460"
+        MinWidth="760"
         WindowStartupLocation="CenterOwner"
-        Background="#F3F6FA"
+        Background="#F3F5F9"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
 
-    <Grid Margin="20">
+    <!-- ===================== -->
+    <!-- Layout Root           -->
+    <!-- ===================== -->
+    <Grid Margin="16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="16"/>
@@ -23,115 +26,115 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Border Background="White"
-                CornerRadius="14"
-                Padding="16"
-                Grid.Row="0">
-            <DockPanel>
-                <TextBlock Text="Select Order for Handling"
-                           FontSize="22"
-                           FontWeight="SemiBold"
-                           Foreground="#1E293B"
-                           DockPanel.Dock="Left"/>
+        <!-- ===================== -->
+        <!-- Header Bar            -->
+        <!-- ===================== -->
+        <Border Grid.Row="0"
+                Background="#FFFFFF"
+                CornerRadius="10"
+                Padding="14"
+                BorderBrush="#DDD"
+                BorderThickness="1">
 
-                <Button Content="Close"
-                        Width="90"
-                        Height="32"
-                        Click="btnClose_Click"
-                        DockPanel.Dock="Right"
-                        Background="#E5E7EB"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Available Orders"
+                               FontSize="20"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="Select an order to start handling"
+                               Foreground="#666"
+                               FontSize="12"/>
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="✕"
+                        Width="36"
+                        Height="36"
+                        FontSize="16"
+                        Background="#EEE"
                         BorderThickness="0"
-                        Foreground="#111827"/>
-            </DockPanel>
+                        Click="btnClose_Click"/>
+            </Grid>
         </Border>
 
-        <!-- Orders Grid -->
+        <!-- ===================== -->
+        <!-- Orders Table          -->
+        <!-- ===================== -->
         <Border Grid.Row="2"
                 Background="White"
-                CornerRadius="14"
-                Padding="12">
+                CornerRadius="10"
+                Padding="8"
+                BorderBrush="#DDD"
+                BorderThickness="1">
 
             <DataGrid ItemsSource="{Binding Orders}"
                       SelectedItem="{Binding SelectedOrder}"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
                       SelectionMode="Single"
-                      GridLinesVisibility="None"
+                      GridLinesVisibility="Horizontal"
                       HeadersVisibility="Column"
-                      RowBackground="#F9FAFB"
-                      AlternatingRowBackground="#FFFFFF"
-                      ColumnWidth="*">
-
-                <!-- Header style -->
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Padding" Value="8,6"/>
-                        <Setter Property="Background" Value="#EEF2F7"/>
-                        <Setter Property="Foreground" Value="#1F2937"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-
-                <!-- Cell style -->
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="Padding" Value="8,4"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                    </Style>
-                </DataGrid.CellStyle>
+                      RowBackground="#FAFAFA"
+                      AlternatingRowBackground="#F1F3F6">
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Order ID"
+                    <DataGridTextColumn Header="ID"
                                         Binding="{Binding OrderID}"
-                                        Width="110"/>
+                                        Width="*"/>
 
-                    <DataGridTextColumn Header="Type"
+                    <DataGridTextColumn Header="Order Type"
                                         Binding="{Binding orderType}"
-                                        Width="130"/>
+                                        Width="*"/>
 
-                    <DataGridTextColumn Header="Address"
+                    <DataGridTextColumn Header="Delivery Address"
                                         Binding="{Binding FullAddress}"
                                         Width="3*"/>
 
-                    <DataGridTextColumn Header="Air Distance (km)"
+                    <DataGridTextColumn Header="Distance (km)"
                                         Binding="{Binding AirDistance}"
-                                        Width="160"/>
+                                        Width="*"/>
 
-                    <DataGridTextColumn Header="Schedule"
+                    <DataGridTextColumn Header="Schedule Status"
                                         Binding="{Binding scheduleStatus}"
-                                        Width="140"/>
+                                        Width="*"/>
 
-                    <DataGridTextColumn Header="Time Remaining"
+                    <DataGridTextColumn Header="Remaining Time"
                                         Binding="{Binding TimeRemainingToComplete}"
-                                        Width="170"/>
+                                        Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
-        <!-- Footer Buttons -->
+        <!-- ===================== -->
+        <!-- Action Buttons        -->
+        <!-- ===================== -->
         <StackPanel Grid.Row="3"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Margin="0,16,0,0">
+                    Margin="0,14,0,0">
 
             <Button Content="Refresh List"
-                    Width="140"
-                    Height="36"
-                    Click="btnRefresh_Click"
-                    Margin="0,0,12,0"
-                    Background="#E0F2FE"
-                    Foreground="#075985"
-                    BorderThickness="0"/>
+                    Width="130"
+                    Height="40"
+                    Margin="0,0,10,0"
+                    Background="#E0E6F8"
+                    BorderThickness="0"
+                    Click="btnRefresh_Click"/>
 
-            <Button Content="Select Order"
-                    Width="140"
-                    Height="36"
-                    Click="btnSelect_Click"
-                    Background="#2563EB"
+            <Button Content="Confirm Selection"
+                    Width="160"
+                    Height="40"
+                    Background="#4F6EF7"
                     Foreground="White"
-                    BorderThickness="0"/>
+                    BorderThickness="0"
+                    FontWeight="SemiBold"
+                    Click="btnSelect_Click"/>
         </StackPanel>
+
     </Grid>
 </Window>

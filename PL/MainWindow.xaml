@@ -105,54 +105,79 @@
             </StackPanel>
         </Border>
 
-        <!-- ===================== -->
-        <!-- Configuration Section -->
-        <!-- ===================== -->
-        <Border Grid.Row="1" Style="{StaticResource CardStyle}">
-            <StackPanel>
+        <!-- ================= CONFIG SECTION ================= -->
 
-                <TextBlock Text="System Configuration"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,12"/>
+        <!-- max delivery distance -->
+        <Label Grid.Row="2"
+       Content="Max Delivery Distance:"
+       FontWeight="Bold"
+       HorizontalAlignment="Center"
+       VerticalAlignment="Center"
+       Width="150"/>
 
-                <Grid Margin="0,0,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="1" Grid.Row="2"
+         Width="70"
+         Text="{Binding EditableMaxDeliveryDistance, UpdateSourceTrigger=LostFocus}"
+         HorizontalContentAlignment="Center"
+         VerticalContentAlignment="Center"/>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <!-- max delivery time -->
+        <Label Grid.Row="3"
+       Content="Max Delivery Time:"
+       FontWeight="Bold"
+       HorizontalAlignment="Center"
+       VerticalAlignment="Center"
+       Width="150"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Delivery Distance"/>
-                    <TextBox   Grid.Row="0" Grid.Column="1"
-                               Text="{Binding EditableMaxDeliveryDistance}"/>
+        <TextBox Grid.Column="1" Grid.Row="3"
+         Width="70"
+         Text="{Binding EditableMaxDeliveryTimeRange, UpdateSourceTrigger=LostFocus}"
+         HorizontalContentAlignment="Center"
+         VerticalContentAlignment="Center"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Delivery Time"/>
-                    <TextBox   Grid.Row="1" Grid.Column="1"
-                               Text="{Binding EditableMaxDeliveryTimeRange}"/>
+        <!-- risk range -->
+        <Label Grid.Row="4"
+       Content="Risk Range:"
+       FontWeight="Bold"
+       HorizontalAlignment="Center"
+       VerticalAlignment="Center"
+       Width="150"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range"/>
-                    <TextBox   Grid.Row="2" Grid.Column="1"
-                               Text="{Binding EditableRiskRange}"/>
+        <TextBox Grid.Column="1" Grid.Row="4"
+         Width="70"
+         Text="{Binding EditableRiskRange, UpdateSourceTrigger=LostFocus}"
+         HorizontalContentAlignment="Center"
+         VerticalContentAlignment="Center"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity Time"/>
-                    <TextBox   Grid.Row="3" Grid.Column="1"
-                               Text="{Binding EditableInactivityTimeRange}"/>
-                </Grid>
+        <!-- inactivity time -->
+        <Label Grid.Row="5"
+       Content="Inactivity Time:"
+       FontWeight="Bold"
+       HorizontalAlignment="Center"
+       VerticalAlignment="Center"
+       Width="150"/>
 
-                <!-- Single update button -->
-                <Button Content="Update Configuration"
-                        Style="{StaticResource MainButton}"
-                        HorizontalAlignment="Center"
-                        Click="btnUpdateConfig_Click"/>
-            </StackPanel>
-        </Border>
+        <TextBox Grid.Column="1" Grid.Row="5"
+         Width="70"
+         Text="{Binding EditableInactivityTimeRange, UpdateSourceTrigger=LostFocus}"
+         HorizontalContentAlignment="Center"
+         VerticalContentAlignment="Center"/>
+
+        <!-- SINGLE UPDATE BUTTON -->
+        <Button Content="Update Configuration"
+        Grid.Column="2"
+        Grid.ColumnSpan="2"
+        Grid.Row="7"
+        Margin="0,20,0,0"
+        FontSize="18"
+        FontWeight="Bold"
+        BorderBrush="Black"
+        BorderThickness="3"
+        Width="240"
+        Height="55"
+        HorizontalAlignment="Center"
+        Click="btnUpdateConfig_Click"/>
+
 
         <!-- ===================== -->
         <!-- Orders Summary        -->

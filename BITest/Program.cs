@@ -606,7 +606,7 @@ internal class Program
         string customerPhone = Console.ReadLine() ?? "";
 
         Console.Write("Pizza Size (Desktop/Laptop/Tablet/Smartphone/Headphones): ");
-        if (!Enum.TryParse<BO.DeviceType>(Console.ReadLine(), true, out var pizzaSize))
+        if (!Enum.TryParse<BO.DeviceType>(Console.ReadLine(), true, out var DeviceType))
         {
             Console.WriteLine("Invalid pizza size.");
             return;
@@ -621,7 +621,7 @@ internal class Program
             Longitude = longitude,
             CustomerFullName = customerName,
             CustomerPhone = customerPhone,
-            PizzaSize = pizzaSize
+            PizzaSize = DeviceType
         };
 
         s_bl.Order.AddOrder(requesterId, newOrder);

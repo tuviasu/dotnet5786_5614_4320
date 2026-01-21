@@ -4,732 +4,516 @@
     <OrderID>1000</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.101921382964576</Latitude>
-    <Longitude>34.782395890590564</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0588356237</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-21T13:08:20.460507+02:00</OrderOpeningTime>
+    <Latitude>32.08518646197414</Latitude>
+    <Longitude>34.776163193016934</Longitude>
+    <CustomerName>Moran Feldman</CustomerName>
+    <CustomerPhone>0579906577</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-19T10:41:30.9419086+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1001</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10657130989458</Latitude>
-    <Longitude>34.8131433585795</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0593949420</CustomerPhone>
+    <Latitude>32.11002518635545</Latitude>
+    <Longitude>34.794334532083425</Longitude>
+    <CustomerName>Noa Levi</CustomerName>
+    <CustomerPhone>0579382856</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-18T07:08:20.466915+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-18T20:36:30.9465696+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1002</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08591368611196</Latitude>
-    <Longitude>34.77949307838014</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0532739832</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T14:51:20.5044579+02:00</OrderOpeningTime>
+    <Latitude>32.07986831409386</Latitude>
+    <Longitude>34.78188258951008</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0556747513</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-18T09:53:30.9683901+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1003</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07572478000253</Latitude>
-    <Longitude>34.794932261822</Longitude>
+    <Latitude>32.068665849327424</Latitude>
+    <Longitude>34.82237768031114</Longitude>
     <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0543172775</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T23:27:20.5348212+02:00</OrderOpeningTime>
+    <CustomerPhone>0523498933</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-18T09:15:30.9930072+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1004</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07164442614969</Latitude>
-    <Longitude>34.78990634312279</Longitude>
+    <Latitude>32.08337727548393</Latitude>
+    <Longitude>34.7973279461077</Longitude>
     <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0582523939</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-20T18:34:20.5640618+02:00</OrderOpeningTime>
+    <CustomerPhone>0591545945</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-19T17:46:31.0199039+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1005</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09276177711417</Latitude>
-    <Longitude>34.78250058586579</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0583109276</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-21T01:25:20.5920052+02:00</OrderOpeningTime>
+    <Latitude>32.066159685098356</Latitude>
+    <Longitude>34.798411808331636</Longitude>
+    <CustomerName>Yonatan Katz</CustomerName>
+    <CustomerPhone>0520631818</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-19T12:47:31.048401+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1006</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.113421022293934</Latitude>
-    <Longitude>34.810453052082956</Longitude>
+    <Latitude>32.064988277697886</Latitude>
+    <Longitude>34.79342423886371</Longitude>
     <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0534087894</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T09:38:20.619058+02:00</OrderOpeningTime>
+    <CustomerPhone>0561965627</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-20T20:33:31.0718367+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1007</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10319265441702</Latitude>
-    <Longitude>34.80088290770421</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0523752201</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T12:39:20.6447754+02:00</OrderOpeningTime>
+    <Latitude>32.09253582913048</Latitude>
+    <Longitude>34.7916898084397</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0599139084</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-21T17:41:31.0957038+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1008</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.108711946966736</Latitude>
-    <Longitude>34.779185484807414</Longitude>
+    <Latitude>32.087650914140845</Latitude>
+    <Longitude>34.78862813573981</Longitude>
     <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0569303261</CustomerPhone>
+    <CustomerPhone>0544703587</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-19T14:12:20.6612665+02:00</OrderOpeningTime>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-18T13:33:31.1216537+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1009</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.1058373041171</Latitude>
-    <Longitude>34.793591910404416</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0551615397</CustomerPhone>
+    <Latitude>32.09702287380622</Latitude>
+    <Longitude>34.77468888390801</Longitude>
+    <CustomerName>Moran Feldman</CustomerName>
+    <CustomerPhone>0597293485</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T12:02:20.6882501+02:00</OrderOpeningTime>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-21T12:51:31.1504631+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1010</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07510689002075</Latitude>
-    <Longitude>34.819511914066574</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0574662255</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-21T03:44:20.7069846+02:00</OrderOpeningTime>
+    <Latitude>32.10442734278055</Latitude>
+    <Longitude>34.780991493695325</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0599585596</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-19T13:20:31.1749835+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1011</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08494881535462</Latitude>
-    <Longitude>34.783156710092555</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0554904457</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T12:48:20.7332021+02:00</OrderOpeningTime>
+    <Latitude>32.11287122661833</Latitude>
+    <Longitude>34.81374312195908</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0590836615</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-18T22:20:31.1995246+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1012</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.069301354054744</Latitude>
-    <Longitude>34.79413469065441</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0565539004</CustomerPhone>
+    <Latitude>32.10774362141357</Latitude>
+    <Longitude>34.78243768089546</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0530504564</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-20T06:41:20.7594248+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-20T14:51:31.2264435+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1013</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08600898163361</Latitude>
-    <Longitude>34.821327568409856</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0513468689</CustomerPhone>
+    <Latitude>32.11191911232492</Latitude>
+    <Longitude>34.82014223595234</Longitude>
+    <CustomerName>Moran Feldman</CustomerName>
+    <CustomerPhone>0535916262</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T16:06:20.7863514+02:00</OrderOpeningTime>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-21T06:25:31.2580589+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1014</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.107661087707456</Latitude>
-    <Longitude>34.81639455456984</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0519982312</CustomerPhone>
+    <Latitude>32.07062553324092</Latitude>
+    <Longitude>34.78723577425836</Longitude>
+    <CustomerName>Adi Peretz</CustomerName>
+    <CustomerPhone>0560879837</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-19T10:22:20.8122138+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-19T07:37:31.2833897+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1015</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.0841251384419</Latitude>
-    <Longitude>34.7769630123761</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0561025163</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-19T19:34:20.8389788+02:00</OrderOpeningTime>
+    <Latitude>32.103924743851614</Latitude>
+    <Longitude>34.82148127990842</Longitude>
+    <CustomerName>Yonatan Katz</CustomerName>
+    <CustomerPhone>0524306141</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-18T14:55:31.3101385+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1016</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07762557033515</Latitude>
-    <Longitude>34.78919701178271</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0530329935</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-18T11:38:20.8626837+02:00</OrderOpeningTime>
+    <Latitude>32.08877475953393</Latitude>
+    <Longitude>34.80726997028689</Longitude>
+    <CustomerName>Adi Peretz</CustomerName>
+    <CustomerPhone>0582443317</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-21T02:27:31.3430027+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1017</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.102114253041556</Latitude>
-    <Longitude>34.793926825457234</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0582134613</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-18T14:19:20.8900355+02:00</OrderOpeningTime>
+    <Latitude>32.09257593664075</Latitude>
+    <Longitude>34.820190922509425</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0593001033</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-21T14:19:31.3745217+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1018</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.092869260478736</Latitude>
-    <Longitude>34.79673731647263</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0582664556</CustomerPhone>
+    <Latitude>32.06898839890367</Latitude>
+    <Longitude>34.787264061168855</Longitude>
+    <CustomerName>Noa Levi</CustomerName>
+    <CustomerPhone>0583927165</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T21:18:20.9170108+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-19T01:20:31.4022278+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1019</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07501163152661</Latitude>
-    <Longitude>34.77932640467933</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0522008917</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T16:19:20.9451113+02:00</OrderOpeningTime>
+    <Latitude>32.09534373669669</Latitude>
+    <Longitude>34.79535683699373</Longitude>
+    <CustomerName>Moran Feldman</CustomerName>
+    <CustomerPhone>0591399893</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-21T17:10:31.4223712+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1020</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.068342961726316</Latitude>
-    <Longitude>34.813812620469285</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0554443017</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T14:52:20.9755998+02:00</OrderOpeningTime>
+    <Latitude>32.08476596565003</Latitude>
+    <Longitude>34.788028803261255</Longitude>
+    <CustomerName>Noa Levi</CustomerName>
+    <CustomerPhone>0578117897</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-18T23:12:31.4487006+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1021</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.092566332481795</Latitude>
-    <Longitude>34.79002460529624</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0536393005</CustomerPhone>
+    <Latitude>32.09133614618009</Latitude>
+    <Longitude>34.797671109457255</Longitude>
+    <CustomerName>Moran Feldman</CustomerName>
+    <CustomerPhone>0560638655</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-19T13:07:21.0045858+02:00</OrderOpeningTime>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-19T08:09:31.4680685+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1022</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08181982278404</Latitude>
-    <Longitude>34.80388516380171</Longitude>
+    <Latitude>32.11085905935009</Latitude>
+    <Longitude>34.820693238685436</Longitude>
     <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0515406887</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-19T18:55:21.031057+02:00</OrderOpeningTime>
+    <CustomerPhone>0582614619</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-18T22:51:31.4855576+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1023</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10023526666744</Latitude>
-    <Longitude>34.81625685814149</Longitude>
+    <Latitude>32.1066315077604</Latitude>
+    <Longitude>34.79810760181816</Longitude>
     <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0513111369</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-20T03:55:21.0573988+02:00</OrderOpeningTime>
+    <CustomerPhone>0551439878</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-19T04:03:31.5111638+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1024</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07679349333902</Latitude>
-    <Longitude>34.792835406199984</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0549434049</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T09:25:21.0808038+02:00</OrderOpeningTime>
+    <Latitude>32.065238835886106</Latitude>
+    <Longitude>34.80464775340074</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0548591946</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-19T04:48:31.5337194+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1025</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.095735220027315</Latitude>
-    <Longitude>34.806229072908</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0540931684</CustomerPhone>
+    <Latitude>32.074983616872345</Latitude>
+    <Longitude>34.811059443859634</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0551468662</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T07:27:21.1063644+02:00</OrderOpeningTime>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-21T02:43:31.5596531+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1026</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08475425274784</Latitude>
-    <Longitude>34.806744252451495</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0583840777</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T16:04:21.1236614+02:00</OrderOpeningTime>
+    <Latitude>32.09180234306676</Latitude>
+    <Longitude>34.80605274443617</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0567617222</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-20T02:13:31.5909961+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1027</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10549568323906</Latitude>
-    <Longitude>34.787155272804384</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0566850581</CustomerPhone>
+    <Latitude>32.075633220258084</Latitude>
+    <Longitude>34.78833616984389</Longitude>
+    <CustomerName>Yonatan Katz</CustomerName>
+    <CustomerPhone>0529368011</CustomerPhone>
     <OrderType>Group</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-19T01:25:21.148967+02:00</OrderOpeningTime>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-19T06:32:31.6162438+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1028</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.065867485749</Latitude>
-    <Longitude>34.79686807957816</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0563284037</CustomerPhone>
+    <Latitude>32.0840557380051</Latitude>
+    <Longitude>34.788366422859454</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0539853035</CustomerPhone>
     <OrderType>Corporate</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-19T15:27:21.1767669+02:00</OrderOpeningTime>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-19T10:37:31.640071+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1029</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.086937783889276</Latitude>
-    <Longitude>34.77859851616203</Longitude>
+    <Latitude>32.09595336205803</Latitude>
+    <Longitude>34.80656193330739</Longitude>
     <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0557355783</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T00:41:21.2023859+02:00</OrderOpeningTime>
+    <CustomerPhone>0557623062</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-19T18:54:31.6676932+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1030</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.111485726443895</Latitude>
-    <Longitude>34.78993613566914</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0585620617</CustomerPhone>
+    <Latitude>32.10401861299118</Latitude>
+    <Longitude>34.81237061968382</Longitude>
+    <CustomerName>Noa Levi</CustomerName>
+    <CustomerPhone>0585483061</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T21:13:21.227657+02:00</OrderOpeningTime>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-20T23:23:31.6945849+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1031</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09354773696609</Latitude>
-    <Longitude>34.774546658965676</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0520870179</CustomerPhone>
+    <Latitude>32.077794549734</Latitude>
+    <Longitude>34.81260113304079</Longitude>
+    <CustomerName>Noa Levi</CustomerName>
+    <CustomerPhone>0512715421</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-19T02:55:21.254842+02:00</OrderOpeningTime>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-19T12:24:31.7179867+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1032</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.06471710401472</Latitude>
-    <Longitude>34.81753912972461</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0581309816</CustomerPhone>
+    <Latitude>32.09664008054338</Latitude>
+    <Longitude>34.79100237304404</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0555699509</CustomerPhone>
     <OrderType>Group</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T13:14:21.2818593+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-21T00:45:31.7413629+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1033</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10253689484632</Latitude>
-    <Longitude>34.797505121519734</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0516347617</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-20T19:29:21.3102508+02:00</OrderOpeningTime>
+    <Latitude>32.08365104180738</Latitude>
+    <Longitude>34.77692114918706</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0550237561</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-19T08:06:31.7658751+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1034</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09028262704245</Latitude>
-    <Longitude>34.80095625886674</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0593693938</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-19T04:13:21.3424803+02:00</OrderOpeningTime>
+    <Latitude>32.08801406263984</Latitude>
+    <Longitude>34.820554717018474</Longitude>
+    <CustomerName>Shai Azulay</CustomerName>
+    <CustomerPhone>0534490335</CustomerPhone>
+    <OrderType>Corporate</OrderType>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-20T11:23:31.7951511+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1035</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07854151489603</Latitude>
-    <Longitude>34.79672711056889</Longitude>
+    <Latitude>32.1057100935455</Latitude>
+    <Longitude>34.77534056396402</Longitude>
     <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0598505141</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-18T17:48:21.3684875+02:00</OrderOpeningTime>
+    <CustomerPhone>0582871027</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-20T14:06:31.8300348+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1036</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.104623994791616</Latitude>
-    <Longitude>34.78785992162312</Longitude>
+    <Latitude>32.06702456981777</Latitude>
+    <Longitude>34.80174913067092</Longitude>
     <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0590527751</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-18T14:35:21.3955291+02:00</OrderOpeningTime>
+    <CustomerPhone>0566181537</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-21T09:34:31.8509235+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1037</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.071653655768415</Latitude>
-    <Longitude>34.8215103049061</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0576567145</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-19T21:13:21.4223565+02:00</OrderOpeningTime>
+    <Latitude>32.08393466060635</Latitude>
+    <Longitude>34.79980466022802</Longitude>
+    <CustomerName>Adi Peretz</CustomerName>
+    <CustomerPhone>0519911742</CustomerPhone>
+    <OrderType>Group</OrderType>
+    <DeviceType>Smartphone</DeviceType>
+    <OrderOpeningTime>2026-01-20T02:11:31.871184+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1038</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07249811550704</Latitude>
-    <Longitude>34.81748351161176</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0593416396</CustomerPhone>
+    <Latitude>32.07284781312543</Latitude>
+    <Longitude>34.81547586073385</Longitude>
+    <CustomerName>Adi Peretz</CustomerName>
+    <CustomerPhone>0598823615</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T14:25:21.4515153+02:00</OrderOpeningTime>
+    <DeviceType>Headphones</DeviceType>
+    <OrderOpeningTime>2026-01-19T22:08:31.8928668+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1039</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.08480495275097</Latitude>
-    <Longitude>34.789484294224835</Longitude>
+    <Latitude>32.10942156669629</Latitude>
+    <Longitude>34.791796296129064</Longitude>
     <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0574219250</CustomerPhone>
+    <CustomerPhone>0590247188</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T20:17:21.4785033+02:00</OrderOpeningTime>
+    <DeviceType>Tablet</DeviceType>
+    <OrderOpeningTime>2026-01-19T07:35:31.9147909+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1040</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09226051409365</Latitude>
-    <Longitude>34.79304291500337</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0592748062</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T02:10:21.5033243+02:00</OrderOpeningTime>
+    <Latitude>32.10120036586516</Latitude>
+    <Longitude>34.81240532066374</Longitude>
+    <CustomerName>Erez Ohayon</CustomerName>
+    <CustomerPhone>0565369754</CustomerPhone>
+    <OrderType>Individual</OrderType>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-19T10:32:31.932321+02:00</OrderOpeningTime>
   </Order>
   <Order>
     <OrderID>1041</OrderID>
     <Description>Random generated order</Description>
     <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07992472359793</Latitude>
-    <Longitude>34.77639866171193</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0524883519</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T13:25:21.5293689+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1042</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10044960066161</Latitude>
-    <Longitude>34.822885044606224</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0542640023</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T23:54:21.5575429+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1043</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.06658077373583</Latitude>
-    <Longitude>34.8020063981943</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0537687050</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-21T02:12:21.5777873+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1044</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09752131059958</Latitude>
-    <Longitude>34.81397675200834</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0561094208</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-20T11:04:21.6057638+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1045</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.089556406623025</Latitude>
-    <Longitude>34.78789412890946</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0534790157</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-20T21:23:21.6313986+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1046</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.0872454947688</Latitude>
-    <Longitude>34.803108562688635</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0520104685</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-19T08:35:21.6592776+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1047</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.0931783546983</Latitude>
-    <Longitude>34.81725588034516</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0518409643</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T18:49:21.6788458+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1048</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.107487151088904</Latitude>
-    <Longitude>34.802250314764535</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0577375340</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-19T19:20:21.7052991+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1049</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10507334671648</Latitude>
-    <Longitude>34.79984888094743</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0524250839</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-18T19:40:21.7246536+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1050</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.06595827323285</Latitude>
-    <Longitude>34.82097339017622</Longitude>
+    <Latitude>32.070966794617846</Latitude>
+    <Longitude>34.80817505059216</Longitude>
     <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0587902896</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-20T08:37:21.7538407+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1051</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.087199580054396</Latitude>
-    <Longitude>34.79666384275679</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0548236133</CustomerPhone>
+    <CustomerPhone>0589011848</CustomerPhone>
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T09:34:21.7803288+02:00</OrderOpeningTime>
+    <DeviceType>Laptop</DeviceType>
+    <OrderOpeningTime>2026-01-19T07:15:31.9500508+02:00</OrderOpeningTime>
   </Order>
   <Order>
-    <OrderID>1052</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.07738424501879</Latitude>
-    <Longitude>34.79760578835962</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0510073866</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-19T03:31:21.8080803+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1053</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.06531185066836</Latitude>
-    <Longitude>34.79288903980554</Longitude>
-    <CustomerName>Yonatan Katz</CustomerName>
-    <CustomerPhone>0546792948</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Smartphone</PizzaSize>
-    <OrderOpeningTime>2026-01-18T17:52:21.8370412+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1054</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.093675119120014</Latitude>
-    <Longitude>34.79216862260405</Longitude>
-    <CustomerName>Adi Peretz</CustomerName>
-    <CustomerPhone>0544161379</CustomerPhone>
+    <OrderID>12345</OrderID>
+    <Description />
+    <FullAddress />
+    <Latitude>0</Latitude>
+    <Longitude>0</Longitude>
+    <CustomerName />
+    <CustomerPhone />
     <OrderType>Individual</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T14:49:21.8662513+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1055</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10805481115903</Latitude>
-    <Longitude>34.81680731587757</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0512761224</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-20T10:01:21.8967495+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1056</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10627368975976</Latitude>
-    <Longitude>34.80311246765626</Longitude>
-    <CustomerName>Shai Azulay</CustomerName>
-    <CustomerPhone>0553773173</CustomerPhone>
-    <OrderType>Corporate</OrderType>
-    <PizzaSize>Desktop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T15:54:21.9328086+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1057</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10564896054994</Latitude>
-    <Longitude>34.77967275427503</Longitude>
-    <CustomerName>Noa Levi</CustomerName>
-    <CustomerPhone>0599997004</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Headphones</PizzaSize>
-    <OrderOpeningTime>2026-01-20T01:49:21.9659414+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1058</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.09213282075363</Latitude>
-    <Longitude>34.82194792044327</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0571623028</CustomerPhone>
-    <OrderType>Individual</OrderType>
-    <PizzaSize>Tablet</PizzaSize>
-    <OrderOpeningTime>2026-01-20T10:36:21.9974594+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1059</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.06726912768769</Latitude>
-    <Longitude>34.77437357211401</Longitude>
-    <CustomerName>Moran Feldman</CustomerName>
-    <CustomerPhone>0533115784</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-18T06:11:22.0177603+02:00</OrderOpeningTime>
-  </Order>
-  <Order>
-    <OrderID>1060</OrderID>
-    <Description>Random generated order</Description>
-    <FullAddress>Somewhere in Tel Aviv</FullAddress>
-    <Latitude>32.10537179743774</Latitude>
-    <Longitude>34.79027595987542</Longitude>
-    <CustomerName>Erez Ohayon</CustomerName>
-    <CustomerPhone>0516080074</CustomerPhone>
-    <OrderType>Group</OrderType>
-    <PizzaSize>Laptop</PizzaSize>
-    <OrderOpeningTime>2026-01-21T09:50:22.0456322+02:00</OrderOpeningTime>
+    <DeviceType>Desktop</DeviceType>
+    <OrderOpeningTime>2026-01-21T22:38:34</OrderOpeningTime>
   </Order>
 </ArrayOfOrder>

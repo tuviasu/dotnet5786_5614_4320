@@ -3,84 +3,129 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL.Courier"
         mc:Ignorable="d"
-        Title="CourierWindow" Height="520" Width="400"
+        Title="Courier Profile"
+        Height="540"
+        Width="460"
+        WindowStartupLocation="CenterScreen"
+        Background="#ECEFF1"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
-    <!-- External Grid -->
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <!-- Title-->
-            <RowDefinition Height="30"/>
-            <!-- Courier ID -->
-            <RowDefinition Height="30"/>
-            <!-- Full Name -->
-            <RowDefinition Height="30"/>
-            <!-- Phone -->
-            <RowDefinition Height="30"/>
-            <!-- Email -->
-            <RowDefinition Height="30"/>
-            <!-- Start Work in company -->
-            <RowDefinition Height="30"/>
-            <!-- Transport Type -->
-            <RowDefinition Height="30"/>
-            <!-- Password -->
-            <RowDefinition Height="30"/>
-            <!-- Is Active -->
-            <RowDefinition Height="30"/>
-            <!-- Max delivery distance -->
-            <RowDefinition Height="30"/>
-            <!-- Delivery Type -->
-            <RowDefinition Height="30"/>
-            <!-- total orders delivered on time -->
-            <RowDefinition Height="30"/>
-            <!-- total orders delivered late -->
-            <RowDefinition Height="30"/>
-            <!-- current order id in progress -->
-            <RowDefinition Height="53*"/>
-            <RowDefinition Height="12*"/>
-            <!-- Button space -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
 
-        </Grid.RowDefinitions>
+            <!-- HEADER -->
+            <Border Background="#263238"
+                    CornerRadius="8"
+                    Padding="14"
+                    Margin="0,0,0,18">
+                <TextBlock Text="Courier Profile"
+                           Foreground="White"
+                           FontSize="22"
+                           FontWeight="SemiBold"/>
+            </Border>
 
-        <!--Add new courier or update existing one-->
-        <Button Content="{Binding ButtonText}" Click="btnAddOrUpdate_Click" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="14" VerticalAlignment="Top" Width="70" Height="30" Margin="165,17,0,0"/>
+            <!-- SECTION : PERSONAL -->
+            <Border Background="White"
+                    CornerRadius="10"
+                    Padding="14"
+                    Margin="0,0,0,16">
+                <StackPanel>
 
+                    <TextBlock Text="Personal Information"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"/>
 
-        <Label Content="Courier ID:"                    HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="1"  VerticalAlignment="Center"/>
-        <Label Content="Full Name:"                     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="2"  VerticalAlignment="Center"/>
-        <Label Content="Phone number:"                  HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="3"  VerticalAlignment="Center"/>
-        <Label Content="Email:"                         HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="4"  VerticalAlignment="Center"/>
-        <Label Content="Start work in company:"         HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="5"  VerticalAlignment="Center"/>
-        <Label Content="Transport type:"                HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="6"  VerticalAlignment="Center"/>
-        <Label Content="Password:"                      HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="7"  VerticalAlignment="Center"/>
-        <Label Content="Is active:"                     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="8"  VerticalAlignment="Center"/>
-        <Label Content="Max delivery distance(Km):"     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="9"  VerticalAlignment="Center"/>
-        <Label Content="Delivery type:"                 HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="10" VerticalAlignment="Center"/>
-        <Label Content="Delivered on time:"             HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="11" VerticalAlignment="Center"/>
-        <Label Content="Delivered late:"                HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="12" VerticalAlignment="Center"/>
-        <Label Content="Current order ID in progress:"  HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="13" VerticalAlignment="Center"/>
+                    <TextBlock Text="Courier ID"/>
+                    <TextBox Text="{Binding CurrentCourier.CourierID}"
+                             IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"/>
 
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.CourierID}" IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5"  VerticalAlignment="Center" Width="150" SelectedDate="{Binding CurrentCourier.StartWorkInCompany, Mode=TwoWay}"/>
-        <ComboBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="6"  VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource DeliveryTransportKey}}" SelectedValue="{Binding CurrentCourier.TransportType, Mode=TwoWay}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="8"  VerticalAlignment="Center" Width="150" IsChecked="{Binding CurrentCourier.IsActive, Mode=TwoWay}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="9"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.MaxDeliveryDistanceKM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="10" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource DeliveryTypeKey}}" SelectedValue="{Binding CurrentCourier.DeliveryType, Mode=TwoWay}" IsEnabled="{Binding ButtonText, Converter={StaticResource ConvertAddToFalseKey}}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="11" VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.DeliveredInTime}" IsReadOnly="True"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="12" VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.DeliveredNotInTime}" IsReadOnly="True"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="13" VerticalAlignment="Center" Width="150" Text="{Binding CurrentOrderID, Mode=TwoWay}" IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertAddToTrueKey}}"/>
-    </Grid>
+                    <TextBlock Text="Full Name" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Phone" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Email" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Password" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>
+            </Border>
+
+            <!-- SECTION : WORK -->
+            <Border Background="White"
+                    CornerRadius="10"
+                    Padding="14"
+                    Margin="0,0,0,16">
+                <StackPanel>
+
+                    <TextBlock Text="Work Details"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Start Date"/>
+                    <DatePicker SelectedDate="{Binding CurrentCourier.StartWorkInCompany, Mode=TwoWay}"/>
+
+                    <TextBlock Text="Transport Type" Margin="0,8,0,0"/>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource DeliveryTransportKey}}"
+                              SelectedValue="{Binding CurrentCourier.TransportType, Mode=TwoWay}"/>
+
+                    <TextBlock Text="Delivery Type" Margin="0,8,0,0"/>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource DeliveryTypeKey}}"
+                              SelectedValue="{Binding CurrentCourier.DeliveryType, Mode=TwoWay}"
+                              IsEnabled="{Binding ButtonText, Converter={StaticResource ConvertAddToFalseKey}}"/>
+
+                    <TextBlock Text="Max Distance (Km)" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.MaxDeliveryDistanceKM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <CheckBox Content="Courier is active"
+                              Margin="0,10,0,0"
+                              IsChecked="{Binding CurrentCourier.IsActive, Mode=TwoWay}"/>
+
+                </StackPanel>
+            </Border>
+
+            <!-- SECTION : STATISTICS -->
+            <Border Background="White"
+                    CornerRadius="10"
+                    Padding="14"
+                    Margin="0,0,0,16">
+                <StackPanel>
+
+                    <TextBlock Text="Statistics"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Delivered On Time"/>
+                    <TextBox Text="{Binding CurrentCourier.DeliveredInTime}" IsReadOnly="True"/>
+
+                    <TextBlock Text="Delivered Late" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentCourier.DeliveredNotInTime}" IsReadOnly="True"/>
+
+                    <TextBlock Text="Current Order ID" Margin="0,8,0,0"/>
+                    <TextBox Text="{Binding CurrentOrderID, Mode=TwoWay}"
+                             IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertAddToTrueKey}}"/>
+
+                </StackPanel>
+            </Border>
+
+            <!-- ACTION BUTTON -->
+            <Button Content="{Binding ButtonText}"
+                    Height="38"
+                    Margin="0,10,0,10"
+                    Click="btnAddOrUpdate_Click"
+                    Background="#1976D2"
+                    Foreground="White"
+                    FontWeight="Bold"/>
+
+        </StackPanel>
+    </ScrollViewer>
 </Window>
