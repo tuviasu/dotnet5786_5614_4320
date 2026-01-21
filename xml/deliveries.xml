@@ -1,453 +1,856 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfDelivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deliveries.xml>
   <Delivery>
-    <Id>5000</Id>
-    <OrderId>1037</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>530652</CourierId>
-    <PickupTime>2026-01-15T18:47:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:56:07</ArrivalTime>
-    <Distance>1.4521588030482273</Distance>
-    <Status>Canceled</Status>
+    <Id>100000</Id>
+    <Order_Id>1000</Order_Id>
+    <Courier_Id>300000006</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T14:03:20.4605070+02:00</Start_Work>
+    <Actual_Distance>19.985705450231393</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T15:22:20.4605070+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5001</Id>
-    <OrderId>1017</OrderId>
-    <Transport>Foot</Transport>
-    <CourierId>961201</CourierId>
-    <PickupTime>2026-01-15T18:34:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:55:07</ArrivalTime>
-    <Distance>1.2270874341192146</Distance>
-    <Status>Delivered</Status>
+    <Id>100001</Id>
+    <Order_Id>1001</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T07:49:20.4669150+02:00</Start_Work>
+    <Actual_Distance>10.827380826174341</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T08:04:20.4669150+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5002</Id>
-    <OrderId>1026</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>169509</CourierId>
-    <PickupTime>2026-01-15T18:53:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100002</Id>
+    <Order_Id>1001</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T08:34:20.4669150+02:00</Start_Work>
+    <Actual_Distance>8.894476473681973</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T09:49:20.4669150+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5003</Id>
-    <OrderId>1035</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>467858</CourierId>
-    <PickupTime>2026-01-15T18:46:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:01:07</ArrivalTime>
-    <Distance>0.8444006086971131</Distance>
-    <Status>Delivered</Status>
+    <Id>100003</Id>
+    <Order_Id>1002</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T16:08:20.5044579+02:00</Start_Work>
+    <Actual_Distance>19.72754444567105</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T16:38:20.5044579+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5004</Id>
-    <OrderId>1018</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T18:55:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100004</Id>
+    <Order_Id>1002</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T16:30:20.5044579+02:00</Start_Work>
+    <Actual_Distance>1.7275012581852511</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T17:37:20.5044579+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5005</Id>
-    <OrderId>1059</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>152638</CourierId>
-    <PickupTime>2026-01-15T19:12:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status xsi:nil="true" />
+    <Id>100005</Id>
+    <Order_Id>1003</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T00:53:20.5348212+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5006</Id>
-    <OrderId>1019</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T18:41:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:55:07</ArrivalTime>
-    <Distance>1.720815746438058</Distance>
-    <Status>Delivered</Status>
+    <Id>100006</Id>
+    <Order_Id>1004</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T20:15:20.5640618+02:00</Start_Work>
+    <Actual_Distance>16.853070514466182</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T21:08:20.5640618+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5007</Id>
-    <OrderId>1050</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>515817</CourierId>
-    <PickupTime>2026-01-15T18:59:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:14:07</ArrivalTime>
-    <Distance>1.883892611099941</Distance>
-    <Status>Delivered</Status>
+    <Id>100007</Id>
+    <Order_Id>1004</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T19:21:20.5640618+02:00</Start_Work>
+    <Actual_Distance>9.420545086729497</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T19:51:20.5640618+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5008</Id>
-    <OrderId>1038</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>648707</CourierId>
-    <PickupTime>2026-01-15T18:38:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100008</Id>
+    <Order_Id>1005</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T03:08:20.5920052+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5009</Id>
-    <OrderId>1041</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>233510</CourierId>
-    <PickupTime>2026-01-15T18:35:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:42:07</ArrivalTime>
-    <Distance>1.3257346374151746</Distance>
-    <Status>Canceled</Status>
+    <Id>100009</Id>
+    <Order_Id>1005</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T03:14:20.5920052+02:00</Start_Work>
+    <Actual_Distance>18.94832332453789</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T03:37:20.5920052+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5010</Id>
-    <OrderId>1053</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>892518</CourierId>
-    <PickupTime>2026-01-15T18:27:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100010</Id>
+    <Order_Id>1006</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T10:19:20.6190580+02:00</Start_Work>
+    <Actual_Distance>19.084552257369122</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T11:47:20.6190580+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5011</Id>
-    <OrderId>1023</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>467858</CourierId>
-    <PickupTime>2026-01-15T19:10:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100011</Id>
+    <Order_Id>1007</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T14:01:20.6447754+02:00</Start_Work>
+    <Actual_Distance>10.581649332630699</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T14:59:20.6447754+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5012</Id>
-    <OrderId>1042</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>481005</CourierId>
-    <PickupTime>2026-01-15T18:57:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:08:07</ArrivalTime>
-    <Distance>0.8978010454391571</Distance>
-    <Status>Delivered</Status>
+    <Id>100012</Id>
+    <Order_Id>1008</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T15:08:20.6612665+02:00</Start_Work>
+    <Actual_Distance>3.2059046952876047</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T16:10:20.6612665+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5013</Id>
-    <OrderId>1036</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>796092</CourierId>
-    <PickupTime>2026-01-15T18:38:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:54:07</ArrivalTime>
-    <Distance>2.6735840401829885</Distance>
-    <Status>Delivered</Status>
+    <Id>100013</Id>
+    <Order_Id>1009</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T13:37:20.6882501+02:00</Start_Work>
+    <Actual_Distance>8.24273194599343</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T14:47:20.6882501+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5014</Id>
-    <OrderId>1045</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>367189</CourierId>
-    <PickupTime>2026-01-15T18:48:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:05:07</ArrivalTime>
-    <Distance>1.589396925702891</Distance>
-    <Status>Delivered</Status>
+    <Id>100014</Id>
+    <Order_Id>1009</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T13:50:20.6882501+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5015</Id>
-    <OrderId>1009</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>723786</CourierId>
-    <PickupTime>2026-01-15T19:08:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:24:07</ArrivalTime>
-    <Distance>1.1971046214601477</Distance>
-    <Status>Delivered</Status>
+    <Id>100015</Id>
+    <Order_Id>1010</Order_Id>
+    <Courier_Id>300000008</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T05:22:20.7069846+02:00</Start_Work>
+    <Actual_Distance>0.15797318487954737</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T06:22:20.7069846+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5016</Id>
-    <OrderId>1051</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T19:12:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status xsi:nil="true" />
+    <Id>100016</Id>
+    <Order_Id>1010</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T04:45:20.7069846+02:00</Start_Work>
+    <Actual_Distance>13.163498553726694</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T05:49:20.7069846+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5017</Id>
-    <OrderId>1005</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>644710</CourierId>
-    <PickupTime>2026-01-15T18:56:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:14:07</ArrivalTime>
-    <Distance>1.70725805473767</Distance>
-    <Status>Delivered</Status>
+    <Id>100017</Id>
+    <Order_Id>1011</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T13:37:20.7332021+02:00</Start_Work>
+    <Actual_Distance>2.2643513628339407</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T14:16:20.7332021+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5018</Id>
-    <OrderId>1046</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>711991</CourierId>
-    <PickupTime>2026-01-15T18:53:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:12:07</ArrivalTime>
-    <Distance>2.521957363222147</Distance>
-    <Status>Delivered</Status>
+    <Id>100018</Id>
+    <Order_Id>1012</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T07:15:20.7594248+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5019</Id>
-    <OrderId>1055</OrderId>
-    <Transport>Foot</Transport>
-    <CourierId>474276</CourierId>
-    <PickupTime>2026-01-15T19:12:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:34:07</ArrivalTime>
-    <Distance>1.6586247141639914</Distance>
-    <Status>Delivered</Status>
+    <Id>100019</Id>
+    <Order_Id>1012</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T07:05:20.7594248+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5020</Id>
-    <OrderId>1002</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>242639</CourierId>
-    <PickupTime>2026-01-15T18:41:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100020</Id>
+    <Order_Id>1013</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T16:17:20.7863514+02:00</Start_Work>
+    <Actual_Distance>8.51780887883385</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T16:56:20.7863514+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5021</Id>
-    <OrderId>1006</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>882330</CourierId>
-    <PickupTime>2026-01-15T18:31:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:40:07</ArrivalTime>
-    <Distance>1.5346338073947292</Distance>
-    <Status>Delivered</Status>
+    <Id>100021</Id>
+    <Order_Id>1013</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T16:44:20.7863514+02:00</Start_Work>
+    <Actual_Distance>2.2760451058748354</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T17:58:20.7863514+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5022</Id>
-    <OrderId>1020</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T18:56:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:15:07</ArrivalTime>
-    <Distance>2.52006787316236</Distance>
-    <Status>Delivered</Status>
+    <Id>100022</Id>
+    <Order_Id>1014</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T10:35:20.8122138+02:00</Start_Work>
+    <Actual_Distance>1.2314969705543444</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T11:44:20.8122138+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5023</Id>
-    <OrderId>1012</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T18:31:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100023</Id>
+    <Order_Id>1015</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T21:16:20.8389788+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5024</Id>
-    <OrderId>1025</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>233510</CourierId>
-    <PickupTime>2026-01-15T19:05:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:13:07</ArrivalTime>
-    <Distance>1.2560160269041896</Distance>
-    <Status>Delivered</Status>
+    <Id>100024</Id>
+    <Order_Id>1016</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T13:25:20.8626837+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5025</Id>
-    <OrderId>1000</OrderId>
-    <Transport>Foot</Transport>
-    <CourierId>961201</CourierId>
-    <PickupTime>2026-01-15T18:55:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:22:07</ArrivalTime>
-    <Distance>0.9380913559170578</Distance>
-    <Status>Delivered</Status>
+    <Id>100025</Id>
+    <Order_Id>1017</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T16:10:20.8900355+02:00</Start_Work>
+    <End_Type>CustomerRefused</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5026</Id>
-    <OrderId>1029</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>233510</CourierId>
-    <PickupTime>2026-01-15T19:04:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:15:07</ArrivalTime>
-    <Distance>1.4601516430136146</Distance>
-    <Status>Delivered</Status>
+    <Id>100026</Id>
+    <Order_Id>1017</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T15:10:20.8900355+02:00</Start_Work>
+    <Actual_Distance>6.1400571595522235</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T15:25:20.8900355+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5027</Id>
-    <OrderId>1032</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>882300</CourierId>
-    <PickupTime>2026-01-15T18:24:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:33:07</ArrivalTime>
-    <Distance>1.3439389654160632</Distance>
-    <Status>Delivered</Status>
+    <Id>100027</Id>
+    <Order_Id>1018</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T21:33:20.9170108+02:00</Start_Work>
+    <Actual_Distance>8.955334266296562</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T21:51:20.9170108+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5028</Id>
-    <OrderId>1027</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>367189</CourierId>
-    <PickupTime>2026-01-15T19:05:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100028</Id>
+    <Order_Id>1019</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T18:02:20.9451113+02:00</Start_Work>
+    <Actual_Distance>14.743344228929248</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T19:24:20.9451113+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5029</Id>
-    <OrderId>1039</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>970575</CourierId>
-    <PickupTime>2026-01-15T18:41:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100029</Id>
+    <Order_Id>1020</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T15:12:20.9755998+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5030</Id>
-    <OrderId>1047</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>648707</CourierId>
-    <PickupTime>2026-01-15T18:47:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100030</Id>
+    <Order_Id>1021</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T13:43:21.0045858+02:00</Start_Work>
+    <Actual_Distance>6.974374159728551</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T14:03:21.0045858+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5031</Id>
-    <OrderId>1049</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>152638</CourierId>
-    <PickupTime>2026-01-15T18:31:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100031</Id>
+    <Order_Id>1022</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T19:57:21.0310570+02:00</Start_Work>
+    <Actual_Distance>16.18808402973548</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T20:14:21.0310570+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5032</Id>
-    <OrderId>1001</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>723786</CourierId>
-    <PickupTime>2026-01-15T18:58:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status xsi:nil="true" />
+    <Id>100032</Id>
+    <Order_Id>1023</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T05:16:21.0573988+02:00</Start_Work>
+    <Actual_Distance>12.121248492967014</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T05:54:21.0573988+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5033</Id>
-    <OrderId>1008</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>882330</CourierId>
-    <PickupTime>2026-01-15T18:37:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:47:07</ArrivalTime>
-    <Distance>1.9651299983603345</Distance>
-    <Status>Delivered</Status>
+    <Id>100033</Id>
+    <Order_Id>1024</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T10:28:21.0808038+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5034</Id>
-    <OrderId>1048</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>579887</CourierId>
-    <PickupTime>2026-01-15T19:04:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status xsi:nil="true" />
+    <Id>100034</Id>
+    <Order_Id>1025</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T08:39:21.1063644+02:00</Start_Work>
+    <Actual_Distance>0.022731333978633916</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T10:03:21.1063644+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5035</Id>
-    <OrderId>1013</OrderId>
-    <Transport>Foot</Transport>
-    <CourierId>185138</CourierId>
-    <PickupTime>2026-01-15T18:47:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100035</Id>
+    <Order_Id>1025</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T07:52:21.1063644+02:00</Start_Work>
+    <Actual_Distance>15.063316586159967</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T08:37:21.1063644+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5036</Id>
-    <OrderId>1024</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>464400</CourierId>
-    <PickupTime>2026-01-15T19:06:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:21:07</ArrivalTime>
-    <Distance>0.942947082041126</Distance>
-    <Status>Delivered</Status>
+    <Id>100037</Id>
+    <Order_Id>1026</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T16:35:21.1236614+02:00</Start_Work>
+    <Actual_Distance>17.33375175630412</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T17:33:21.1236614+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5037</Id>
-    <OrderId>1030</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>481005</CourierId>
-    <PickupTime>2026-01-15T18:45:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100038</Id>
+    <Order_Id>1027</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T01:37:21.1489670+02:00</Start_Work>
+    <Actual_Distance>18.989985669512176</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T02:50:21.1489670+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5038</Id>
-    <OrderId>1011</OrderId>
-    <Transport>Car</Transport>
-    <CourierId>152638</CourierId>
-    <PickupTime>2026-01-15T19:11:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:21:07</ArrivalTime>
-    <Distance>1.6313407693441981</Distance>
-    <Status>Delivered</Status>
+    <Id>100039</Id>
+    <Order_Id>1027</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T03:08:21.1489670+02:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
   </Delivery>
   <Delivery>
-    <Id>5039</Id>
-    <OrderId>1021</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>579887</CourierId>
-    <PickupTime>2026-01-15T18:26:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:50:07</ArrivalTime>
-    <Distance>1.0794646100792786</Distance>
-    <Status>Delivered</Status>
+    <Id>100040</Id>
+    <Order_Id>1028</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T16:46:21.1767669+02:00</Start_Work>
+    <Actual_Distance>12.32833362217421</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T17:29:21.1767669+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5040</Id>
-    <OrderId>1031</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>169509</CourierId>
-    <PickupTime>2026-01-15T19:19:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:35:07</ArrivalTime>
-    <Distance>0.9661823832341261</Distance>
-    <Status>Delivered</Status>
+    <Id>100041</Id>
+    <Order_Id>1029</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T01:48:21.2023859+02:00</Start_Work>
+    <Actual_Distance>3.6989971121530107</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T02:41:21.2023859+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5041</Id>
-    <OrderId>1014</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>892518</CourierId>
-    <PickupTime>2026-01-15T19:00:07</PickupTime>
-    <ArrivalTime>2026-01-15T19:13:07</ArrivalTime>
-    <Distance>1.7083463748468626</Distance>
-    <Status>Delivered</Status>
+    <Id>100042</Id>
+    <Order_Id>1030</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T21:24:21.2276570+02:00</Start_Work>
+    <Actual_Distance>3.364116395614898</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T22:15:21.2276570+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5042</Id>
-    <OrderId>1056</OrderId>
-    <Transport>Foot</Transport>
-    <CourierId>431826</CourierId>
-    <PickupTime>2026-01-15T19:07:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100043</Id>
+    <Order_Id>1030</Order_Id>
+    <Courier_Id>300000017</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T21:41:21.2276570+02:00</Start_Work>
+    <Actual_Distance>14.726647128658122</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T22:25:21.2276570+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5043</Id>
-    <OrderId>1016</OrderId>
-    <Transport>Bike</Transport>
-    <CourierId>880870</CourierId>
-    <PickupTime>2026-01-15T18:26:07</PickupTime>
-    <ArrivalTime>2026-01-15T18:41:07</ArrivalTime>
-    <Distance>1.1220362782873163</Distance>
-    <Status>Delivered</Status>
+    <Id>100044</Id>
+    <Order_Id>1031</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T03:28:21.2548420+02:00</Start_Work>
+    <Actual_Distance>0.6373837747671218</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T03:51:21.2548420+02:00</End_Time>
   </Delivery>
   <Delivery>
-    <Id>5044</Id>
-    <OrderId>1057</OrderId>
-    <Transport>Motorcycle</Transport>
-    <CourierId>892518</CourierId>
-    <PickupTime>2026-01-15T18:31:07</PickupTime>
-    <ArrivalTime xsi:nil="true" />
-    <Distance xsi:nil="true" />
-    <Status>Processing</Status>
+    <Id>100045</Id>
+    <Order_Id>1031</Order_Id>
+    <Courier_Id>300000008</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T03:48:21.2548420+02:00</Start_Work>
+    <Actual_Distance>16.3475518303747</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T05:11:21.2548420+02:00</End_Time>
   </Delivery>
-</ArrayOfDelivery>
+  <Delivery>
+    <Id>100046</Id>
+    <Order_Id>1032</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T13:55:21.2818593+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100047</Id>
+    <Order_Id>1032</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T13:29:21.2818593+02:00</Start_Work>
+    <Actual_Distance>19.802026212707244</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T14:06:21.2818593+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100048</Id>
+    <Order_Id>1033</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T19:46:21.3102508+02:00</Start_Work>
+    <Actual_Distance>9.155096537915313</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T20:10:21.3102508+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100049</Id>
+    <Order_Id>1033</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T20:10:21.3102508+02:00</Start_Work>
+    <Actual_Distance>18.252923067819772</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T20:48:21.3102508+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100050</Id>
+    <Order_Id>1034</Order_Id>
+    <Courier_Id>300000005</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T05:23:21.3424803+02:00</Start_Work>
+    <Actual_Distance>9.520640482066348</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T06:07:21.3424803+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100052</Id>
+    <Order_Id>1035</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T19:24:21.3684875+02:00</Start_Work>
+    <Actual_Distance>16.806705690766293</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T19:53:21.3684875+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100053</Id>
+    <Order_Id>1036</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T15:01:21.3955291+02:00</Start_Work>
+    <Actual_Distance>14.776252909631896</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T15:27:21.3955291+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100054</Id>
+    <Order_Id>1037</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T23:12:21.4223565+02:00</Start_Work>
+    <End_Type>CustomerRefused</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100055</Id>
+    <Order_Id>1037</Order_Id>
+    <Courier_Id>300000005</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T22:46:21.4223565+02:00</Start_Work>
+    <Actual_Distance>17.752135733400298</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T23:19:21.4223565+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100056</Id>
+    <Order_Id>1038</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T15:57:21.4515153+02:00</Start_Work>
+    <Actual_Distance>8.81972222568377</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T16:18:21.4515153+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100057</Id>
+    <Order_Id>1039</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T20:33:21.4785033+02:00</Start_Work>
+    <Actual_Distance>10.413037774335066</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T21:48:21.4785033+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100058</Id>
+    <Order_Id>1039</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T20:46:21.4785033+02:00</Start_Work>
+    <Actual_Distance>7.9831823862115385</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T21:53:21.4785033+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100059</Id>
+    <Order_Id>1040</Order_Id>
+    <Courier_Id>300000007</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T03:00:21.5033243+02:00</Start_Work>
+    <Actual_Distance>2.253363512400115</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T03:43:21.5033243+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100060</Id>
+    <Order_Id>1040</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T03:13:21.5033243+02:00</Start_Work>
+    <Actual_Distance>15.281096193707246</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T03:50:21.5033243+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100061</Id>
+    <Order_Id>1041</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T13:36:21.5293689+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100062</Id>
+    <Order_Id>1042</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T01:28:21.5575429+02:00</Start_Work>
+    <Actual_Distance>5.1657665132877</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T02:37:21.5575429+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100063</Id>
+    <Order_Id>1042</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T01:08:21.5575429+02:00</Start_Work>
+    <Actual_Distance>12.257781415345836</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T02:19:21.5575429+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100064</Id>
+    <Order_Id>1043</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T02:49:21.5777873+02:00</Start_Work>
+    <Actual_Distance>4.670557362330756</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T03:34:21.5777873+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100065</Id>
+    <Order_Id>1044</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T11:58:21.6057638+02:00</Start_Work>
+    <Actual_Distance>14.375315586530677</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T13:07:21.6057638+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100066</Id>
+    <Order_Id>1045</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T23:22:21.6313986+02:00</Start_Work>
+    <Actual_Distance>8.180300053843816</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T00:03:21.6313986+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100067</Id>
+    <Order_Id>1045</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T22:17:21.6313986+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100068</Id>
+    <Order_Id>1046</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T10:01:21.6592776+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100069</Id>
+    <Order_Id>1046</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-19T10:00:21.6592776+02:00</Start_Work>
+    <Actual_Distance>9.989732027347578</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-19T10:42:21.6592776+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100070</Id>
+    <Order_Id>1047</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T20:26:21.6788458+02:00</Start_Work>
+    <End_Type>CustomerRefused</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100071</Id>
+    <Order_Id>1047</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T20:01:21.6788458+02:00</Start_Work>
+    <Actual_Distance>13.937353790601447</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T20:57:21.6788458+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100072</Id>
+    <Order_Id>1048</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T20:29:21.7052991+02:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100074</Id>
+    <Order_Id>1049</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T21:35:21.7246536+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100075</Id>
+    <Order_Id>1050</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T10:06:21.7538407+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100076</Id>
+    <Order_Id>1051</Order_Id>
+    <Courier_Id>300000017</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T10:24:21.7803288+02:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100077</Id>
+    <Order_Id>1051</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T09:59:21.7803288+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100078</Id>
+    <Order_Id>1052</Order_Id>
+    <Courier_Id>300000008</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T04:48:21.8080803+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100079</Id>
+    <Order_Id>1053</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T19:28:21.8370412+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100080</Id>
+    <Order_Id>1054</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T15:51:21.8662513+02:00</Start_Work>
+    <Actual_Distance>0.2749003540742656</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T17:04:21.8662513+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100081</Id>
+    <Order_Id>1054</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T15:38:21.8662513+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100082</Id>
+    <Order_Id>1055</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T11:37:21.8967495+02:00</Start_Work>
+    <Actual_Distance>17.079264793258375</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T12:13:21.8967495+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100083</Id>
+    <Order_Id>1055</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-20T11:33:21.8967495+02:00</Start_Work>
+    <Actual_Distance>18.10975704840508</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T12:35:21.8967495+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100084</Id>
+    <Order_Id>1056</Order_Id>
+    <Courier_Id>300000006</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T17:40:21.9328086+02:00</Start_Work>
+    <End_Type>Failed</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100085</Id>
+    <Order_Id>1057</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T03:16:21.9659414+02:00</Start_Work>
+    <Actual_Distance>14.16443566176498</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-20T03:37:21.9659414+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100086</Id>
+    <Order_Id>1058</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-20T12:04:21.9974594+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100087</Id>
+    <Order_Id>1059</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T06:26:22.0177603+02:00</Start_Work>
+    <Actual_Distance>4.9753613366682465</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T07:32:22.0177603+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100088</Id>
+    <Order_Id>1059</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T06:43:22.0177603+02:00</Start_Work>
+    <Actual_Distance>14.342002393560058</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-18T07:46:22.0177603+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100089</Id>
+    <Order_Id>1060</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-21T10:11:22.0456322+02:00</Start_Work>
+    <Actual_Distance>1.6001346893636326</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T10:41:22.0456322+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100090</Id>
+    <Order_Id>1060</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-21T10:34:22.0456322+02:00</Start_Work>
+    <Actual_Distance>17.11763759932938</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T11:36:22.0456322+02:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100036</Id>
+    <Order_Id>1026</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-19T16:52:21.1236614+02:00</Start_Work>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-01-21T16:58:19.0000000</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100051</Id>
+    <Order_Id>1035</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-01-18T19:18:21.3684875+02:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+    <End_Time>2026-01-21T16:58:19.0000000</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100073</Id>
+    <Order_Id>1049</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-01-18T19:57:21.7246536+02:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
+    <End_Time>2026-01-21T16:58:19.0000000</End_Time>
+  </Delivery>
+</deliveries.xml>

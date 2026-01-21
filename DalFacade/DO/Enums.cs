@@ -1,134 +1,98 @@
-﻿namespace DO;
-
-/// <summary>
-/// Status of an order in the system.
-/// </summary>
-public enum OrderStatus
+﻿namespace DO
 {
-    /// <summary>Order has been created but not yet processed.</summary>
-    Pending,
+    public enum DeliveryTransport
+    {
+        Car,          // For long-distance or large deliveries
+        Motorcycle,   // Standard and fast city deliveries
+        Bicycle,      // Short-distance, eco-friendly deliveries
+        Walk          // Very close deliveries (near the branch)
+    }
 
-    /// <summary>Order is currently being processed.</summary>
-    Processing,
+    public enum DeliveryType
+    {
+        Regular,    // Standard delivery (30–60 minutes)
+        Express     // Fast delivery (up to 20 minutes)
+    }
 
-    /// <summary>Order has been delivered to the recipient.</summary>
-    Delivered,
+    public enum OrderType
+    {
+        Individual,  // Order placed by a single person
+        Group,       // Order placed by a group of people
+        Corporate,   // Order placed by a company or organization
 
-    /// <summary>Order was cancelled before shipment.</summary>
-    Canceled,
 
-    /// <summary>Order was returned after delivery.</summary>
-    Returned
-}
+    }
 
-/// <summary>
-/// Outcome of a delivery attempt as reported by the courier or delivery subsystem.
-/// </summary>
-public enum DeliveredStatus
-{
-    /// <summary>Package successfully delivered to the recipient.</summary>
-    Delivered,
+    public enum DeviceType
+    {
+        Desktop,         // Desktop computer
+        Laptop,          // Laptop / notebook computer
+        Tablet,          // Tablet device
+        Smartphone,      // Smartphone / mobile phone
+        Headphones       // Headphones (Bluetooth or wired)
+    }
 
-    /// <summary>Recipient refused the delivery or returned the package on receipt.</summary>
-    Rejected,
+    public enum ProcessResult
+    {
+        Completed,          // Supplied
+        CustomerRefused,    // Ordering customer refused to accept
+        Cancelled,          // Cancelled by customer/manager
+        CustomerNotFound,   // Customer not found at destination
+        Failed              // Failure during assignment/route calculation
+    }
 
-    /// <summary>Delivery was cancelled before completion (by sender, system or courier).</summary>
-    Canceled,
+    public enum  Main_Menu
+    {
+        exit,
+        courier_menu,
+        order_menu,
+        delivery_menu,
+        initialization,
+        print_data_base,
+        config_menu,
+        reset
+    }
 
-    /// <summary>Recipient was absent at the delivery location when the courier attempted delivery.</summary>
-    Absent,
+    public enum Courier_Menu
+    {
+        back_to_main_menu,
+        add_courier,
+        get_courier,
+        get_all_couriers,
+        update_courier,
+        delete_courier,
+        delete_all_couriers        
+    } 
 
-    /// <summary>Delivery attempt failed due to an error (invalid address, vehicle issue, etc.).</summary>
-    Failed
-}
+    public enum Order_Menu
+    {
+        back_to_main_menu,
+        add_order,
+        get_order,
+        get_all_orders,
+        update_order,
+        delete_order,
+        delete_all_orders
+    }
 
-/// <summary>
-/// Transport method used for delivery.
-/// </summary>
-public enum DeliveryTransport
-{
-    /// <summary>Motorcycle (fast, urban deliveries).</summary>
-    Motorcycle,
-
-    /// <summary>Bike (eco-friendly, short distances).</summary>
-    Bike,
-
-    /// <summary>Car (larger volumes or longer distances).</summary>
-    Car,
-
-    /// <summary>foot delivery.</summary>
-    Foot
-}
-
-/// <summary>
-/// Type of order or delivery service.
-/// </summary>
-public enum OrderType
-{
-    FastFood,
-    Pizza,
-    Suchi,
-    Shawarma,
-    Dessert
-}
-
-/// <summary>
-/// Priority level for order handling.
-/// </summary>
-public enum PriorityLevel
-{
-    /// <summary>Low priority — standard handling.</summary>
-    Low,
-
-    /// <summary>Normal priority.</summary>
-    Medium,
-
-    /// <summary>High priority — expedited handling.</summary>
-    High,
-
-    /// <summary>Critical priority — immediate action required.</summary>
-    Critical
-}
-
-/// <summary>
-/// Fragility level of the package content.
-/// </summary>
-public enum FragilityLevel
-{
-    /// <summary>Not fragile — no special handling required.</summary>
-    Low,
-
-    /// <summary>Moderately fragile — basic precautions required.</summary>
-    Medium,
-
-    /// <summary>Fragile — careful handling required.</summary>
-    High,
-
-    /// <summary>Extremely fragile — special packaging and transport required.</summary>
-    ExtremelyFragile
-}
-
-/// <summary>
-/// Schedule status indicating whether a delivery is on time, at risk of delay, or late.
-/// </summary>
-public enum ScheduleStatus
-{
-    /// <summary>Delivery is on schedule or ahead of expected time.</summary>
-    OnTime,
-
-    /// <summary>Delivery is at risk of being delayed;</summary>
-    InRisk,
-
-    /// <summary>Delivery has exceeded acceptable time thresholds and is considered late.</summary>
-    Late
-}
-
-/// <summary>
-/// say type of administrator
-/// </summary>
-public enum Administrator
-{
-    Director,
-    Courier,
-    Customer
+    public enum Delivery_Menu
+    {
+        back_to_main_menu,
+        add_delivery,
+        get_delivery,
+        get_all_deliveries,
+        update_delivery,
+        delete_delivery,
+        delete_all_deliveries
+    }
+    public enum Config_Menu
+    {
+        back_to_main_menu,
+        clock_add_minute,
+        clock_add_hour,
+        get_clock,
+        set_new_config,
+        get_config,
+        reset
+    }
 }

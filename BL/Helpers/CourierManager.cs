@@ -1,451 +1,288 @@
-﻿using BO;
+﻿namespace Helpers;
 using DalApi;
-using DO;
-using System.Linq;
-using System;
-using System.Collections.Generic;
 
-namespace Helpers;
+/// <summary>
+/// Manages courier-related operations.
+/// </summary>
 
 internal static class CourierManager
 {
+    internal static ObserverManager Observers = new();  //stage 5
     private static readonly IDal s_dal = Factory.Get;
 
-    internal static ObserverManager Observers = new();
+    private static readonly Random s_rand = new();
+    private static readonly AsyncMutex s_simulationMutex = new(); //stage 7
 
-    internal static void addCourier(int requesterId, BO.Courier newCourier)
+    /// <summary>
+    /// Gets a courier by their ID.
+    /// </summary>
+    /// <param name="courierId"></param>
+    /// <returns></returns>
+    internal static DO.Courier? GetCourierById(int courierId)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Courier.Read(courierId);
+    }
+
+    /// <summary>
+    /// Gets all couriers.
+    /// </summary>
+    /// <returns></returns>
+    internal static IEnumerable<DO.Courier> GetAllCouriers()
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Courier.ReadAll().ToList();
+    }
+
+    /// <summary>
+    /// Gets couriers by a specified filter.
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    internal static IEnumerable<DO.Courier> GetCouriersByFilter(Func<DO.Courier, bool> filter)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Courier.ReadAll(filter).ToList();
+    }
+
+    /// <summary>
+    /// Adds a new courier.
+    /// </summary>
+    /// <param name="courier"></param>
+    internal static void AddCourier(DO.Courier courier)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            s_dal.Courier.Create(courier);
+        Observers.NotifyListUpdated(); //stage 5
+    }
+
+    /// <summary>
+    /// Updates an existing courier.
+    /// </summary>
+    /// <param name="courier"></param>
+    internal static void UpdateCourier(DO.Courier courier)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            s_dal.Courier.Update(courier);
+        Observers.NotifyItemUpdated(courier.CourierID);
+        Observers.NotifyListUpdated(); //stage 5
+    }
+
+    /// <summary>
+    /// Deletes a courier by their ID.
+    /// </summary>
+    /// <param name="courierId"></param>
+    internal static void DeleteCourier(int courierId)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            s_dal.Courier.Delete(courierId);
+        Observers.NotifyItemUpdated(courierId);
+        Observers.NotifyListUpdated(); //stage 5
+    }
+
+    /// <summary>
+    /// Checks if a courier exists by their ID.
+    /// </summary>
+    /// <param name="courierId"></param>
+    /// <returns></returns>
+    internal static bool IsCourierExists(int courierId)
     {
         try
         {
-            try
-            {
-                var requester = s_dal.Courier.Read(requesterId);
-
-            }
-            catch (Exception)
-            {
-                throw new BLNotFoundException("requesterId doesn't exist");
-            }
-
-            // Ensure StartDate is valid (avoid DateTime.MinValue)
-            DateTime startDate = newCourier.StartDate == default ? AdminManager.Now : newCourier.StartDate;
-
-            // If caller did not provide an Id (0), generate one on BL side to avoid persisting Id == 0.
-            // This avoids UI showing Id = 0 when DAL doesn't auto-generate an id.
-            int idToUse = newCourier.Id;
-            if (idToUse == 0)
-            {
-                // Build set of existing ids to avoid collision
-                var existing = new HashSet<int>(s_dal.Courier.ReadAll().Select(c => c.Id));
-                int candidate;
-                do
-                {
-                    candidate = (Math.Abs(Guid.NewGuid().GetHashCode()) % 90000000) + 100000;
-                } while (existing.Contains(candidate));
-                idToUse = candidate;
-            }
-
-            DO.Courier courierDO = new()
-            {
-                Id = idToUse,
-                Name = newCourier.Name,
-                Phone = newCourier.Phone,
-                Email = newCourier.Email,
-                IsActive = newCourier.IsActive,
-                Transport = (DO.DeliveryTransport)newCourier.Transport,
-                StartDate = startDate,
-                MaxDistance = newCourier.MaxDistance,
-                Administrator = (DO.Administrator)newCourier.Administrator,
-                Password = newCourier.Password
-            };
-            s_dal.Courier.Create(courierDO);
-
-            // Notification for adding courier to list
-            Observers.NotifyListUpdated();
+            lock (AdminManager.BlMutex) //stage 7
+                s_dal.Courier.Read(courierId);
+            return true;
         }
-        catch (Exception ex)
+        catch
         {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
+            return false;
         }
     }
 
-    internal static void PeriodicCouriersUpdates(DateTime oldClock, DateTime newClock)
+    internal static async Task SimulateCouriersActivityAsync() //stage 7
     {
+        // If the previous simulation is still in progress, exit immediately
+        if (s_simulationMutex.CheckAndSetInProgress())
+            return;
+
         try
         {
-            TimeSpan inactivityThreshold = s_dal.Config.Inactivity;
+            List<DO.Courier> activeCouriers;
+            lock (AdminManager.BlMutex) //stage 7
+                activeCouriers = s_dal.Courier.ReadAll(c => c.IsActive).ToList();
 
-            var allDeliveries = s_dal.Delivery.ReadAll();
+            var cfg = AdminManager.GetConfig();
 
-            var updatedCouriers = s_dal.Courier.ReadAll()
-                .Where(c => c.IsActive)
-                .Select(c => new
-                {
-                    Courier = c,
-                    LastArrival =
-                        allDeliveries
-                            .Where(d => d.CourierId == c.Id && d.ArrivalTime != null)
-                            .OrderByDescending(d => d.ArrivalTime)
-                            .Select(d => d.ArrivalTime)
-                            .FirstOrDefault()
-                })
-                .Where(x => x.LastArrival != null)
-                .Where(x =>
-                    (oldClock - x.LastArrival!.Value) <= inactivityThreshold &&
-                    (newClock - x.LastArrival!.Value) > inactivityThreshold)
-                .Select(x =>
-                {
-                    var updated = x.Courier with { IsActive = false };
-                    s_dal.Courier.Update(updated);
+            var courierIdsToNotify = new HashSet<int>();
+            var orderIdsToNotify = new HashSet<int>();
+            bool deliveriesListChanged = false;
 
-                    // Notification for courier modification
-                    Observers.NotifyItemUpdated(updated.Id);
+            // Use BL public API (avoid instantiating implementation classes directly)
+            var bl = BlApi.Factory.Get();
 
-                    return updated;
-                })
-                .ToList();
-
-            // If couriers have been modified, notify the list
-            if (updatedCouriers.Any())
+            foreach (var courier in activeCouriers)
             {
-                Observers.NotifyListUpdated();
-            }
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
+                var currentDelivery = DeliveryManager.GetCurrentDeliveryForCourier(courier.CourierID);
 
-    internal static BO.Administrator Login(int Id, string password)
-    {
-        try
-        {
-            if (Id != 0)
-            {
-                var courier = s_dal.Courier.ReadAll()
-                    .FirstOrDefault(c => c.Id == Id);
-                if (courier == null)
-                    throw new BO.BLNotFoundException("User with this Id not found.");
-                if (courier.Password != password)
-                    throw new BO.BLInvalidInputException("Wrong password.");
-                return (BO.Administrator)courier.Administrator;
-            }
-            else
-            {
-                throw new BO.BLInvalidInputException("ID cant be 0");
-            }
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
-
-    internal static IEnumerable<CourierInList> GetCouriersList(int requesterId, bool? isActive, BO.DeliveryTransport? status)
-    {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("requesterId doesn't exist");
-
-            IEnumerable<DO.Courier> couriers = s_dal.Courier.ReadAll();
-
-            if (isActive != null)
-                couriers = couriers.Where(c => c.IsActive == isActive);
-
-            if (status != null)
-                couriers = couriers.Where(c => (BO.DeliveryTransport)c.Transport == status);
-
-            var allDeliveries = s_dal.Delivery.ReadAll();
-            var config = AdminManager.GetConfig();
-
-            double GetSpeed(DO.DeliveryTransport transport)
-                => transport switch
+                if (currentDelivery is null)
                 {
-                    DO.DeliveryTransport.Motorcycle => config.MotorcycleSpeed,
-                    DO.DeliveryTransport.Bike => config.BikeSpeed,
-                    DO.DeliveryTransport.Foot => config.WalkingSpeed,
-                    _ => config.CarSpeed,
-                };
-
-            return couriers.Select(c =>
-            {
-                var courierDeliveries = allDeliveries.Where(d => d.CourierId == c.Id);
-
-                int onTime = 0;
-                int late = 0;
-
-                foreach (var d in courierDeliveries)
-                {
-                    if (d.ArrivalTime == null || d.Distance == null)
+                    if (s_rand.NextDouble() > 0.15)
                         continue;
 
-                    double speed = GetSpeed(d.Transport);
-                    DateTime expected = d.PickupTime.AddHours(d.Distance.Value / (speed > 0 ? speed : config.CarSpeed));
+                    var openOrders = (await bl.Order.GetOpenOrdersForCourierAsync(
+                        "0",
+                        courier.CourierID.ToString(),
+                        null,
+                        null))
+                        .ToList();
 
-                    if (Tools.IsDeliveryOnTime(d, expected))
-                        onTime++;
-                    else
-                        late++;
+                    if (openOrders.Count == 0)
+                        continue;
+
+                    if (s_rand.NextDouble() > 0.50)
+                        continue;
+
+                    var chosen = openOrders[s_rand.Next(openOrders.Count)];
+
+                    DO.Delivery newDelivery = new(
+                        DeliveryID: 0,
+                        OrderID: chosen.OrderID,
+                        CourierID: courier.CourierID,
+                        DeliveryType: DO.DeliveryType.Regular,
+                        DeliveryStartTime: AdminManager.Now,
+                        DeliveryDistance: null,
+                        DeliveryDoneType: null,
+                        DeliveryDoneTime: null);
+
+                    lock (AdminManager.BlMutex) //stage 7
+                        s_dal.Delivery.Create(newDelivery);
+
+                    deliveriesListChanged = true;
+                    courierIdsToNotify.Add(courier.CourierID);
+                    orderIdsToNotify.Add(chosen.OrderID);
                 }
-
-                return new CourierInList
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    IsActive = c.IsActive,
-                    Transport = (BO.DeliveryTransport)c.Transport,
-                    StartDate = c.StartDate,
-                    NumberOfOnTimeDeliveries = onTime,
-                    NumberOfLateDeliveries = late,
-                    ActualOrder = courierDeliveries.FirstOrDefault(d => d.ArrivalTime == null)?.OrderId
-                };
-            });
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
-
-    internal static BO.Courier GetCourierDetails(int requesterId, int courierId)
-    {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester ID does not exist.");
-
-            var courierDO = s_dal.Courier.Read(courierId);
-            if (courierDO == null)
-                throw new BLNotFoundException("Courier ID does not exist.");
-
-            var courierDeliveries = s_dal.Delivery.ReadAll().Where(d => d.CourierId == courierId);
-
-            int onTime = 0;
-            int late = 0;
-
-            var config = AdminManager.GetConfig();
-
-            double GetSpeed(DO.DeliveryTransport transport)
-                => transport switch
-                {
-                    DO.DeliveryTransport.Motorcycle => config.MotorcycleSpeed,
-                    DO.DeliveryTransport.Bike => config.BikeSpeed,
-                    DO.DeliveryTransport.Foot => config.WalkingSpeed,
-                    _ => config.CarSpeed,
-                };
-
-            foreach (var d in courierDeliveries)
-            {
-                if (d.ArrivalTime == null || d.Distance == null)
-                    continue;
-
-                double speed = GetSpeed(d.Transport);
-                DateTime expected = d.PickupTime.AddHours(d.Distance.Value / (speed > 0 ? speed : config.CarSpeed));
-
-                if (Tools.IsDeliveryOnTime(d, expected))
-                    onTime++;
                 else
-                    late++;
-            }
-
-            var currentDelivery = courierDeliveries.FirstOrDefault(d => d.ArrivalTime == null);
-
-            BO.OrderInProgress? currentOrder = null;
-
-            if (currentDelivery != null)
-            {
-                var orderDO = s_dal.Order.Read(currentDelivery.OrderId);
-
-                if (orderDO != null)
                 {
-                    var deliveriesForOrder = s_dal.Delivery.ReadAll(d => d.OrderId == orderDO.Id).ToList();
-                    var ordStatus = Tools.CalculateOrderStatus(deliveriesForOrder);
+                    var baseMinutes = cfg.MaxDeliveryTimeRange.TotalMinutes;
+                    var targetMinutes = baseMinutes * (0.5 + s_rand.NextDouble() * 0.75);
+                    var elapsed = (AdminManager.Now - currentDelivery.DeliveryStartTime).TotalMinutes;
 
-                    currentOrder = new BO.OrderInProgress
+                    if (elapsed >= targetMinutes)
                     {
-                        OrderId = orderDO.Id,
-                        CustomerName = orderDO.CustomerName,
-                        CustomerAddress = orderDO.CustomerAddress,
-                        CustomerPhone = orderDO.CustomerPhone,
-                        PickupTime = currentDelivery.PickupTime,
-                        Distance = currentDelivery.Distance,
-                        OrderStatusEnum = ordStatus
-                    };
+                        var roll = s_rand.NextDouble();
+                        DO.ProcessResult doneType = roll < 0.80
+                            ? DO.ProcessResult.Completed
+                            : roll < 0.90
+                                ? DO.ProcessResult.CustomerNotFound
+                                : DO.ProcessResult.CustomerRefused;
+
+                        var updated = currentDelivery with
+                        {
+                            DeliveryDoneType = doneType,
+                            DeliveryDoneTime = AdminManager.Now,
+                            DeliveryDistance = currentDelivery.DeliveryDistance ?? 0
+                        };
+
+                        lock (AdminManager.BlMutex) //stage 7
+                            s_dal.Delivery.Update(updated);
+
+                        deliveriesListChanged = true;
+                        courierIdsToNotify.Add(updated.CourierID);
+                        orderIdsToNotify.Add(updated.OrderID);
+                    }
+                    else
+                    {
+                        if (s_rand.NextDouble() > 0.10)
+                            continue;
+
+                        var updated = currentDelivery with
+                        {
+                            DeliveryDoneType = DO.ProcessResult.Cancelled,
+                            DeliveryDoneTime = AdminManager.Now,
+                            DeliveryDistance = currentDelivery.DeliveryDistance ?? 0
+                        };
+
+                        lock (AdminManager.BlMutex) //stage 7
+                            s_dal.Delivery.Update(updated);
+
+                        deliveriesListChanged = true;
+                        courierIdsToNotify.Add(updated.CourierID);
+                        orderIdsToNotify.Add(updated.OrderID);
+                    }
                 }
             }
 
-            return new BO.Courier
-            {
-                Id = courierDO.Id,
-                Name = courierDO.Name,
-                Password = courierDO.Password,
-                Phone = courierDO.Phone,
-                Email = courierDO.Email,
-                IsActive = courierDO.IsActive,
-                Transport = (BO.DeliveryTransport)courierDO.Transport,
-                StartDate = courierDO.StartDate,
-                MaxDistance = courierDO.MaxDistance,
-                Administrator = (BO.Administrator)courierDO.Administrator,
-                NumberOfOnTimeDeliveries = onTime,
-                NumberOfLateDeliveries = late,
-                CurrentOrder = currentOrder
-            };
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
-
-    internal static void UpdateCourier(int requesterId, BO.Courier updatedCourier)
-    {
-        try
-        {
-            try
-            {
-                var requester = s_dal.Courier.Read(requesterId);
-            }
-            catch (Exception)
-            {
-                throw new BLNotFoundException("requesterId doesn't exist");
-            }
-            try
-            {
-                var existingCourier = s_dal.Courier.Read(updatedCourier.Id);
-                if (existingCourier == null)
-                    throw new BLNotFoundException($"Courier with ID {updatedCourier.Id} doesn't exist");
-
-                existingCourier = existingCourier with
-                {
-                    Name = updatedCourier.Name,
-                    Phone = updatedCourier.Phone,
-                    Email = updatedCourier.Email,
-                    IsActive = updatedCourier.IsActive,
-                    Transport = (DO.DeliveryTransport)updatedCourier.Transport,
-                    Administrator = (DO.Administrator)updatedCourier.Administrator,
-                    // MaxDistance may be nullable on both sides
-                    MaxDistance = updatedCourier.MaxDistance
-                };
-
-                s_dal.Courier.Update(existingCourier);
-
-                // Notifications for courier modification
-                Observers.NotifyItemUpdated(updatedCourier.Id);
+            foreach (var id in courierIdsToNotify)
+                Observers.NotifyItemUpdated(id);
+            if (courierIdsToNotify.Count > 0)
                 Observers.NotifyListUpdated();
 
-            }
-            catch (Exception ex)
+            foreach (var id in orderIdsToNotify)
+                OrderManager.Observers.NotifyItemUpdated(id);
+            if (orderIdsToNotify.Count > 0)
+                OrderManager.Observers.NotifyListUpdated();
+
+            if (deliveriesListChanged)
+                DeliveryManager.Observers.NotifyListUpdated();
+        }
+        finally
+        {
+            s_simulationMutex.UnsetInProgress();
+        }
+    }
+
+    /// <summary>
+    /// Checks if a courier is active by their ID.
+    /// </summary>
+    /// <param name="courierId"></param>
+    /// <returns></returns>
+    internal static bool IsCourierActive(int courierId)
+    {
+        var courier = GetCourierById(courierId);
+        return courier.IsActive;
+    }
+
+    /// <summary>
+    /// Gets the maximum delivery range of a courier by their ID.
+    /// </summary>
+    /// <param name="courierId"></param>
+    /// <returns></returns>
+    internal static double? GetCourierMaxRange(int courierId)
+    {
+        var courier = GetCourierById(courierId);
+        return courier.MaxDeliveryDistanceKm;
+    }
+
+    /// <summary>
+    /// Validates courier credentials.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
+    internal static bool ValidateCourierCredentials(string username, string password)
+    {
+        try
+        {
+            // 1) Fixed courier credentials (like managers in config)
+            if (int.TryParse(username, out int configCourierId))
             {
-                throw new BLNotFoundException($"courierId with id : {updatedCourier.Id} doesn't exist", ex);
+                lock (AdminManager.BlMutex) //stage 7
+                {
+                    if (s_dal.Config.Couriers.TryGetValue(configCourierId, out var configPwd) && configPwd == password)
+                        return true;
+                }
             }
+
+            // 2) Regular couriers entity store
+            if (!int.TryParse(username, out int courierId))
+                return false;
+
+            var courier = GetCourierById(courierId);
+            return courier.Password == password;
         }
-        catch (Exception ex)
+        catch
         {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
-
-    // New helper to promote a courier to Director (authorization checked)
-    internal static void PromoteCourierToDirector(int requesterId, int courierId)
-    {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester ID does not exist.");
-
-            if (requester.Administrator != DO.Administrator.Director)
-                throw new BO.BLUnauthorizedException("Only a Director can promote another courier.");
-
-            var courier = s_dal.Courier.Read(courierId) ?? throw new BLNotFoundException($"Courier {courierId} not found.");
-
-            var updated = courier with { Administrator = DO.Administrator.Director };
-            s_dal.Courier.Update(updated);
-
-            // Notifications for courier promotion (modification)
-            Observers.NotifyItemUpdated(courierId);
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException || ex is BO.BLUnauthorizedException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
-    }
-
-    internal static void removeCourier(int requesterId, int courierId)
-    {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester ID does not exist.");
-
-            var courier = s_dal.Courier.Read(courierId);
-            if (courier == null)
-                throw new BLNotFoundException($"Courier ID {courierId} does not exist.");
-
-            var deliveries = s_dal.Delivery.ReadAll()
-                                           .Where(d => d.CourierId == courierId);
-
-            if (deliveries.Any())
-                throw new BLInvalidOperationException("This courier has handled deliveries and cannot be deleted.");
-
-            if (deliveries.Any(d => d.ArrivalTime == null))
-                throw new BLInvalidOperationException("This courier is currently handling a delivery and cannot be deleted.");
-
-            s_dal.Courier.Delete(courierId);
-
-            // Notifications for courier removal
-            Observers.NotifyItemUpdated(courierId); // The object has been deleted
-            Observers.NotifyListUpdated(); // The list has been modified
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
+            return false;
         }
     }
 }

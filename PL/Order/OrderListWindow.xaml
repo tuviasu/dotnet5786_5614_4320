@@ -3,167 +3,182 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Order"
         mc:Ignorable="d"
-        Title="Orders Dashboard"
-        Height="720"
+        Title="Order Management"
+        Height="640"
         Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="#EEF2F7"
+        Background="#EEF2F5"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
 
-    <!-- ========= RESOURCES ========= -->
-    <Window.Resources>
-
-        <!-- Header -->
-        <Style x:Key="HeaderTitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <!-- Toolbar -->
-        <Style x:Key="ToolbarLabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Foreground" Value="#455A64"/>
-        </Style>
-
-        <Style x:Key="FlatComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="Padding" Value="10,6"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="White"/>
-        </Style>
-
-        <!-- DataGrid -->
-        <Style x:Key="CleanDataGridStyle" TargetType="DataGrid">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="GridLinesVisibility" Value="None"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#F7F9FC"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-        </Style>
-
-        <!-- Floating Add Button -->
-        <Style x:Key="FloatingButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="56"/>
-            <Setter Property="Height" Value="56"/>
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Background" Value="#2E7D32"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="28">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </Window.Resources>
-
-    <!-- ========= LAYOUT ========= -->
-    <Grid>
-
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="160"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ===== HEADER ===== -->
-        <Border Grid.Row="0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#263238" Offset="0"/>
-                    <GradientStop Color="#455A64" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
+        <!-- Filters -->
+        <Border Grid.Row="0"
+                Background="White"
+                CornerRadius="14"
+                Padding="18"
+                Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="40"
-                        VerticalAlignment="Center">
-                <TextBlock Text="Order Management"
-                           Style="{StaticResource HeaderTitleStyle}"/>
+                <TextBlock Grid.Column="0"
+                           Text="Filter by"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="SemiBold"/>
 
-                <TextBlock Text="Tracking and processing overview"
-                           FontSize="14"
-                           Foreground="#CFD8DC"
-                           Margin="0,6,0,0"/>
-            </StackPanel>
+                <ComboBox Grid.Column="1"
+                          Height="34"
+                          ItemsSource="{Binding Source={StaticResource OrderListFilterPropertyKey}}"
+                          SelectedValue="{Binding FilterProperty, Mode=TwoWay}"
+                          SelectionChanged="FilterChanged"/>
+
+                <TextBlock Grid.Column="3"
+                           Text="Value"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="SemiBold"/>
+
+                <ComboBox Grid.Column="4"
+                          Height="34"
+                          ItemsSource="{Binding FilterValues}"
+                          SelectedItem="{Binding FilterValue, Mode=TwoWay}"
+                          SelectionChanged="FilterChanged"/>
+
+                <TextBlock Grid.Column="6"
+                           Text="Sort by"
+                           VerticalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="SemiBold"/>
+
+                <ComboBox Grid.Column="7"
+                          Height="34"
+                          ItemsSource="{Binding Source={StaticResource OrderListSortPropertyKey}}"
+                          SelectedValue="{Binding SortProperty, Mode=TwoWay}"
+                          SelectionChanged="FilterChanged"/>
+            </Grid>
         </Border>
 
-        <!-- ===== TOOLBAR ===== -->
+        <!-- Orders Table -->
         <Border Grid.Row="1"
                 Background="White"
-                CornerRadius="12"
-                Padding="20"
-                Margin="30,-40,30,20">
+                CornerRadius="14"
+                Padding="12">
 
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center">
-
-                <TextBlock Text="Filter by status:"
-                           Style="{StaticResource ToolbarLabelStyle}"
-                           Margin="0,0,15,0"/>
-
-                <ComboBox Style="{StaticResource FlatComboBoxStyle}"
-                          Width="220"
-                          ItemsSource="{Binding Source={StaticResource OrderStatusCollectionKey}}"
-                          SelectedValue="{Binding OrderStatus, Mode=TwoWay}"
-                          SelectionChanged="OrderStatusFilter_SelectionChanged"/>
-            </StackPanel>
-        </Border>
-
-        <!-- ===== DATA GRID ===== -->
-        <Border Grid.Row="2"
-                Background="White"
-                CornerRadius="12"
-                Padding="20"
-                Margin="30,0,30,30">
-
-            <DataGrid Style="{StaticResource CleanDataGridStyle}"
-                      ItemsSource="{Binding OrderList}"
+            <DataGrid ItemsSource="{Binding OrderList}"
+                      SelectedItem="{Binding SelectedOrder}"
                       AutoGenerateColumns="False"
-                      MouseDoubleClick="dgOrderList_MouseDoubleClick">
+                      IsReadOnly="True"
+                      MouseDoubleClick="Update_DoubleClick"
+                      GridLinesVisibility="None"
+                      HeadersVisibility="Column"
+                      RowBackground="#F9FBFC"
+                      AlternatingRowBackground="#EDF3F7"
+                      FontSize="13">
+
+                <!-- FIXED HEADER STYLE -->
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                        <Setter Property="MinHeight" Value="42"/>
+                        <Setter Property="Background" Value="#E3EAF0"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="Order ID"
+                                        Binding="{Binding OrderID}"
+                                        Width="90"/>
 
-                    <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" Width="90"/>
-                    <DataGridTextColumn Header="Delivery ID" Binding="{Binding DeliveryId}" Width="90"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="110"/>
-                    <DataGridTextColumn Header="Distance (km)"
-                                        Binding="{Binding Distance, StringFormat={}{0:0.0}}"
-                                        Width="120"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120"/>
-                    <DataGridTextColumn Header="Schedule" Binding="{Binding ScheduleStatus}" Width="130"/>
-                    <DataGridTextColumn Header="Order Time" Binding="{Binding OrderEndTime}" Width="130"/>
-                    <DataGridTextColumn Header="Treatment Time" Binding="{Binding TreatmentEndTime}" Width="150"/>
-                    <DataGridTextColumn Header="Couriers" Binding="{Binding NumberOfCouriers}" Width="90"/>
+                    <DataGridTextColumn Header="Delivery ID"
+                                        Binding="{Binding DeliveryID}"
+                                        Width="100"/>
+
+                    <DataGridTextColumn Header="Type"
+                                        Binding="{Binding orderType}"
+                                        Width="90"/>
+
+                    <DataGridTextColumn Header="Status"
+                                        Binding="{Binding orderStatus}"
+                                        Width="110"/>
+
+                    <DataGridTextColumn Header="Schedule"
+                                        Binding="{Binding scheduleStatus}"
+                                        Width="110"/>
+
+                    <DataGridTextColumn Header="Deliveries"
+                                        Binding="{Binding TotalDeliveries}"
+                                        Width="90"/>
+
+                    <DataGridTextColumn Header="Remaining Time"
+                                        Binding="{Binding TimeRemainingToComplete}"
+                                        Width="140"/>
+
+                    <DataGridTextColumn Header="Handling Time"
+                                        Binding="{Binding TotalHandlingTime}"
+                                        Width="140"/>
+
+                    <DataGridTextColumn Header="Air Distance (km)"
+                                        Binding="{Binding AirDistance}"
+                                        Width="140"/>
+
+                    <!-- Cancel button stays RED -->
+                    <DataGridTemplateColumn Header="Cancel"
+                                            Width="110">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Cancel"
+                                        Click="btnCancel_Click"
+                                        Padding="10,4"
+                                        Background="#D32F2F"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Visibility="{Binding orderStatus,
+                                            Converter={StaticResource OrderStatusToCancelVisibilityConverter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
-        <!-- ===== FLOATING ADD BUTTON ===== -->
+        <!-- Add Button -->
         <Button Grid.Row="2"
-                Content="+"
-                Style="{StaticResource FloatingButtonStyle}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,50,50"
-                Click="btnNewOrder_Click"/>
-
+                Content="+ Add Order"
+                Width="200"
+                Height="46"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Center"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Background="#00897B"
+                Foreground="White"
+                BorderThickness="0"
+                Cursor="Hand"
+                Click="btnAdd_Click"/>
     </Grid>
 </Window>

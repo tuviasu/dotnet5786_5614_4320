@@ -2,55 +2,52 @@
 
 namespace BO;
 
-/// <summary>
-/// Lightweight view model for displaying orders in lists with scheduling and processing summary information.
-/// </summary>
 public class OrderInList
 {
     /// <summary>
-    /// Identifier of the delivery associated with the order, or <c>null</c> if not assigned.
+    /// Unique identifier for the delivery
     /// </summary>
-    public int? DeliveryId { get; init; }
+    public int? DeliveryID { get; init; }
 
     /// <summary>
-    /// Unique identifier of the order.
+    /// Unique identifier for the order
     /// </summary>
-    public int OrderId { get; init; }
+    public int OrderID { get; init; }
 
     /// <summary>
-    /// Type of the order or delivery service.
+    /// Type of the order (e.g., pizza, pasta, etc.)
     /// </summary>
-    public OrderType Type { get; init; }
+    public OrderType orderType { get; init; }
 
     /// <summary>
-    /// Distance to the delivery address (in kilometers).
+    /// Straight-line distance to the delivery address
     /// </summary>
-    public double Distance { get; init; }
+    public double AirDistance { get; init; }
 
     /// <summary>
-    /// Current processing status of the order.
+    /// Current status of the order
     /// </summary>
-    public OrderStatus Status { get; init; }
+    public OrderStatus orderStatus { get; init; }
 
     /// <summary>
-    /// Scheduling status indicating whether the delivery is on time, at risk, or late.
+    /// Status of the delivery schedule (e.g., on time, delayed, etc.)
     /// </summary>
-    public ScheduleStatus ScheduleStatus { get; init; }
+    public ScheduleStatus scheduleStatus { get; init; }
 
     /// <summary>
-    /// Elapsed time from order creation until the end of the order lifecycle or current cutoff.
+    /// Time remaining to complete the delivery
     /// </summary>
-    public TimeSpan OrderEndTime { get; init; }
+    public TimeSpan TimeRemainingToComplete { get; init; }
 
     /// <summary>
-    /// Elapsed time spent processing the order (handling, packing, dispatch).
+    /// Total time taken to handle the order
     /// </summary>
-    public TimeSpan TreatmentEndTime { get; init; }
+    public TimeSpan TotalHandlingTime { get; init; }
 
     /// <summary>
-    /// Number of couriers involved or available for this order.
+    /// Total number of deliveries associated with the order
     /// </summary>
-    public int NumberOfCouriers { get; init; }
+    public int TotalDeliveries { get; init; }
 
     public override string ToString() => this.ToStringProperty();
 }

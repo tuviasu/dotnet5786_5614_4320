@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextOrderId>1060</NextOrderId>
-  <NextDeliveryId>5045</NextDeliveryId>
-  <Clock>15/01/2026 19:00:07</Clock>
+  <NextOrderId>1061</NextOrderId>
+  <NextDeliveryID>100091</NextDeliveryID>
+  <Clock>21/01/2026 16:58:19</Clock>
   <BossId>326205614</BossId>
-  <BossPassword>admin</BossPassword>
+  <BossPassword>admin326</BossPassword>
   <CarSpeed>40</CarSpeed>
   <MotorcycleSpeed>50</MotorcycleSpeed>
   <BikeSpeed>20</BikeSpeed>
@@ -12,11 +12,18 @@
   <!-- MaxTimeDelivery is stored as hours -->
   <MaxTimeDelivery>1</MaxTimeDelivery>
   <!-- RiskRange is stored as minutes -->
-  <RiskRange>30</RiskRange>
+  <RiskRange>00:00:00</RiskRange>
   <!-- Inactivity is stored as days -->
   <Inactivity>30</Inactivity>
   <CompanyAddress>22 HaMeyasdim jerusalem</CompanyAddress>
-  <Latitude>31.778449894212013</Latitude>
-  <Longitude>35.18761502733661</Longitude>
+  <Latitude>0</Latitude>
+  <Longitude>0</Longitude>
   <MaxDistance>25</MaxDistance>
+  <Managers>
+    <Manager>
+      <Id>326205614</Id>
+      <Password>admin326</Password>
+    </Manager>
+  </Managers>
+  <Couriers />
 </config>

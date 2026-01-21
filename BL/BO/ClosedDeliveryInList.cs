@@ -2,51 +2,27 @@
 
 namespace BO;
 
-/// <summary>
-/// Represents a summary entry for a completed delivery shown in lists.
-/// </summary>
 public class ClosedDeliveryInList
 {
     /// <summary>
-    /// Unique identifier of the delivery record.
+    /// Unique identifier for the delivery
     /// </summary>
-    public int DeliveryId { get; init; }
+    public int DeliveryID { get; init; }                        // Unique identifier for the delivery
 
     /// <summary>
-    /// Identifier of the associated order.
+    /// Unique identifier for the order
     /// </summary>
-    public int OrderId { get; init; }
+    public int OrderID { get; init; }                           // Unique identifier for the order
 
     /// <summary>
-    /// Type of the order (e.g., Standard, Express, Scheduled, Pickup).
+    /// Type of the order (e.g., pizza, pasta, etc.)
     /// </summary>
-    public OrderType OrderType { get; init; }
-
-    /// <summary>
-    /// Delivery address provided by the customer.
-    /// </summary>
-    public string CustomerAdress { get; init; }
-
-    /// <summary>
-    /// Transport method used to perform the delivery.
-    /// </summary>
-    public DeliveryTransport DeliveryTransport { get; init; }
-
-    /// <summary>
-    /// Actual distance travelled for the delivery, in kilometers when available.
-    /// </summary>
-    public double? ActualDistance { get; init; }
-
-    /// <summary>
-    /// Total time elapsed to complete the delivery.
-    /// </summary>
-    public TimeSpan DeliveryTotalTime { get; init; }
-
-    /// <summary>
-    /// Final outcome of the delivery attempt.
-    /// </summary>
-    public DeliveredStatus DeliveredStatus { get; init; }
-
+    public OrderType orderType { get; init; }                   // Type of the order (e.g., pizza, pasta, etc.)
+    public string FullAddress { get; init; }                    // Full delivery address
+    public DeliveryType deliveryType { get; init; }             // Type of delivery (e.g., standard, express, etc.)
+    public double? RealDistance { get; init; }                  // Actual distance traveled for the delivery
+    public TimeSpan TotalHandlingTime { get; init; }            // Total time taken to handle the delivery
+    public DeliveryDoneType? deliveryDoneType { get; init; }    // Status of the delivery (e.g., completed, canceled, etc.)
     public override string ToString() => this.ToStringProperty();
 
 }

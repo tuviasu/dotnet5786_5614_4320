@@ -2,46 +2,42 @@
 
 namespace BO;
 
-/// <summary>
-/// Lightweight view model representing a delivery entry associated with an order,
-/// used for listing deliveries per order.
-/// </summary>
 public class DeliveryPerOrderInList
 {
     /// <summary>
-    /// Unique identifier of the delivery record.
+    /// Unique identifier for the delivery
     /// </summary>
-    public int DeliveryId { get; init; }
+    public int DeliveryID { get; init; }
 
     /// <summary>
-    /// Identifier of the courier assigned to the delivery, or <c>null</c> if none.
+    /// Unique identifier for the courier
     /// </summary>
-    public int? CourierId { get; init; }
+    public int? CourierID { get; init; }
 
     /// <summary>
-    /// Display name of the courier assigned to the delivery.
+    /// Full name of the courier
     /// </summary>
-    public string Name { get; init; }
+    public string CourierName { get; init; }
 
     /// <summary>
-    /// Type of the order associated with this delivery.
+    /// Type of delivery (e.g., standard, express, etc.)
     /// </summary>
-    public DeliveryTransport transport { get; init; }
+    public DeliveryType DeliveryType { get; init; }
 
     /// <summary>
-    /// Time when the courier picked up the order for delivery.
+    /// Date and time when the delivery started
     /// </summary>
-    public DateTime PickupTime { get; init; }
+    public DateTime DeliveryStartTime { get; init; }
 
     /// <summary>
-    /// Current status of the order, or <c>null</c> when not available.
+    /// Status of the delivery (e.g., completed, canceled, etc.)
     /// </summary>
-    public OrderStatus? OrderStatus { get; init; }
+    public DeliveryDoneType? deliveryDoneType { get; init; }
 
     /// <summary>
-    /// Time when the delivery arrived at the destination, or <c>null</c> if not yet arrived.
+    /// Date and time when the delivery was completed
     /// </summary>
-    public DateTime? ArrivalTime { get; init; }
+    public DateTime? DeliveryDoneTime { get; init; }
 
     public override string ToString() => this.ToStringProperty();
 }

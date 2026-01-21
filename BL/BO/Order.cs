@@ -2,105 +2,92 @@
 
 namespace BO;
 
-/// <summary>
-/// Represents a customer order with its delivery and scheduling information.
-/// </summary>
 public class Order
 {
     /// <summary>
-    /// Unique identifier of the order.
+    /// Unique identifier for the order
     /// </summary>
-    public int Id { get; init; }
+    public int OrderID { get; init; }
 
     /// <summary>
-    /// Type of the order or delivery service.
+    /// Type of the order (e.g., single, group, etc.)
     /// </summary>
-    public OrderType Type { get; set; }
+    public OrderType OrderType { get; set; }
 
     /// <summary>
-    /// Optional description provided with the order.
+    /// Description of the order
     /// </summary>
-    public string? OrderDescription { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    /// Delivery address provided by the customer.
+    /// Full delivery address
     /// </summary>
-    public string CustomerAddress { get; set; }
+    public string FullAddress { get; set; }
 
     /// <summary>
-    /// Geographic latitude of the delivery address.
+    /// Latitude of the delivery location
     /// </summary>
-    public double Latitude { get; set; }
+    public double Latitude { get; init; }
 
     /// <summary>
-    /// Geographic longitude of the delivery address.
+    /// Longitude of the delivery location
     /// </summary>
-    public double Longitude { get; set; }
+    public double Longitude { get; init; }
 
     /// <summary>
-    /// Calculated route distance or fallback straight-line distance to the delivery address.
+    /// Straight-line distance to the delivery address
     /// </summary>
-    public double Distance { get; set; }
+    public double AirDistance { get; init; }
 
     /// <summary>
-    /// Customer full name.
+    /// Full name of the customer
     /// </summary>
-    public string CustomerName { get; set; }
+    public string CustomerFullName { get; set; }
 
     /// <summary>
-    /// Customer contact phone number.
+    /// Phone number of the customer
     /// </summary>
     public string CustomerPhone { get; set; }
 
     /// <summary>
-    /// Weight of the package in kilograms, if provided.
+    /// Size of the pizza (e.g., small, medium, large)
     /// </summary>
-    public double? Weight { get; set; }
+    public DeviceType PizzaSize { get; set; }
 
     /// <summary>
-    /// Fragility level of the package, if specified.
+    /// Time when the order was opened
     /// </summary>
-    public FragilityLevel? Fragility { get; set; }
+    public DateTime OrderOpenTime { get; init; }
 
     /// <summary>
-    /// Volume of the package, if provided.
+    /// Estimated delivery time
     /// </summary>
-    public double? Volume { get; set; }
+    public DateTime? EstimatedDeliveryTime { get; init; }
 
     /// <summary>
-    /// Date and time when the order was placed.
+    /// Maximum allowed delivery time
     /// </summary>
-    public DateTime OrderDate { get; init; }
+    public DateTime MaxDeliveryTime { get; init; }
 
     /// <summary>
-    /// Estimated arrival date and time for the delivery, when available.
+    /// Current status of the order
     /// </summary>
-    public DateTime? ArrivalDateEstimeted { get; init; }
+    public OrderStatus OrderStatus { get; init; }
 
     /// <summary>
-    /// Latest acceptable arrival date and time for the delivery.
-    /// </summary>
-    public DateTime? ArrivalDateMax { get; init; }
-
-    /// <summary>
-    /// Current workflow status of the order.
-    /// </summary>
-    public OrderStatus Status { get; init; }
-
-    /// <summary>
-    /// Scheduling status indicating whether delivery is on time, at risk, or late.
+    /// Status of the delivery schedule (e.g., on time, delayed, etc.)
     /// </summary>
     public ScheduleStatus ScheduleStatus { get; init; }
 
     /// <summary>
-    /// Estimated duration required to complete the delivery.
+    /// Time remaining to complete the delivery
     /// </summary>
-    public TimeSpan ArrivalTimeEstimeted { get; init; }
+    public TimeSpan TimeRemainingToComplete { get; init; }
 
     /// <summary>
-    /// List of deliveries associated with this order, useful for displaying delivery history.
+    /// List of deliveries associated with the order
     /// </summary>
-    public List<DeliveryPerOrderInList>? DeliveriesPerOrder { get; init; }
+    public List<DeliveryPerOrderInList>? DeliveriesForOrder { get; init; }
 
     public override string ToString() => this.ToStringProperty();
 }

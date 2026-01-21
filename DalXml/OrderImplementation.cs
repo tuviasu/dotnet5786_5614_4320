@@ -1,88 +1,100 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
-using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 internal class OrderImplementation : IOrder
 {
-    static Order getOrder(XElement o)
-    {
-        return new DO.Order()
-        {
-            Id = o.ToIntNullable("Id") ?? throw new DalFormatException("cant convert id"),
-            Type = o.ToEnumNullable<OrderType>("Type") ?? OrderType.FastFood,
-            CustomerName = (string?)o.Element("CustomerName") ?? "",
-            CustomerAddress = (string?)o.Element("CustomerAddress") ?? "",
-            CustomerPhone = (string?)o.Element("CustomerPhone") ?? "",
-            OrderDate = o.ToDateTimeNullable("OrderDate") ?? DateTime.Now,
-            size = o.ToDoubleNullable("size"),
-            weight = o.ToDoubleNullable("weight"),
-            Latitude = o.ToDoubleNullable("Latitude"),
-            Longitude = o.ToDoubleNullable("Longitude"),
-            Fragility = o.ToEnumNullable<FragilityLevel>("Fragility"),
-            Description = (string?)o.Element("Description")
-        };
-    }
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Create(Order item)
     {
-        List<Order> orders = XmlTools.LoadListFromXMLSerializer<Order>(Config.s_orders_xml);
-        Order clone = item with { Id = Config.NextOrderId };
-        orders.Add(clone);
-        XmlTools.SaveListToXMLSerializer(orders, Config.s_orders_xml);
+        if (item == null)
+        {
+            throw new DalItemNotExist("The order item cannot be null.");
+        }
+
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+        if (Orders.Exists(it => it.OrderID == item.OrderID))
+            throw new DalItemNotExist("Order with ID " + item.OrderID + " already exists.");
+        Orders.Add(item);
+        XMLTools.SaveListToXMLSerializer(Orders, Config.OrdersFileName);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
-        List<Order> orders = XmlTools.LoadListFromXMLSerializer<Order>(Config.s_orders_xml);
-        for (int i = 0; i < orders.Count; i++)
-        {
-            if (orders[i].Id == id)
-            {
-                orders.RemoveAt(i);
-                XmlTools.SaveListToXMLSerializer(orders, Config.s_orders_xml);
-                return;
-            }
-        }
-        throw new DalDoesNotExistException($"Object Order with ID {id} doesnt exist");
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+        if (Orders.RemoveAll(it => it.OrderID == id) == 0)
+            throw new DalItemNotExist("Order with ID " + id + " does not exist.");
+        XMLTools.SaveListToXMLSerializer(Orders, Config.OrdersFileName);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteAll()
     {
-        List<Order> orders = XmlTools.LoadListFromXMLSerializer<Order>(Config.s_orders_xml);
-        orders.Clear();
-        XmlTools.SaveListToXMLSerializer(orders, Config.s_orders_xml);
+        XMLTools.SaveListToXMLSerializer(new List<Order>(), Config.OrdersFileName);
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Order? Read(int id)
     {
-        XElement? orderElem = XmlTools.LoadListFromXMLElement(Config.s_orders_xml).Elements()
-            .FirstOrDefault(o => (int?)o.Element("Id") == id);
-        return orderElem == null ? null : getOrder(orderElem);
-    }
-
-    public IEnumerable<Order> ReadAll(Func<Order, bool>? filter = null)
-    {
-        List<Order> orders = XmlTools.LoadListFromXMLSerializer<Order>(Config.s_orders_xml);
-        foreach (var item in orders)
+        if (id <= 0)
         {
-            if (filter == null || filter(item))
-                yield return item;
+            throw new DalItemNotExist("The order ID must be a positive integer.");
         }
-    }
 
-    public void Update(Order item)
-    {
-        List<Order> orders = XmlTools.LoadListFromXMLSerializer<Order>(Config.s_orders_xml);
-        for (int i = 0; i < orders.Count; i++)
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+
+        foreach (var order in Orders)
         {
-            if (orders[i].Id == item.Id)
+            if (order.OrderID == id)
             {
-                orders[i] = item;
-                XmlTools.SaveListToXMLSerializer(orders, Config.s_orders_xml);
-                return;
+                return order;
             }
         }
-        throw new DalDoesNotExistException($"Object Order with ID {item.Id} doesnt exist");
+
+        return null;
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public Order? Read(Func<Order, bool> filter)
+    {
+        if (filter == null)
+            throw new DalItemNotExist("The filter function cannot be null.");
+
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+
+        foreach (var order in Orders)
+        {
+            if (filter(order))
+            {
+                return order;
+            }
+        }
+
+        return null;
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public IEnumerable<Order> ReadAll(Func<Order, bool>? filter = null)
+    {
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+
+        if (filter == null)
+            return Orders;
+        else
+            return Orders.FindAll(order => filter(order));
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public void Update(Order item)
+    {
+        List<Order> Orders = XMLTools.LoadListFromXMLSerializer<Order>(Config.OrdersFileName);
+        if (Orders.RemoveAll(it => it.OrderID == item.OrderID) == 0)
+            throw new DalItemNotExist("Order with ID " + item.OrderID + " does not exist.");
+        Orders.Add(item);
+        XMLTools.SaveListToXMLSerializer(Orders, Config.OrdersFileName);
     }
 }

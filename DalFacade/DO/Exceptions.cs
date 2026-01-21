@@ -1,31 +1,19 @@
 ﻿namespace DO;
+[Serializable]
+public class DalIdAlreadyExist(string message) : Exception(message) { };
+
 
 [Serializable]
-public class DalDoesNotExistException : Exception
-{
-    public DalDoesNotExistException(string? message) : base(message) { }
-}
+public class DalIdNotExist(string message) : Exception(message) { };
 
 [Serializable]
-public class DalAlreadyExistsException : Exception
-{
-    public DalAlreadyExistsException(string? message) : base(message) { }
-}
+public class DalItemNotExist(string message) : Exception(message) { };
 
 [Serializable]
-public class DalNullReferenceException : Exception
-{
-    public DalNullReferenceException(string? message) : base(message) { }
-}
+public class DalInvalidId(string message) : Exception(message) { };
 
 [Serializable]
-public class DalXMLFileLoadCreateException : Exception
-{
-    public DalXMLFileLoadCreateException(string? message) : base(message) { }
-}
+public class DalEmptyCollection(string message) : Exception(message) { };
 
 [Serializable]
-public class DalFormatException : Exception
-{
-    public DalFormatException(string? message) : base(message) { }
-}
+public class DalXMLFileLoadCreateException(string message, Exception innerException) : Exception(message, innerException) { };

@@ -1,56 +1,36 @@
 ﻿namespace DO;
 
 /// <summary>
-/// Represents a courier who performs deliveries.
-/// This is an immutable positional record: use the primary constructor or
-/// the generated `with` expression to create modified copies.
+/// Creates a new courier object with all relevant details
 /// </summary>
-/// <param name="Id">Unique identifier of the courier (database id or similar).</param>
-/// <param name="Name">Full name of the courier. Use this for display and logging.</param>
-/// <param name="Phone">Primary contact phone number (stored as string). Prefer E.164 format.</param>
-/// <param name="Email">Contact email address.</param>
-/// <param name="Password">
-/// Authentication credential for the courier. Do NOT store plain-text passwords.
-/// Store a securely salted hash instead and treat this field as the hashed value.
-/// </param>
-/// <param name="IsActive">
-/// Indicates whether the courier is currently active and available in the compagny.
-/// A value of <c>false</c> typically means the courier should not receive new orders.
-/// </param>
-/// <param name="Transport">Primary transport mode used by the courier. See <see cref="DeliveryTransport"/>.</param>
-/// <param name="StartDate">
-/// Date and time when the courier started working with the system (UTC preferred).
-/// Used for tenure, scheduling and historical calculations.
-/// </param>
-/// <param name="MaxDistance">
-/// Optional maximum delivery distance (in kilometers) that the courier is willing to travel.
-/// A value of <c>null</c> means no explicit maximum distance is set .
-/// </param>
+/// <param name="CourierID">Unique identifier of the courier</param>
+/// <param name="FullName">Full name of the courier</param>
+/// <param name="Phone">Courier’s phone number</param>
+/// <param name="Email">Courier’s email address</param>
+/// <param name="StartWorkInCompany">Date when the courier started working in the company</param>
+/// <param name="TransportType">Type of transport used by the courier (e.g., car, motorcycle, bicycle)</param>
+/// <param name="Password">Password for the courier’s system account</param>
+/// <param name="IsActive">Indicates whether the courier is currently active</param>
+/// <param name="MaxDeliveryDistanceKm">Maximum delivery distance allowed for the courier, in kilometers</param>
+/// <param name="DeliveredInTime">Number of deliveries completed on time by the courier</param>
+/// <param name="DeliveredNotInTime">Number of deliveries completed not on time by the courier</param>
 public record Courier
 (
-    int Id,
-    string Name,
+    int CourierID,
+    string FullName,
     string Phone,
     string Email,
-    string Password,
-    bool IsActive,
-    DeliveryTransport Transport,
-    DateTime StartDate,
-    Administrator Administrator,
-    double? MaxDistance = null
+    DateTime StartWorkInCompany,
+    DeliveryTransport TransportType,
+    DeliveryType? DeliveryType = null,
+    string Password = "A123456",
+    Boolean IsActive = true,
+    double? MaxDeliveryDistanceKm = null,
+    string? OrderInProgress = null,
+
+    int DeliveredInTime = 0,
+    int DeliveredNotInTime = 0
 )
 {
-    /// <summary>
-    /// Initializes a new instance of <see cref="Courier"/> with default values.
-    /// </summary>
-    /// <remarks>
-    /// Defaults:
-    /// - Id = 0
-    /// - Name, Phone, Email, Password = empty string
-    /// - IsActive = false
-    /// - Transport = <see cref="DeliveryTransport.Car"/>
-    /// - StartDate = <see cref="DateTime.Now"/> (consider using UTC in callers)
-    /// - MaxDistance = null
-    /// </remarks>
-    public Courier() : this(0, string.Empty, string.Empty, string.Empty, string.Empty, false, DeliveryTransport.Car, DateTime.Now, Administrator.Courier) { }
+    public Courier() : this(0, string.Empty, string.Empty, string.Empty, DateTime.MinValue, DeliveryTransport.Car) { }
 }

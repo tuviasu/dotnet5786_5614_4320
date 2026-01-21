@@ -2,66 +2,62 @@
 
 namespace BO;
 
-/// <summary>
-/// Lightweight view model representing an open order shown in lists and selection views.
-/// </summary>
 public class OpenOrderInList
 {
     /// <summary>
-    /// Identifier of the courier assigned to the order, or <c>null</c> if none assigned.
+    /// Unique identifier for the courier
     /// </summary>
-    public int? CourierId { get; init; }
+    public int? CourierID { get; init; }
 
     /// <summary>
-    /// Identifier of the order.
+    /// Unique identifier for the order
     /// </summary>
-    public int OrderId { get; init; }
+    public int OrderID { get; init; }
 
     /// <summary>
-    /// Type of the order or delivery service.
+    /// Type of the order (e.g., pizza, pasta, etc.)
     /// </summary>
-    public OrderType OrderType { get; init; }
+    public OrderType orderType { get; init; }
 
     /// <summary>
-    /// Fragility level of the package, or <c>null</c> when not specified.
+    /// Size of the pizza (e.g., small, medium, large)
     /// </summary>
-    public FragilityLevel? Fragility { get; init; }
+    public DeviceType pizzaSize { get; init; }
 
     /// <summary>
-    /// Customer delivery address.
+    /// Full delivery address
     /// </summary>
-    public string CustomerAddress { get; init; }
+    public string FullAddress { get; init; }
 
     /// <summary>
-    /// Straight-line ("as-the-crow-flies") distance from the company to the customer, in kilometers.
+    /// Straight-line distance to the delivery address
     /// </summary>
-    public double BirdDistance { get; init; }
+    public double AirDistance { get; init; }
 
     /// <summary>
-    /// Route distance to the customer in kilometers, or <c>null</c> when not calculated.
+    /// Actual distance traveled for the delivery
     /// </summary>
-    public double? Distance { get; init; }
+    public double? RealDistance { get; init; }
 
     /// <summary>
-    /// Time elapsed since the order was added to the system, or <c>null</c> when not applicable.
+    /// Estimated time to complete the delivery in reality
     /// </summary>
-    public TimeSpan? AddedTime { get; init; }
+    public TimeSpan? EstimatedTimeInReality { get; init; }
 
     /// <summary>
-    /// Current scheduling status indicating whether the delivery is on time, at risk, or late.
+    /// Status of the delivery schedule (e.g., on time, delayed, etc.)
     /// </summary>
-    public ScheduleStatus ScheduleStatus { get; init; }
+    public ScheduleStatus scheduleStatus { get; init; }
 
     /// <summary>
-    /// Estimated time required to deliver the order.
+    /// Time remaining to complete the delivery
     /// </summary>
-    public TimeSpan EstimatedDeliveryTime { get; init; }
+    public TimeSpan TimeRemainingToComplete { get; init; }
 
     /// <summary>
-    /// Latest acceptable delivery time for the order.
+    /// Maximum allowed delivery time
     /// </summary>
-    public DateTime MaxDeliveredTime { get; init; }
+    public DateTime MaxDeliveryTime { get; init; }
 
     public override string ToString() => this.ToStringProperty();
-
 }

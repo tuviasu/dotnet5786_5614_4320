@@ -3,218 +3,214 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:bo="clr-namespace:BO;assembly=BL"
         mc:Ignorable="d"
         Title="Order Details"
-        Height="800"
-        Width="700"
+        Height="650"
+        Width="600"
         WindowStartupLocation="CenterScreen"
-        Background="#EEF2F7"
-        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+        Background="#EEF1F4"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
 
-    <!-- ========= RESOURCES ========= -->
-    <Window.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <!-- Enum Sources -->
-        <ObjectDataProvider x:Key="OrderTypeValues"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="bo:OrderType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <!-- Header -->
+        <TextBlock Text="Order Information"
+                   FontSize="22"
+                   FontWeight="SemiBold"
+                   Margin="0,0,0,16"/>
 
-        <ObjectDataProvider x:Key="FragilityValues"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="bo:FragilityLevel"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <!-- Main Content -->
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="14"
+                Padding="20">
 
-        <ObjectDataProvider x:Key="ShedulStatus"
-                            MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="bo:ScheduleStatus"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <!-- Typography -->
-        <Style x:Key="TitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#263238"/>
-        </Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#37474F"/>
-        </Style>
+                <!-- Labels -->
+                <TextBlock Text="Order ID" Grid.Row="0" Margin="0,6"/>
+                <TextBlock Text="Order Type" Grid.Row="1" Margin="0,6"/>
+                <TextBlock Text="Device Type" Grid.Row="2" Margin="0,6"/>
+                <TextBlock Text="Customer Name" Grid.Row="3" Margin="0,6"/>
+                <TextBlock Text="Phone" Grid.Row="4" Margin="0,6"/>
+                <TextBlock Text="Address" Grid.Row="5" Margin="0,6"/>
+                <TextBlock Text="Description" Grid.Row="6" Margin="0,6"/>
+                <TextBlock Text="Open Time" Grid.Row="7" Margin="0,6"/>
+                <TextBlock Text="Max By" Grid.Row="8" Margin="0,6"/>
 
-        <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="#607D8B"/>
-        </Style>
+                <!-- Fields -->
+                <TextBox Grid.Column="1" Grid.Row="0"
+                         Text="{Binding CurrentOrder.OrderID, Mode=TwoWay}"
+                         IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"
+                         Margin="0,6"/>
 
-        <!-- Inputs -->
-        <Style x:Key="InputStyle" TargetType="Control">
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
+                <ComboBox Grid.Column="1" Grid.Row="1"
+                          ItemsSource="{Binding Source={StaticResource OrderTypeKey}}"
+                          SelectedValue="{Binding SelectedOrderType, Mode=TwoWay}"
+                          Margin="0,6"/>
+
+                <ComboBox Grid.Column="1" Grid.Row="2"
+                          ItemsSource="{Binding Source={StaticResource PizzaSizeKey}}"
+                          SelectedValue="{Binding CurrentOrder.PizzaSize, Mode=TwoWay}"
+                          Margin="0,6"/>
+
+                <TextBox Grid.Column="1" Grid.Row="3"
+                         Text="{Binding CurrentOrder.CustomerFullName, Mode=TwoWay}"
+                         Margin="0,6"/>
+
+                <TextBox Grid.Column="1" Grid.Row="4"
+                         Text="{Binding CurrentOrder.CustomerPhone, Mode=TwoWay}"
+                         Margin="0,6"/>
+
+                <TextBox Grid.Column="1" Grid.Row="5"
+                         Text="{Binding CurrentOrder.FullAddress, Mode=TwoWay}"
+                         Margin="0,6"/>
+
+                <TextBox Grid.Column="1" Grid.Row="6"
+                         Text="{Binding CurrentOrder.Description, Mode=TwoWay}"
+                         Margin="0,6"/>
+
+                <!-- Non-scheduled -->
+                <TextBox Grid.Column="1" Grid.Row="7"
+                         Text="{Binding CurrentOrder.OrderOpenTime, Converter={StaticResource ForceDataFormatKey}}"
+                         IsReadOnly="True"
+                         Margin="0,6"
+                         Visibility="{Binding IsScheduled, Converter={StaticResource InverseBoolToVisibilityKey}}"/>
+
+                <TextBox Grid.Column="1" Grid.Row="8"
+                         Text="{Binding CurrentOrder.MaxDeliveryTime, Converter={StaticResource ForceDataFormatKey}}"
+                         IsReadOnly="True"
+                         Margin="0,6"
+                         Visibility="{Binding IsScheduled, Converter={StaticResource InverseBoolToVisibilityKey}}"/>
+
+                <!-- Scheduled -->
+                <StackPanel Grid.Column="1" Grid.Row="7"
+                            Orientation="Horizontal"
+                            Margin="0,6"
+                            Visibility="{Binding IsScheduled, Converter={StaticResource BoolToVisibilityKey}}">
+                    <DatePicker Width="130"
+                                SelectedDate="{Binding ScheduledDate, Mode=TwoWay}"/>
+                    <TextBox Width="90"
+                             Margin="10,0,0,0"
+                             Text="{Binding ScheduledTimeText, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <TextBox Grid.Column="1" Grid.Row="8"
+                         Text="{Binding CurrentOrder.MaxDeliveryTime, Converter={StaticResource ForceDataFormatKey}}"
+                         IsReadOnly="True"
+                         Margin="0,6"
+                         Visibility="{Binding IsScheduled, Converter={StaticResource BoolToVisibilityKey}}"/>
+
+                <!-- Deliveries -->
+                <GroupBox Grid.Row="9"
+                          Grid.ColumnSpan="2"
+                          Header="Deliveries"
+                          Margin="0,18,0,0">
+
+                    <DataGrid AutoGenerateColumns="False"
+                              ItemsSource="{Binding CurrentOrder.DeliveriesForOrder}"
+                              IsReadOnly="True"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="None"
+                              Margin="6"
+                              MinHeight="80">
+
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="6,4"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="MinHeight" Value="32"/>
+                                <Setter Property="Background" Value="#EEF2F6"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Padding" Value="6,2"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"
+                                                Binding="{Binding DeliveryID}"
+                                                Width="70"/>
+
+                            <DataGridTextColumn Header="Courier"
+                                                Binding="{Binding CourierName}"
+                                                Width="160"/>
+
+                            <DataGridTextColumn Header="Type"
+                                                Binding="{Binding DeliveryType}"
+                                                Width="100"/>
+
+                            <DataGridTextColumn Header="Start"
+                                                Binding="{Binding DeliveryStartTime}"
+                                                Width="150"/>
+
+                            <DataGridTextColumn Header="Result"
+                                                Binding="{Binding deliveryDoneType}"
+                                                Width="110"/>
+
+                            <DataGridTextColumn Header="Done Time"
+                                                Binding="{Binding DeliveryDoneTime}"
+                                                Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
+            </Grid>
+        </Border>
 
         <!-- Buttons -->
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#1976D2"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="14,8"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,16,0,0">
 
-        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#CFD8DC"/>
-            <Setter Property="Foreground" Value="#263238"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="14,8"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
+            <Button Content="Cancel Order"
+                    Click="btnCancel_Click"
+                    IsEnabled="{Binding CanCancel}"
+                    Width="150"
+                    Height="38"
+                    Margin="0,0,12,0"
+                    Background="#D32F2F"
+                    Foreground="White"
+                    BorderThickness="0"/>
 
-    </Window.Resources>
-
-    <!-- ========= LAYOUT ========= -->
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="30">
-
-            <!-- Header -->
-            <TextBlock Text="Order Details"
-                       Style="{StaticResource TitleStyle}"
-                       Margin="0,0,0,25"/>
-
-            <!-- ===== ORDER OVERVIEW ===== -->
-            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
-                <StackPanel>
-                    <TextBlock Text="Order Overview"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Margin="0,0,0,15"/>
-
-                    <TextBlock Text="Order ID" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.Id}" IsReadOnly="True" Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Order Type" Style="{StaticResource LabelStyle}"/>
-                    <ComboBox ItemsSource="{Binding Source={StaticResource OrderTypeValues}}"
-                              SelectedItem="{Binding OrderCurrent.Type}"
-                              Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Order Date" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                             IsReadOnly="True"/>
-                </StackPanel>
-            </Border>
-
-            <!-- ===== CUSTOMER DETAILS ===== -->
-            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
-                <StackPanel>
-                    <TextBlock Text="Customer Details"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Margin="0,0,0,15"/>
-
-                    <TextBlock Text="Customer Name" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.CustomerName, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Customer Phone" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.CustomerPhone, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Delivery Address" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.CustomerAddress, UpdateSourceTrigger=PropertyChanged}"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             Height="70"/>
-                </StackPanel>
-            </Border>
-
-            <!-- ===== PACKAGE DETAILS ===== -->
-            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
-                <StackPanel>
-                    <TextBlock Text="Package Details"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Margin="0,0,0,15"/>
-
-                    <TextBlock Text="Weight (kg)" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.Weight, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Volume" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.Volume, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Fragility Level" Style="{StaticResource LabelStyle}"/>
-                    <ComboBox ItemsSource="{Binding Source={StaticResource FragilityValues}}"
-                              SelectedItem="{Binding OrderCurrent.Fragility}"
-                              Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Description" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.OrderDescription, UpdateSourceTrigger=PropertyChanged}"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             Height="80"/>
-                </StackPanel>
-            </Border>
-
-            <!-- ===== STATUS & SCHEDULE ===== -->
-            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,30">
-                <StackPanel>
-                    <TextBlock Text="Status &amp; Schedule"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Margin="0,0,0,15"/>
-
-                    <TextBlock Text="Status" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.Status}" IsReadOnly="True" Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Distance (km)" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.Distance, StringFormat={}{0:0.0}}"
-                             IsReadOnly="True"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Estimated Arrival" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.ArrivalDateEstimeted, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                             IsReadOnly="True"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Max Arrival Date" Style="{StaticResource LabelStyle}"/>
-                    <TextBox Text="{Binding OrderCurrent.ArrivalDateMax, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                             IsReadOnly="True"
-                             Margin="0,4,0,12"/>
-
-                    <TextBlock Text="Schedule Status" Style="{StaticResource LabelStyle}"/>
-                    <ComboBox ItemsSource="{Binding Source={StaticResource ShedulStatus}}"
-                              SelectedItem="{Binding OrderCurrent.ScheduleStatus}"
-                              IsEnabled="False"/>
-                </StackPanel>
-            </Border>
-
-            <!-- ===== ACTIONS ===== -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-
-                <Button Content="Cancel"
-                        Style="{StaticResource SecondaryButtonStyle}"
-                        Width="120"
-                        Margin="0,0,12,0"
-                        Click="btnCancel_Click"/>
-
-                <Button Content="Save"
-                        Style="{StaticResource PrimaryButtonStyle}"
-                        Width="120"
-                        Click="btnSave_Click"/>
-
-            </StackPanel>
-
+            <Button Content="{Binding ButtonText}"
+                    Click="btnAddOrUpdate_Click"
+                    Width="150"
+                    Height="38"
+                    Background="#1976D2"
+                    Foreground="White"
+                    BorderThickness="0"/>
         </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </Window>

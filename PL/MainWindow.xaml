@@ -1,168 +1,239 @@
 ﻿<Window x:Class="PL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Delivery Management System"
-        Width="1400" Height="800"
+        xmlns:local="clr-namespace:PL"
+        Title="System Management Dashboard"
+        Width="1000"
+        Height="700"
         WindowStartupLocation="CenterScreen"
-        Background="#F3F6FA"
+        Background="#F2F4F8"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    <!-- ================= RESOURCES ================= -->
+    <!-- ===================== -->
+    <!-- Resources             -->
+    <!-- ===================== -->
     <Window.Resources>
 
+        <!-- Clock format converter -->
+        <local:ForceDataFormatConverter x:Key="ForceDataFormatConverter"/>
+
+        <!-- Card container -->
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="16"/>
-            <Setter Property="Padding" Value="24"/>
-            <Setter Property="Margin" Value="16"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="12"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="15" ShadowDepth="4" Opacity="0.15"/>
+                    <DropShadowEffect BlurRadius="10"
+                                      ShadowDepth="2"
+                                      Opacity="0.15"/>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#1E3A8A"/>
-            <Setter Property="Margin" Value="0,0,0,20"/>
-        </Style>
-
-        <Style x:Key="LabelText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="#374151"/>
-            <Setter Property="Margin" Value="0,0,0,4"/>
-        </Style>
-
-        <Style x:Key="InputBox" TargetType="TextBox">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="10,6"/>
-            <Setter Property="BorderBrush" Value="#CBD5E1"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="0,0,0,14"/>
-        </Style>
-
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="Padding" Value="16,6"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Background" Value="#1E3A8A"/>
+        <!-- Main button -->
+        <Style x:Key="MainButton" TargetType="Button">
+            <Setter Property="Background" Value="#4F6EF7"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Padding" Value="18,10"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="6"/>
-        </Style>
-
-        <Style x:Key="TimeButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-            <Setter Property="Background" Value="#0D9488"/>
-        </Style>
-
-        <Style x:Key="ActionButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
-            <Setter Property="Background" Value="#475569"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Window.Resources>
 
-    <!-- ================= LAYOUT ================= -->
+    <!-- ===================== -->
+    <!-- Main Layout Grid      -->
+    <!-- ===================== -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <!-- Clock -->
             <RowDefinition Height="Auto"/>
+            <!-- Configuration -->
+            <RowDefinition Height="Auto"/>
+            <!-- Orders Summary -->
+            <RowDefinition Height="Auto"/>
+            <!-- Actions -->
         </Grid.RowDefinitions>
 
-        <!-- ================= ROW 1 : CLOCK ================= -->
+        <!-- ===================== -->
+        <!-- Clock Section         -->
+        <!-- ===================== -->
         <Border Grid.Row="0" Style="{StaticResource CardStyle}">
             <StackPanel HorizontalAlignment="Center">
 
-                <TextBlock Text="System Clock" Style="{StaticResource HeaderText}" HorizontalAlignment="Center"/>
+                <TextBlock Text="System Clock"
+                           FontSize="20"
+                           FontWeight="Bold"/>
 
-                <TextBlock Text="{Binding CurrentTime, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}"
-                           FontSize="30"
+                <TextBlock Text="{Binding CurrentTime, Converter={StaticResource ForceDataFormatConverter}}"
+                           FontSize="26"
                            FontWeight="Bold"
-                           FontFamily="Consolas"
-                           Foreground="#1F2937"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,20"/>
+                           Margin="0,10"/>
 
-                <UniformGrid Columns="5">
-                    <Button Content="+ 1 Minute" Style="{StaticResource TimeButton}" Click="AddOneMinute_Click"/>
-                    <Button Content="+ 1 Hour"   Style="{StaticResource TimeButton}" Click="AddOneHour_Click"/>
-                    <Button Content="+ 1 Day"    Style="{StaticResource TimeButton}" Click="AddOneDay_Click"/>
-                    <Button Content="+ 1 Month"  Style="{StaticResource TimeButton}" Click="AddOneMonth_Click"/>
-                    <Button Content="+ 1 Year"   Style="{StaticResource TimeButton}" Click="AddOneYear_Click"/>
-                </UniformGrid>
+                <WrapPanel HorizontalAlignment="Center">
+                    <Button Content="+ Minute" Style="{StaticResource MainButton}" Margin="6"
+                            Click="btnAddOneMinute_Click"/>
+                    <Button Content="+ Hour" Style="{StaticResource MainButton}" Margin="6"
+                            Click="btnAddOneHour_Click"/>
+                    <Button Content="+ Day" Style="{StaticResource MainButton}" Margin="6"
+                            Click="btnAddOneDay_Click"/>
+                    <Button Content="+ Month" Style="{StaticResource MainButton}" Margin="6"
+
+                            Click="btnAddOneMonth_Click"/>
+                    <Button Content="+ Year" Style="{StaticResource MainButton}" Margin="6"
+                            Click="btnAddOneYear_Click"/>
+                </WrapPanel>
 
             </StackPanel>
         </Border>
 
-        <!-- ================= ROW 2 : CONFIG ================= -->
+        <!-- ===================== -->
+        <!-- Configuration Section -->
+        <!-- ===================== -->
         <Border Grid.Row="1" Style="{StaticResource CardStyle}">
-            <ScrollViewer>
-                <StackPanel>
+            <StackPanel>
 
-                    <TextBlock Text="System Configuration" Style="{StaticResource HeaderText}"/>
+                <TextBlock Text="System Configuration"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,12"/>
 
-                    <TextBlock Text="Boss ID" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}"
-                             Text="{Binding Configuration.BossId, UpdateSourceTrigger=PropertyChanged}"
-                             IsReadOnly="True"/>
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Boss Password" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}"
-                             Text="{Binding Configuration.BossPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Text="Car Speed" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}" Text="{Binding Configuration.CarSpeed}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Delivery Distance"/>
+                    <TextBox   Grid.Row="0" Grid.Column="1"
+                               Text="{Binding EditableMaxDeliveryDistance}"/>
 
-                    <TextBlock Text="Motorcycle Speed" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}" Text="{Binding Configuration.MotorcycleSpeed}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Delivery Time"/>
+                    <TextBox   Grid.Row="1" Grid.Column="1"
+                               Text="{Binding EditableMaxDeliveryTimeRange}"/>
 
-                    <TextBlock Text="Bike Speed" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}" Text="{Binding Configuration.BikeSpeed}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range"/>
+                    <TextBox   Grid.Row="2" Grid.Column="1"
+                               Text="{Binding EditableRiskRange}"/>
 
-                    <TextBlock Text="Walking Speed" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}" Text="{Binding Configuration.WalkingSpeed}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity Time"/>
+                    <TextBox   Grid.Row="3" Grid.Column="1"
+                               Text="{Binding EditableInactivityTimeRange}"/>
+                </Grid>
 
-                    <TextBlock Text="Company Address" Style="{StaticResource LabelText}"/>
-                    <TextBox Style="{StaticResource InputBox}" Text="{Binding Configuration.CompanyAddress}"/>
-
-                    <Button Content="Apply Configuration"
-                            Style="{StaticResource PrimaryButton}"
-                            Background="#0D9488"
-                            Click="ApplyConfig_Click"/>
-                </StackPanel>
-            </ScrollViewer>
+                <!-- Single update button -->
+                <Button Content="Update Configuration"
+                        Style="{StaticResource MainButton}"
+                        HorizontalAlignment="Center"
+                        Click="btnUpdateConfig_Click"/>
+            </StackPanel>
         </Border>
 
-        <!-- ================= ROW 3 : ACTIONS ================= -->
+        <!-- ===================== -->
+        <!-- Orders Summary        -->
+        <!-- ===================== -->
         <Border Grid.Row="2" Style="{StaticResource CardStyle}">
-            <UniformGrid Columns="4">
+            <StackPanel>
 
-                <Button Content="Couriers List"
-                        Style="{StaticResource ActionButton}"
-                        Click="CouriersList_Click"/>
+                <TextBlock Text="Orders Summary"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
 
-                <Button Content="Orders List"
-                        Style="{StaticResource ActionButton}"
-                        Click="OrdersList_Click"/>
+                <WrapPanel VerticalAlignment="Center">
 
-                <Button Content="Initialize Database"
-                        Style="{StaticResource PrimaryButton}"
-                        Background="#F59E0B"
-                        Click="InitDB_Click"/>
+                    <ComboBox Width="200"
+                              SelectedItem="{Binding SelectedSummaryDeliveryDoneType}">
+                        <ComboBoxItem Content="Delivery Done Type" IsSelected="True"/>
+                        <ComboBoxItem Content="Delivered"/>
+                        <ComboBoxItem Content="CustomerRefused"/>
+                        <ComboBoxItem Content="Cancelled"/>
+                        <ComboBoxItem Content="CustomerNotFound"/>
+                        <ComboBoxItem Content="Failed"/>
+                    </ComboBox>
 
-                <Button Content="Reset Database"
-                        Style="{StaticResource PrimaryButton}"
-                        Background="#DC2626"
-                        Click="ResetDB_Click"/>
+                    <ComboBox Width="200" Margin="10,0,0,0"
+                              SelectedItem="{Binding SelectedSummaryScheduleStatus}">
+                        <ComboBoxItem Content="Schedule Status" IsSelected="True"/>
+                        <ComboBoxItem Content="OnTime"/>
+                        <ComboBoxItem Content="InRisk"/>
+                        <ComboBoxItem Content="Late"/>
+                    </ComboBox>
 
-            </UniformGrid>
+                    <Button Content="Apply Filter"
+                            Style="{StaticResource MainButton}"
+                            Margin="10,0,0,0"
+                            Click="SummaryFilter_Click"/>
+
+                    <Button Content="{Binding SummaryFilteredCount}"
+                            Style="{StaticResource MainButton}"
+                            Margin="10,0,0,0"
+                            MinWidth="80"
+                            Click="SummaryFilteredCount_Click"/>
+                </WrapPanel>
+
+            </StackPanel>
+        </Border>
+
+        <!-- ===================== -->
+        <!-- Actions Section       -->
+        <!-- ===================== -->
+        <Border Grid.Row="3" Style="{StaticResource CardStyle}">
+            <WrapPanel HorizontalAlignment="Center">
+
+                <Button Content="Courier List"
+                        Style="{StaticResource MainButton}"
+                        Margin="8"
+                        Click="btnCouriersListWindow_Click"/>
+
+                <Button Content="Order List"
+                        Style="{StaticResource MainButton}"
+                        Margin="8"
+                        Click="btnOrdersListWindow_Click"/>
+
+                <Button Content="Init DB"
+                        Background="#2ECC71"
+                        Style="{StaticResource MainButton}"
+                        Margin="8"
+                        Click="btnInitDB_Click"/>
+
+                <Button Content="Reset DB"
+                        Background="#E74C3C"
+                        Style="{StaticResource MainButton}"
+                        Margin="8"
+                        Click="btnResetDB_Click"/>
+
+                <Button Content="Log Out"
+                        Background="#555"
+                        Style="{StaticResource MainButton}"
+                        Margin="8"
+                        Click="btnLOGOUT_Click"/>
+            </WrapPanel>
         </Border>
 
     </Grid>

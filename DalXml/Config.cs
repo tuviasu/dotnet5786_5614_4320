@@ -1,126 +1,116 @@
 ﻿namespace Dal;
 
-internal static class Config
+using System.Runtime.CompilerServices;
+
+public static class Config
 {
-    internal const string s_data_config_xml = "data-config.xml";
-    internal const string s_couriers_xml = "couriers.xml";
-    internal const string s_deliveries_xml = "deliveries.xml";
-    internal const string s_enums_xml = "enums.xml";
-    internal const string s_exceptions_xml = "exceptions.xml";
-    internal const string s_orders_xml = "orders.xml";
-    internal static int NextOrderId
+    internal const string ConfigFileName = "data-config.xml";
+    internal const string CouriersFileName = "couriers.xml";
+    internal const string OrdersFileName = "orders.xml";
+    internal const string DeliveriesFileName = "deliveries.xml";
+
+    internal static int NextOrderID
     {
-        get => XmlTools.GetAndIncreaseConfigIntVal(s_data_config_xml, "NextOrderId");
-        private set => XmlTools.SetConfigIntVal(s_data_config_xml, "NextOrderId", value);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetAndIncreaseConfigIntVal(ConfigFileName, "NextOrderID");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private set => XMLTools.SetConfigIntVal(ConfigFileName, "NextOrderID", value);
     }
-    internal static int NextDeliveryId
+
+    internal static int NextDeliveryID
     {
-        get => XmlTools.GetAndIncreaseConfigIntVal(s_data_config_xml, "NextDeliveryId");
-        private set => XmlTools.SetConfigIntVal(s_data_config_xml, "NextDeliveryId", value);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetAndIncreaseConfigIntVal(ConfigFileName, "NextDeliveryID");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private set => XMLTools.SetConfigIntVal(ConfigFileName, "NextDeliveryID", value);
     }
+
     internal static DateTime Clock
     {
-        get => XmlTools.GetConfigDateVal(s_data_config_xml, "Clock");
-        set => XmlTools.SetConfigDateVal(s_data_config_xml, "Clock", value);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigDateVal(ConfigFileName, "Clock");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigDateVal(ConfigFileName, "Clock", value);
     }
-    internal static int BossId
+
+    internal static TimeSpan InactivityTimeRange
     {
-        get => XmlTools.GetConfigIntVal(s_data_config_xml, "BossId");
-        set => XmlTools.SetConfigIntVal(s_data_config_xml, "BossId", value);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigTimeSpanVal(ConfigFileName, "InactivityTimeRange");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigTimeSpanVal(ConfigFileName, "InactivityTimeRange", value);
     }
-    internal static string BossPassword
-    {
-        get => XmlTools.GetConfigStringVal(s_data_config_xml, "BossPassword") ?? "";
-        set => XmlTools.SetConfigStringVal(s_data_config_xml, "BossPassword", value);
-    }
-    internal static double CarSpeed
-    {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "CarSpeed") ?? 40;
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "CarSpeed", value);
-    }
-    internal static double MotorcycleSpeed
-    {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "MotorcycleSpeed") ?? 50;
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "MotorcycleSpeed", value);
-    }
-    internal static double BikeSpeed
-    {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "BikeSpeed") ?? 20;
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "BikeSpeed", value);
-    }
-    internal static double WalkingSpeed
-    {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "WalkingSpeed") ?? 5;
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "WalkingSpeed", value);
-    }
-    internal static TimeSpan MaxTimeDelivery
-    {
-        get => TimeSpan.FromHours(XmlTools.GetConfigDoubleVal(s_data_config_xml, "MaxTimeDelivery") ?? 1);
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "MaxTimeDelivery", value.TotalHours);
-    }
+
     internal static TimeSpan RiskRange
     {
-        get => TimeSpan.FromMinutes(XmlTools.GetConfigDoubleVal(s_data_config_xml, "RiskRange") ?? 30);
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "RiskRange", value.TotalMinutes);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigTimeSpanVal(ConfigFileName, "RiskRange");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigTimeSpanVal(ConfigFileName, "RiskRange", value);
     }
-    internal static TimeSpan Inactivity
+
+    internal static TimeSpan MaxDeliveryTimeRange
     {
-        get => TimeSpan.FromDays(XmlTools.GetConfigDoubleVal(s_data_config_xml, "Inactivity") ?? 30);
-        set => XmlTools.SetConfigDoubleVal(s_data_config_xml, "Inactivity", value.TotalDays);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigTimeSpanVal(ConfigFileName, "MaxDeliveryTimeRange");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigTimeSpanVal(ConfigFileName, "MaxDeliveryTimeRange", value);
     }
-    internal static string? CompanyAddress
+
+    internal static double? MaxDeliveryDistance
     {
-        get => XmlTools.GetConfigStringVal(s_data_config_xml, "CompanyAddress");
-        set
-        {
-            if (value != null)
-                XmlTools.SetConfigStringVal(s_data_config_xml, "CompanyAddress", value); // if there is a value set it else do nothing
-        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigDoubleVal(ConfigFileName, "MaxDeliveryDistance");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigDoubleVal(ConfigFileName, "MaxDeliveryDistance", value);
     }
+
+    internal static Dictionary<int, string> Managers
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetManagers(ConfigFileName);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetManagers(ConfigFileName, value);
+    }
+
+    internal static Dictionary<int, string> Couriers
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetCouriers(ConfigFileName);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetCouriers(ConfigFileName, value);
+    }
+
     internal static double? Latitude
     {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "Latitude");
-        set
-        {
-            if (value != null)
-                XmlTools.SetConfigDoubleVal(s_data_config_xml, "Latitude", value.Value);
-        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigDoubleVal(ConfigFileName, "Latitude");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigDoubleVal(ConfigFileName, "Latitude", value);
     }
+
     internal static double? Longitude
     {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "Longitude");
-        set
-        {
-            if (value != null)
-                XmlTools.SetConfigDoubleVal(s_data_config_xml, "Longitude", value.Value);
-        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get => XMLTools.GetConfigDoubleVal(ConfigFileName, "Longitude");
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        set => XMLTools.SetConfigDoubleVal(ConfigFileName, "Longitude", value);
     }
-    internal static double? MaxDistance
-    {
-        get => XmlTools.GetConfigDoubleVal(s_data_config_xml, "MaxDistance");
-        set
-        {
-            if (value != null)
-                XmlTools.SetConfigDoubleVal(s_data_config_xml, "MaxDistance", value.Value);
-        }
-    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     internal static void Reset()
     {
-        NextDeliveryId = 5000;
-        NextOrderId = 1000;
+        NextOrderID = 1000;
+        NextDeliveryID = 100000;
         Clock = DateTime.Now;
-        BossId = 326205614;
-        BossPassword = "admin";
-        MaxTimeDelivery = TimeSpan.FromHours(1);
-        RiskRange = TimeSpan.FromMinutes(30);
-        Inactivity = TimeSpan.FromDays(30);
-        CompanyAddress = "22 Hameyasdim St";
-        Latitude = 31.778449894212013;
-        Longitude = 35.18761502733661;
-        MaxDistance = 25;
-        CarSpeed = 40;
-        MotorcycleSpeed = 50;
-        BikeSpeed = 20;
-        WalkingSpeed = 5;
+        Managers = new() { { 326205614, "admin326" }, };
+        Couriers = new();
+        MaxDeliveryDistance = null;
+        MaxDeliveryTimeRange = TimeSpan.Zero;
+        RiskRange = TimeSpan.Zero;
+        InactivityTimeRange = TimeSpan.Zero;
+
+        Latitude = 0;
+        Longitude = 0;
     }
 }

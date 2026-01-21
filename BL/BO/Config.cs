@@ -1,81 +1,34 @@
-﻿using Helpers;
+﻿namespace BO;
 
-namespace BO;
-
-/// <summary>
-/// Configuration settings exposed to the presentation layer.
-/// </summary>
 public class Config
 {
-    /// <summary>
-    /// Current system clock value.
-    /// </summary>
-    public DateTime Clock { get; set; }
+    public DateTime Clock { get; set; } = DateTime.Now;
 
-    /// <summary>
-    /// Administrator ID.
-    /// </summary>
-    public int BossId { get; set; }
+    public string? CompanyAddress { get; set; } = null;
+    public double? Latitude { get; set; } = null;
+    public double? Longitude { get; set; } = null;
+    public double? MaxDeliveryDistance { get; set; } = null;
+    public double AverageCarSpeed { get; set; } = 0;
+    public double AverageMotorcycleSpeed { get; set; } = 0;
+    public double AverageBicycleSpeed { get; set; } = 0;
+    public double AverageWalkSpeed { get; set; } = 0;
+    public TimeSpan MaxDeliveryTimeRange { get; set; } = TimeSpan.Zero;
+    public TimeSpan RiskRange { get; set; } = TimeSpan.Zero;
+    public TimeSpan InactivityTimeRange { get; set; } = TimeSpan.Zero;
 
-    /// <summary>
-    /// Administrator password.
-    /// </summary>
-    public string BossPassword { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Speed of cars.
-    /// </summary>
-    public double CarSpeed { get; set; }
-
-    /// <summary>
-    /// Speed of motorcycles.
-    /// </summary>
-    public double MotorcycleSpeed { get; set; }
-
-    /// <summary>
-    /// Speed of bicycles.
-    /// </summary>
-    public double BikeSpeed { get; set; }
-
-    /// <summary>
-    /// Walking speed.
-    /// </summary>
-    public double WalkingSpeed { get; set; }
-
-    /// <summary>
-    /// Maximum allowed delivery time.
-    /// </summary>
-    public TimeSpan MaxDeliveryTime { get; set; }
-
-    /// <summary>
-    /// Time range indicating risk of delay.
-    /// </summary>
-    public TimeSpan RiskRange { get; set; }
-
-    /// <summary>
-    /// Time after which a courier is considered inactive.
-    /// </summary>
-    public TimeSpan InactivityThreshold { get; set; }
-
-    /// <summary>
-    /// Company address.
-    /// </summary>
-    public string CompanyAddress { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Company latitude coordinate.
-    /// </summary>
-    public double CompanyLatitude { get; set; }
-
-    /// <summary>
-    /// Company longitude coordinate.
-    /// </summary>
-    public double CompanyLongitude { get; set; }
-
-    /// <summary>
-    /// Maximum allowed distance in the system.
-    /// </summary>
-    public double MaxDistance { get; set; }
-
-    public override string ToString() => this.ToStringProperty();
+    public void Reset()
+    {
+        Clock = DateTime.Now;
+        CompanyAddress = null;
+        Latitude = 0;
+        Longitude = 0;
+        MaxDeliveryDistance = null;
+        AverageCarSpeed = 0;
+        AverageMotorcycleSpeed = 0;
+        AverageBicycleSpeed = 0;
+        AverageWalkSpeed = 0;
+        MaxDeliveryTimeRange = TimeSpan.Zero;
+        RiskRange = TimeSpan.Zero;
+        InactivityTimeRange = TimeSpan.Zero;
+    }
 }

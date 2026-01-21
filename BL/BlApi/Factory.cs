@@ -1,8 +1,6 @@
-﻿
-namespace BlApi
+﻿namespace BlApi;
+
+public static class Factory
 {
-    public static class Factory
-    {
-        public static IBl Get() => new BlImplementation.Bl();
-    }
+    public static IBl Get() => new BlImplementation.Bl();
 }

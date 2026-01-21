@@ -2,50 +2,72 @@
 
 namespace BO;
 
-/// <summary>
-/// Lightweight view model for displaying couriers in lists.
-/// </summary>
 public class CourierInList
 {
     /// <summary>
-    /// Unique identifier of the courier.
+    /// Unique identifier for the courier
     /// </summary>
-    public int Id { get; init; }
+    public int CourierID { get; init; }
 
     /// <summary>
-    /// Display name of the courier.
+    /// Full name of the courier
     /// </summary>
-    public string Name { get; init; }
+    public string? FullName { get; set; }
 
     /// <summary>
-    /// Indicates whether the courier is currently active and available.
+    /// Phone number of the courier
     /// </summary>
-    public bool IsActive { get; init; }
+    public string? Phone { get; set; }
 
     /// <summary>
-    /// Primary transport method used by the courier.
+    /// Start date of the courier's employment
     /// </summary>
-    public DeliveryTransport Transport { get; init; }
+    public DateTime? StartWorkInCompany { get; init; }
 
     /// <summary>
-    /// Date when the courier started working.
+    /// Type of transport used by the courier
     /// </summary>
-    public DateTime StartDate { get; init; }
+    public DeliveryTransport TransportType { get; set; }
 
     /// <summary>
-    /// Number of deliveries completed on time.
+    /// Password for the courier's account
     /// </summary>
-    public int NumberOfOnTimeDeliveries { get; init; }
+    public string? Password { get; set; }
 
     /// <summary>
-    /// Number of deliveries completed late.
+    /// Indicates if the courier is currently active
     /// </summary>
-    public int NumberOfLateDeliveries { get; init; }
+    public Boolean IsActive { get; set; }
 
     /// <summary>
-    /// Identifier of the current order assigned to the courier, or <c>null</c> if idle.
+    /// Maximum delivery distance for the courier
     /// </summary>
-    public int? ActualOrder { get; init; }
+    public double? MaxDeliveryDistanceKM { get; set; }
+
+    /// <summary>
+    /// Type of delivery assigned to the courier
+    /// </summary>
+    public DeliveryType? DeliveryType { get; init; }
+
+    /// <summary>
+    /// Number of deliveries made on time
+    /// </summary>
+    public int DeliveredInTime { get; init; }
+
+    /// <summary>
+    /// Number of deliveries made late
+    /// </summary>
+    public int DeliveredNotInTime { get; init; }
+
+    /// <summary>
+    /// Current order in progress for the courier
+    /// </summary>
+    public BO.OrderInProgress? orderInProgress { get; init; }
+
+    /// <summary>
+    /// Email address of the courier
+    /// </summary>
+    public string? Email { get; set; }
 
     public override string ToString() => this.ToStringProperty();
 }

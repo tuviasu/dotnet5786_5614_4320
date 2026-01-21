@@ -1,0 +1,175 @@
+﻿<Window x:Class="PL.Courier.CourierHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Courier History"
+        Height="560"
+        Width="920"
+        MinHeight="500"
+        MinWidth="860"
+        WindowStartupLocation="CenterOwner"
+        Background="#F4F6FA"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0"
+                Background="White"
+                CornerRadius="16"
+                Padding="18">
+            <DockPanel>
+                <TextBlock Text="Delivery History"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           Foreground="#1F2937"
+                           DockPanel.Dock="Left"/>
+
+                <Button Content="Close"
+                        Width="100"
+                        Height="34"
+                        Click="btnClose_Click"
+                        DockPanel.Dock="Right"
+                        Background="#E5E7EB"
+                        Foreground="#111827"
+                        BorderThickness="0"/>
+            </DockPanel>
+        </Border>
+
+        <!-- Table -->
+        <Border Grid.Row="2"
+                Background="White"
+                CornerRadius="16"
+                Padding="14">
+
+            <DataGrid ItemsSource="{Binding Deliveries}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column"
+                      GridLinesVisibility="None"
+                      RowBackground="#F9FAFB"
+                      AlternatingRowBackground="#FFFFFF"
+                      ColumnWidth="*"
+                      HorizontalScrollBarVisibility="Disabled">
+
+                <!-- Column headers -->
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="10,6"/>
+                        <Setter Property="Background" Value="#EEF2F7"/>
+                        <Setter Property="Foreground" Value="#1F2937"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <!-- Cells -->
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,6"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Delivery ID"
+                                        Binding="{Binding DeliveryID}"
+                                        Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Order ID"
+                                        Binding="{Binding OrderID}"
+                                        Width="120">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Order Type"
+                                        Binding="{Binding orderType}"
+                                        Width="140">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Address"
+                                        Binding="{Binding FullAddress}"
+                                        Width="3*">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Left"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Delivery Type"
+                                        Binding="{Binding deliveryType}"
+                                        Width="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Result"
+                                        Binding="{Binding deliveryDoneType}"
+                                        Width="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Handling Time (min)"
+                                        Binding="{Binding TotalHandlingTime}"
+                                        Width="180">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,18,0,0">
+
+            <Button Content="Refresh"
+                    Width="150"
+                    Height="38"
+                    Click="btnRefresh_Click"
+                    Background="#2563EB"
+                    Foreground="White"
+                    BorderThickness="0"/>
+        </StackPanel>
+    </Grid>
+</Window>

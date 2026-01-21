@@ -1,150 +1,103 @@
 ﻿namespace BO;
 
-/// <summary>
-/// Status of an order in the system.
-/// </summary>
-public enum OrderStatus
-{
-    /// <summary>Order has been created but not yet processed.</summary>
-    Pending,
-
-    /// <summary>Order is currently being processed.</summary>
-    Processing,
-
-    /// <summary>Order has been delivered to the recipient.</summary>
-    Delivered,
-
-    /// <summary>Order was cancelled before shipment.</summary>
-    Canceled,
-
-    /// <summary>Order was returned after delivery.</summary>
-    Returned,
-
-    /// <summary> For all order statuses.</summary>
-    All
-}
-
-/// <summary>
-/// Outcome of a delivery attempt as reported by the courier or delivery subsystem.
-/// </summary>
-public enum DeliveredStatus
-{
-    /// <summary>Package successfully delivered to the recipient.</summary>
-    Delivered,
-
-    /// <summary>Recipient refused the delivery or returned the package on receipt.</summary>
-    Rejected,
-
-    /// <summary>Delivery was cancelled before completion (by sender, system or courier).</summary>
-    Canceled,
-
-    /// <summary>Recipient was absent at the delivery location when the courier attempted delivery.</summary>
-    Absent,
-
-    /// <summary>Delivery attempt failed due to an error (invalid address, vehicle issue, etc.).</summary>
-    Failed
-}
-
-/// <summary>
-/// Transport method used for delivery.
-/// </summary>
 public enum DeliveryTransport
 {
-    /// <summary>Motorcycle (fast, urban deliveries).</summary>
-    Motorcycle,
-
-    /// <summary>Bike (eco-friendly, short distances).</summary>
-    Bike,
-
-    /// <summary>Car (larger volumes or longer distances).</summary>
-    Car,
-
-    /// <summary>foot delivery.</summary>
-    Foot,
-
-    /// <summary> For all transport methods. </summary>
-    All
+    Car,            // For long-distance or large deliveries
+    Motorcycle,     // Standard and fast city deliveries
+    Bicycle,        // Short-distance, eco-friendly deliveries
+    Walk,           // Very close deliveries (near the branch)
+    All             // All transport types
 }
 
-/// <summary>
-/// Type of order or delivery service.
-/// </summary>
+public enum DeliveryType
+{
+    Regular,    // Standard delivery (30–60 minutes)
+    Express     // Fast delivery (up to 20 minutes)
+}
+
 public enum OrderType
 {
-    FastFood,
-    Pizza,
-    Suchi,
-    Shawarma,
-    Dessert
+    Individual,     // Individual order
+    Group,          // Order placed by a group of people
+    Corporate       // Order placed by a company or organization
 }
 
-/// <summary>
-/// Priority level for order handling.
-/// </summary>
-public enum PriorityLevel
+
+
+public enum OrderStatus
 {
-    /// <summary>Low priority — standard handling.</summary>
-    Low,
-
-    /// <summary>Normal priority.</summary>
-    Medium,
-
-    /// <summary>High priority — expedited handling.</summary>
-    High,
-
-    /// <summary>Critical priority — immediate action required.</summary>
-    Critical
+    NotDelivered,       // Open / still not closed
+    Delivered,          // Closed - delivered
+    CustomerRefused,    // Closed - customer refused
+    Cancelled           // Closed - cancelled
 }
 
-/// <summary>
-/// Fragility level of the package content.
-/// </summary>
-public enum FragilityLevel
-{
-    /// <summary>Not fragile — no special handling required.</summary>
-    Low,
-
-    /// <summary>Moderately fragile — basic precautions required.</summary>
-    Medium,
-
-    /// <summary>Fragile — careful handling required.</summary>
-    High,
-
-    /// <summary>Extremely fragile — special packaging and transport required.</summary>
-    ExtremelyFragile
-}
-
-/// <summary>
-/// Schedule status indicating whether a delivery is on time, at risk of delay, or late.
-/// </summary>
 public enum ScheduleStatus
 {
-    /// <summary>Delivery is on schedule or ahead of expected time.</summary>
-    OnTime,
-
-    /// <summary>Delivery is at risk of being delayed;</summary>
-    InRisk,
-
-    /// <summary>Delivery has exceeded acceptable time thresholds and is considered late.</summary>
-    Late,
-
-    /// <summary>Schedule status cannot be determined due to lack of information.</summary>
-    Unknown
-
+    OnTime,     // On time
+    InRisk,     // In risk window
+    Late        // Late
 }
+
+public enum DeviceType
+{
+    Desktop,     // Desktop computer
+    Laptop,      // Laptop / notebook computer
+    Tablet,      // Tablet device
+    Smartphone,  // Smartphone / mobile phone
+    Headphones   // Headphones (Bluetooth or wired)
+}
+    
+
+public enum DeliveryDoneType
+{
+    Delivered,          // Supplied
+    CustomerRefused,    // Ordering customer refused to accept
+    Cancelled,          // Cancelled by customer/manager
+    CustomerNotFound,   // Customer not found at destination
+    Failed              // Failure during assignment/route calculation
+}
+
+public enum OrderListFilterProperty
+{
+    Status,         // Filter by order status
+    DeliveryType,   // Filter by delivery type
+    OrderType       // Filter by order type
+}
+
+public enum OrderListSortProperty
+{
+    OrderId,
+    LastDeliveryId,
+    OrderType,
+    Status,
+    ScheduleStatus,
+    TotalDeliveries,
+    TimeRemaining,
+    TotalHandlingTime
+}
+
+public enum ClosedDeliveryListSortProperty
+{
+    DeliveryId,         // Sort by delivery ID
+    DeliveryDate,       // Sort by delivery date
+    DeliveryTransport,  // Sort by delivery transport
+    DeliveryType        // Sort by delivery type
+}
+
+public enum OpenOrderListSortProperty
+{
+    OrderId,        // Sort by order ID
+    CustomerName,   // Sort by customer name
+    OrderDate       // Sort by order date
+}
+
 public enum TimeUnit
 {
-    Second,
-    Minute,
-    Hour,
-    Day,
+   
+    Minutes,
+    Hours,
+    Days,
     Month,
-    Year
-}
-
-public enum Administrator
-{
-    Director,
-    Courier,
-    Customer
+    Years
 }

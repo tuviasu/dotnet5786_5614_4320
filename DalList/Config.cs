@@ -1,138 +1,139 @@
 ﻿namespace Dal;
 
-/// <summary>
-/// Global configuration settings used by the DAL.
-/// All members are static and the class is initialized once via the static constructor.
-/// </summary>
-internal static class Config
+using System.Runtime.CompilerServices;
+
+public static class Config
 {
-    /// <summary>
-    /// Starting order identifier (constant).
-    /// </summary>
-    internal const int InitialOrderId = 1000;
+    //Order
+    internal const int startOrderID = 1000;
+    private static int nextOrderID = startOrderID;
+    internal static int NextOrderID => nextOrderID++;
 
-    /// <summary>
-    /// Backing field for <see cref="NextOrderId"/>.
-    /// </summary>
-    private static int nextOrderId = InitialOrderId;
+    //Delivery
+    internal const int startDeliveryID = 100000;
+    private static int nextDeliveryID = startDeliveryID;
+    internal static int NextDeliveryID => nextDeliveryID++;
 
-    /// <summary>
-    /// Returns the next available order identifier and advances the internal counter.
-    /// </summary>
-    internal static int NextOrderId { get => nextOrderId++; }
-
-    /// <summary>
-    /// Starting delivery identifier (constant).
-    /// </summary>
-    internal const int NextDeliveryId = 5000;
-
-    /// <summary>
-    /// Backing field for <see cref="NextDeliveryIdValue"/>.
-    /// </summary>
-    private static int nextDeliveryId = NextDeliveryId;
-
-    /// <summary>
-    /// Returns the next available delivery identifier and advances the internal counter.
-    /// </summary>
-    internal static int NextDeliveryIdValue { get => nextDeliveryId++; }
-
-    /// <summary>
-    /// Global clock used by the DAL (current or simulated time).
-    /// </summary>
-    internal static DateTime Clock;
-
-    /// <summary>
-    /// Boss / administrator identifier.
-    /// </summary>
-    internal static int BossId;
-
-    /// <summary>
-    /// Boss / administrator password.
-    /// </summary>
-    internal static string BossPassword;
-
-    /// <summary>
-    /// Average car speed in km/h.
-    /// </summary>
-    internal static double CarSpeed = 40; // in km/h
-
-    /// <summary>
-    /// Average motorcycle speed in km/h.
-    /// </summary>
-    internal static double MotorcycleSpeed = 50; // in km/h
-
-    /// <summary>
-    /// Average bicycle speed in km/h.
-    /// </summary>
-    internal static double BikeSpeed = 20; // in km/h
-
-    /// <summary>
-    /// Average walking speed in km/h.
-    /// </summary>
-    internal static double WalkingSpeed = 5; // in km/h
-
-    /// <summary>
-    /// Maximum allowed delivery time span.
-    /// </summary>
-    internal static TimeSpan MaxTimeDelivery;
-
-    /// <summary>
-    /// Time range after which a delivery is considered at risk.
-    /// </summary>
-    internal static TimeSpan RiskRange;
-
-    /// <summary>
-    /// Inactivity time after which the courier is considered inactive.
-    /// </summary>
-    internal static TimeSpan Inactivity;
-
-    /// <summary>
-    /// Company address, if known.
-    /// </summary>
-    internal static string? CompanyAddress = null;
-
-    /// <summary>
-    /// Company latitude, if known.
-    /// </summary>
-    internal static double? Latitude = null;
-
-    /// <summary>
-    /// Company longitude, if known.
-    /// </summary>
-    internal static double? Longitude = null;
-
-    /// <summary>
-    /// Maximum delivery distance, if applicable.
-    /// </summary>
-    internal static double? MaxDistance = null;
-
-    /// <summary>
-    /// Static constructor: initializes default values for the configuration.
-    /// Executes once before the first use of the class.
-    /// </summary>
-    static Config()
+    //other
+    internal static DateTime Clock
     {
-        Clock = DateTime.Now;
-        BossId = 0;
-        BossPassword = "";
-        MaxTimeDelivery = TimeSpan.FromHours(1);
-        RiskRange = TimeSpan.FromMinutes(30);
-        Inactivity = TimeSpan.FromDays(30);
-    }
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = DateTime.Now;
 
+    internal static Dictionary<int, string> Managers
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = new()
+    {
+        { 326205614, "admin326" },
+       
+    };
+
+    internal static Dictionary<int, string> Couriers
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = new()
+    {
+        
+    };
+
+    internal static string? CompanyAddress
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = "39 Rothschild Street, Tel Aviv";
+
+    internal static double? Latitude
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 32.064012;
+
+    internal static double? Longitude
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 34.774101;
+
+    internal static double? MaxDeliveryDistance
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 30;
+
+    internal static double AverageCarSpeed
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 0;
+
+    internal static double AverageMotorcycleSpeed
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 0;
+
+    internal static double AverageBicycleSpeed
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 0;
+
+    internal static double AverageWalkSpeed
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = 0;
+
+    internal static TimeSpan MaxDeliveryTimeRange
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = TimeSpan.FromHours(1.5);
+
+    internal static TimeSpan RiskRange
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = TimeSpan.FromMinutes(15);
+
+    internal static TimeSpan InactivityTimeRange
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)] get;
+        [MethodImpl(MethodImplOptions.Synchronized)] set;
+    } = TimeSpan.FromHours(8);
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     internal static void Reset()
     {
-        nextOrderId = InitialOrderId;
-        nextDeliveryId = NextDeliveryId;
+        nextOrderID = startOrderID;
+        nextDeliveryID = startDeliveryID;
         Clock = DateTime.Now;
-        BossId = 0;
-        BossPassword = "";
-        MaxTimeDelivery = TimeSpan.FromHours(1);
-        RiskRange = TimeSpan.FromMinutes(30);
-        Inactivity = TimeSpan.FromDays(30);
-        CompanyAddress = null;
-        Latitude = null;
-        Longitude = null;
-        MaxDistance = null;
+
+        Managers = new()
+        {
+            { 326205614, "admin326" },
+           
+        };
+
+        Couriers = new()
+        {
+            
+        };
+
+        CompanyAddress = "39 Rothschild Street, Tel Aviv";
+        Latitude = 32.064012;
+        Longitude = 34.774101;
+        MaxDeliveryDistance = 30;
+        AverageCarSpeed = 0;
+        AverageMotorcycleSpeed = 0;
+        AverageBicycleSpeed = 0;
+        AverageWalkSpeed = 0;
+        MaxDeliveryTimeRange = TimeSpan.FromHours(1.5);
+        RiskRange = TimeSpan.FromMinutes(15);
+        InactivityTimeRange = TimeSpan.FromHours(8);
     }
 }

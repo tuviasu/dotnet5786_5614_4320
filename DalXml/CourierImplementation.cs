@@ -1,88 +1,126 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
-using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 internal class CourierImplementation : ICourier
 {
-    static Courier getCourier(XElement c)
-    {
-        return new DO.Courier()
-        {
-            Id = c.ToIntNullable("Id") ?? throw new DalFormatException("cant convert id"),
-            Name = (string?)c.Element("Name") ?? "",
-            Phone = (string?)c.Element("Phone") ?? "",
-            Email = (string?)c.Element("Email") ?? "",
-            Password = (string?)c.Element("Password") ?? "",
-            IsActive = (bool?)c.Element("IsActive") ?? false,
-            Transport = c.ToEnumNullable<DeliveryTransport>("Transport") ?? DeliveryTransport.Car,
-            StartDate = c.ToDateTimeNullable("StartDate") ?? DateTime.Now,
-            Administrator = c.ToEnumNullable<Administrator>("Administrator") ?? Administrator.Courier,
-            MaxDistance = c.ToDoubleNullable("MaxDistance")
-
-        };
-    }
+    /// <summary>
+    /// Creates a new Courier item.
+    /// </summary>
+    /// <param name="item">The Courier item to create.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the item is null.</exception>
+    /// <exception cref="DalIdAlreadyExist">Thrown when an item with the same ID already exists.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Create(Courier item)
     {
-        // Load existing couriers, add the new one and save.
-        List<Courier> couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
+        if (item == null) {
+            throw new ArgumentNullException("item");
+        }
+        List<Courier> couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+        if (couriers.Exists(it => it.CourierID == item.CourierID))
+            throw new DalIdAlreadyExist("Courier with ID " + item.CourierID + " already exists.");
         couriers.Add(item);
-        XmlTools.SaveListToXMLSerializer(couriers, Config.s_couriers_xml);
+        XMLTools.SaveListToXMLSerializer(couriers, Config.CouriersFileName);
     }
 
+    /// <summary>
+    /// Deletes a Courier item.
+    /// </summary>
+    /// <param name="id">The ID of the Courier item to delete.</param>
+    /// <exception cref="DalIdNotExist">Thrown when the item with the specified ID does not exist.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
-        List<Courier> Couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
-        foreach (var it in Couriers) // check all courier in courier list
-        {
-            if (it.Id == id)
-            {
-                Couriers.Remove(it);
-                XmlTools.SaveListToXMLSerializer(Couriers, Config.s_couriers_xml);
-                return;
-            }
-        }
-        throw new DalDoesNotExistException($"Object Courier whit ID {id} doesnt exist"); // if not found
+        List<Courier> Couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+        if (Couriers.RemoveAll(it => it.CourierID == id) == 0)
+            throw new DalIdNotExist("Courier with ID " + id + " does not exist.");
+        XMLTools.SaveListToXMLSerializer(Couriers, Config.CouriersFileName);
     }
 
+    /// <summary>
+    /// Deletes all Courier items.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void DeleteAll()
     {
-        XmlTools.SaveListToXMLSerializer(new List<Courier>(), Config.s_couriers_xml);
+        XMLTools.SaveListToXMLSerializer(new List<Courier>(), Config.CouriersFileName);
     }
-
+    
+    /// <summary>
+    /// Reads a Courier item by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the Courier item to read.</param>
+    /// <returns>The Courier item if found; otherwise, null.</returns>
+    /// <exception cref="DalInvalidId">Thrown when the provided ID is invalid.</exception>
+    /// <exception cref="DalIdNotExist">Thrown when the item with the specified ID does not exist.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Courier? Read(int id)
     {
-        XElement? courierElem = XmlTools.LoadListFromXMLElement(Config.s_couriers_xml).Elements()
-            .FirstOrDefault(c => (int?)c.Element("Id") == id);
-        return courierElem == null ? null : getCourier(courierElem);
+        List<Courier> couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+
+        if(id <= 0)
+            throw new DalInvalidId("Invalid ID: " + id);
+
+        if(couriers.All(courier => courier.CourierID != id))
+            throw new DalIdNotExist("Item with ID " + id + " does not exist.");
+
+        return couriers.FirstOrDefault(it => it.CourierID == id);
     }
 
+    /// <summary>
+    /// Reads a Courier item from the data source.
+    /// </summary>
+    /// <param name="filter">The filter to apply when searching for the Courier item.</param>
+    /// <returns>The Courier item if found; otherwise, null.</returns>
+    /// <exception cref="DalItemNotExist">Thrown when the item does not exist.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public Courier? Read(Func<Courier, bool> filter)
+    {
+        List<Courier> couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+
+        if(couriers.FirstOrDefault(filter) is null)
+            throw new DalItemNotExist("This item does not exist.");
+
+        return couriers.FirstOrDefault(filter);
+    }
+
+    /// <summary>
+    /// Reads all Courier items from the data source.
+    /// </summary>
+    /// <param name="filter">The filter to apply when searching for Courier items.</param>
+    /// <returns>An enumerable collection of Courier items.</returns>
+    /// <exception cref="DalEmptyCollection">Thrown when the collection is empty.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Courier> ReadAll(Func<Courier, bool>? filter = null)
     {
-        List<Courier> couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
-        foreach (var item in couriers)
-        {
-            if (filter == null || filter(item))
-            {
-                yield return item;
-            }
-        }
+        List<Courier> couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+
+        // Align behavior with DalList: empty list is not an error; return empty sequence.
+        if (couriers.Count == 0)
+            return Enumerable.Empty<Courier>();
+
+        if (filter is null)
+            return couriers;
+
+        return couriers.Where(filter);
     }
 
+    /// <summary>
+    /// Updates an existing Courier item.
+    /// </summary>
+    /// <param name="item">The Courier item to update.</param>
+    /// <exception cref="DalItemNotExist">Thrown when the item does not exist.</exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Courier item)
     {
-        List<Courier> Couriers = XmlTools.LoadListFromXMLSerializer<Courier>(Config.s_couriers_xml);
-        foreach (var it in Couriers) // check all courier in courier list
-        {
-            if (it.Id == item.Id)
-            {
-                Couriers.Remove(it);
-                Couriers.Add(item);
-                XmlTools.SaveListToXMLSerializer(Couriers, Config.s_couriers_xml);
-                return;
-            }
-        }
-        throw new DalDoesNotExistException($"Object Courier whit ID {item.Id} doesnt exist"); // if not found
-
+        List<Courier> couriers = XMLTools.LoadListFromXMLSerializer<Courier>(Config.CouriersFileName);
+        if (couriers.RemoveAll(it => it.CourierID == item.CourierID) == 0)
+            throw new DalItemNotExist("Courier with ID " + item.CourierID + " does not exist.");
+        couriers.Add(item);
+        XMLTools.SaveListToXMLSerializer(couriers, Config.CouriersFileName);
     }
 }

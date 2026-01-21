@@ -1,495 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCourier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Courier>
-    <Id>326205614</Id>
-    <Name>Boss</Name>
-    <Phone>+111111111</Phone>
-    <Email>boss@company.com</Email>
-    <Password>admin</Password>
+    <CourierID>300000000</CourierID>
+    <FullName>Adi Peretz</FullName>
+    <Phone>0513708561</Phone>
+    <Email>user0@mail.com</Email>
+    <StartWorkInCompany>2024-06-30T16:58:19.7409211+03:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass4645</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2026-01-15T19:00:07.1103281+02:00</StartDate>
-    <Administrator>Director</Administrator>
-    <MaxDistance>999</MaxDistance>
+    <MaxDeliveryDistanceKm>20</MaxDeliveryDistanceKm>
+    <DeliveredInTime>25</DeliveredInTime>
+    <DeliveredNotInTime>1</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>355546</Id>
-    <Name>Lior Peretz</Name>
-    <Phone>+972577044380</Phone>
-    <Email>lior.peretz58@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000001</CourierID>
+    <FullName>Shai Azulay</FullName>
+    <Phone>0563676078</Phone>
+    <Email>user1@mail.com</Email>
+    <StartWorkInCompany>2024-11-24T16:58:19.7526413+02:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass8740</Password>
     <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-05-30T19:00:07.1472131+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>3</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>27</DeliveredInTime>
+    <DeliveredNotInTime>1</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>530652</Id>
-    <Name>Yonatan Shapiro</Name>
-    <Phone>+972552480633</Phone>
-    <Email>yonatan.shapiro55@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-07-08T19:00:07.1864356+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>5</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>242639</Id>
-    <Name>Noam Amar</Name>
-    <Phone>+972578830313</Phone>
-    <Email>noam.amar52@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-01-18T19:00:07.2170649+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>8</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>732626</Id>
-    <Name>Yonatan Dahan</Name>
-    <Phone>+972554404842</Phone>
-    <Email>yonatan.dahan57@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-12-28T19:00:07.2454594+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>6</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>830482</Id>
-    <Name>Lior Cohen</Name>
-    <Phone>+972590760180</Phone>
-    <Email>lior.cohen75@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-06-20T19:00:07.2763432+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>36</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>871745</Id>
-    <Name>Omer Biton</Name>
-    <Phone>+972514833556</Phone>
-    <Email>omer.biton45@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000002</CourierID>
+    <FullName>Niv Rosen</FullName>
+    <Phone>0534239407</Phone>
+    <Email>user2@mail.com</Email>
+    <StartWorkInCompany>2024-02-28T16:58:19.7943056+02:00</StartWorkInCompany>
+    <TransportType>Motorcycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7280</Password>
     <IsActive>false</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-07-30T19:00:07.309288+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>39</MaxDistance>
+    <MaxDeliveryDistanceKm>7</MaxDeliveryDistanceKm>
+    <DeliveredInTime>45</DeliveredInTime>
+    <DeliveredNotInTime>2</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>882330</Id>
-    <Name>Yonatan Amar</Name>
-    <Phone>+972568279456</Phone>
-    <Email>yonatan.amar21@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000003</CourierID>
+    <FullName>Tomer Katz</FullName>
+    <Phone>0523878344</Phone>
+    <Email>user3@mail.com</Email>
+    <StartWorkInCompany>2024-10-16T16:58:19.8188805+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass2568</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-12-12T19:00:07.341716+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>31</MaxDistance>
+    <MaxDeliveryDistanceKm>6</MaxDeliveryDistanceKm>
+    <DeliveredInTime>41</DeliveredInTime>
+    <DeliveredNotInTime>3</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>892518</Id>
-    <Name>David Friedman</Name>
-    <Phone>+972590419247</Phone>
-    <Email>david.friedman64@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000004</CourierID>
+    <FullName>Erez Ohayon</FullName>
+    <Phone>0522519008</Phone>
+    <Email>user4@mail.com</Email>
+    <StartWorkInCompany>2025-05-25T16:58:19.8448947+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass3979</Password>
     <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-10-09T19:00:07.3711062+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>9</MaxDistance>
+    <MaxDeliveryDistanceKm>19</MaxDeliveryDistanceKm>
+    <DeliveredInTime>43</DeliveredInTime>
+    <DeliveredNotInTime>9</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>467858</Id>
-    <Name>Eitan Peretz</Name>
-    <Phone>+972557935970</Phone>
-    <Email>eitan.peretz75@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000005</CourierID>
+    <FullName>Yuval Cohen</FullName>
+    <Phone>0580960224</Phone>
+    <Email>user5@mail.com</Email>
+    <StartWorkInCompany>2023-03-30T16:58:19.8769226+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass8987</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-05-14T19:00:07.3982356+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>28</MaxDistance>
+    <MaxDeliveryDistanceKm>19</MaxDeliveryDistanceKm>
+    <DeliveredInTime>17</DeliveredInTime>
+    <DeliveredNotInTime>6</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>796092</Id>
-    <Name>Eitan Katz</Name>
-    <Phone>+972590560028</Phone>
-    <Email>eitan.katz92@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000006</CourierID>
+    <FullName>Moran Feldman</FullName>
+    <Phone>0549032947</Phone>
+    <Email>user6@mail.com</Email>
+    <StartWorkInCompany>2025-05-25T16:58:19.9094532+03:00</StartWorkInCompany>
+    <TransportType>Motorcycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass8239</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-07-18T19:00:07.4282632+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>21</MaxDistance>
+    <MaxDeliveryDistanceKm>24</MaxDeliveryDistanceKm>
+    <DeliveredInTime>48</DeliveredInTime>
+    <DeliveredNotInTime>7</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>681108</Id>
-    <Name>Yonatan Levi</Name>
-    <Phone>+972511807952</Phone>
-    <Email>yonatan.levi73@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000007</CourierID>
+    <FullName>Itay Shalom</FullName>
+    <Phone>0518159281</Phone>
+    <Email>user7@mail.com</Email>
+    <StartWorkInCompany>2022-10-15T16:58:19.9473274+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass1467</Password>
+    <IsActive>true</IsActive>
+    <MaxDeliveryDistanceKm>12</MaxDeliveryDistanceKm>
+    <DeliveredInTime>43</DeliveredInTime>
+    <DeliveredNotInTime>0</DeliveredNotInTime>
+  </Courier>
+  <Courier>
+    <CourierID>300000008</CourierID>
+    <FullName>Moran Feldman</FullName>
+    <Phone>0535555348</Phone>
+    <Email>user8@mail.com</Email>
+    <StartWorkInCompany>2023-08-30T16:58:19.9904671+03:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass6298</Password>
+    <IsActive>true</IsActive>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>45</DeliveredInTime>
+    <DeliveredNotInTime>8</DeliveredNotInTime>
+  </Courier>
+  <Courier>
+    <CourierID>300000009</CourierID>
+    <FullName>Adi Peretz</FullName>
+    <Phone>0530705155</Phone>
+    <Email>user9@mail.com</Email>
+    <StartWorkInCompany>2024-11-04T16:58:20.025241+02:00</StartWorkInCompany>
+    <TransportType>Motorcycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7834</Password>
+    <IsActive>true</IsActive>
+    <MaxDeliveryDistanceKm>28</MaxDeliveryDistanceKm>
+    <DeliveredInTime>2</DeliveredInTime>
+    <DeliveredNotInTime>0</DeliveredNotInTime>
+  </Courier>
+  <Courier>
+    <CourierID>300000010</CourierID>
+    <FullName>Moran Feldman</FullName>
+    <Phone>0551680308</Phone>
+    <Email>user10@mail.com</Email>
+    <StartWorkInCompany>2025-07-08T16:58:20.0568037+03:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass1957</Password>
+    <IsActive>true</IsActive>
+    <MaxDeliveryDistanceKm>6</MaxDeliveryDistanceKm>
+    <DeliveredInTime>10</DeliveredInTime>
+    <DeliveredNotInTime>2</DeliveredNotInTime>
+  </Courier>
+  <Courier>
+    <CourierID>300000011</CourierID>
+    <FullName>Shai Azulay</FullName>
+    <Phone>0565335913</Phone>
+    <Email>user11@mail.com</Email>
+    <StartWorkInCompany>2024-02-05T16:58:20.0885186+02:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7105</Password>
     <IsActive>false</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-04-18T19:00:07.4579365+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>5</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>37</DeliveredInTime>
+    <DeliveredNotInTime>6</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>970575</Id>
-    <Name>Omer Biton</Name>
-    <Phone>+972585123230</Phone>
-    <Email>omer.biton95@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000012</CourierID>
+    <FullName>Erez Ohayon</FullName>
+    <Phone>0555333554</Phone>
+    <Email>user12@mail.com</Email>
+    <StartWorkInCompany>2024-06-27T16:58:20.1156016+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass9426</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-02-09T19:00:07.4809261+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>19</MaxDistance>
+    <MaxDeliveryDistanceKm>10</MaxDeliveryDistanceKm>
+    <DeliveredInTime>33</DeliveredInTime>
+    <DeliveredNotInTime>0</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>961201</Id>
-    <Name>Ariel Levi</Name>
-    <Phone>+972514453197</Phone>
-    <Email>ariel.levi78@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000013</CourierID>
+    <FullName>Itay Shalom</FullName>
+    <Phone>0553021801</Phone>
+    <Email>user13@mail.com</Email>
+    <StartWorkInCompany>2024-01-07T16:58:20.1488922+02:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass1496</Password>
     <IsActive>true</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-04-28T19:00:07.507451+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>2</MaxDistance>
+    <MaxDeliveryDistanceKm>5</MaxDeliveryDistanceKm>
+    <DeliveredInTime>49</DeliveredInTime>
+    <DeliveredNotInTime>9</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>201692</Id>
-    <Name>Yonatan Katz</Name>
-    <Phone>+972537992521</Phone>
-    <Email>yonatan.katz65@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000014</CourierID>
+    <FullName>Itay Shalom</FullName>
+    <Phone>0510057720</Phone>
+    <Email>user14@mail.com</Email>
+    <StartWorkInCompany>2024-05-06T16:58:20.1814731+03:00</StartWorkInCompany>
+    <TransportType>Car</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7908</Password>
+    <IsActive>true</IsActive>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>1</DeliveredInTime>
+    <DeliveredNotInTime>7</DeliveredNotInTime>
+  </Courier>
+  <Courier>
+    <CourierID>300000015</CourierID>
+    <FullName>Noam Levi</FullName>
+    <Phone>0567969920</Phone>
+    <Email>user15@mail.com</Email>
+    <StartWorkInCompany>2023-09-25T16:58:20.2133052+03:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass9248</Password>
     <IsActive>false</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-10-12T19:00:07.5281186+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>6</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>18</DeliveredInTime>
+    <DeliveredNotInTime>2</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>705668</Id>
-    <Name>Lior Shapiro</Name>
-    <Phone>+972570645591</Phone>
-    <Email>lior.shapiro66@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000016</CourierID>
+    <FullName>Yuval Cohen</FullName>
+    <Phone>0595059772</Phone>
+    <Email>user16@mail.com</Email>
+    <StartWorkInCompany>2023-03-19T16:58:20.2453991+02:00</StartWorkInCompany>
+    <TransportType>Motorcycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7743</Password>
     <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-04-03T19:00:07.5511618+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>6</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>28</DeliveredInTime>
+    <DeliveredNotInTime>1</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>421484</Id>
-    <Name>Ariel Cohen</Name>
-    <Phone>+972560538554</Phone>
-    <Email>ariel.cohen18@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000017</CourierID>
+    <FullName>Daniel Stern</FullName>
+    <Phone>0522228993</Phone>
+    <Email>user17@mail.com</Email>
+    <StartWorkInCompany>2024-06-02T16:58:20.2734739+03:00</StartWorkInCompany>
+    <TransportType>Walk</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass5813</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-02-02T19:00:07.5714775+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>30</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>44</DeliveredInTime>
+    <DeliveredNotInTime>8</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>711991</Id>
-    <Name>Omer Mizrahi</Name>
-    <Phone>+972581008016</Phone>
-    <Email>omer.mizrahi5@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000018</CourierID>
+    <FullName>Adi Peretz</FullName>
+    <Phone>0565946208</Phone>
+    <Email>user18@mail.com</Email>
+    <StartWorkInCompany>2024-08-27T16:58:20.3035238+03:00</StartWorkInCompany>
+    <TransportType>Walk</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass7503</Password>
     <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-04-22T19:00:07.5927285+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>3</MaxDistance>
+    <MaxDeliveryDistanceKm>14</MaxDeliveryDistanceKm>
+    <DeliveredInTime>5</DeliveredInTime>
+    <DeliveredNotInTime>5</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>474276</Id>
-    <Name>Daniel Mizrahi</Name>
-    <Phone>+972559365233</Phone>
-    <Email>daniel.mizrahi16@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000019</CourierID>
+    <FullName>Daniel Stern</FullName>
+    <Phone>0569506391</Phone>
+    <Email>user19@mail.com</Email>
+    <StartWorkInCompany>2024-03-02T16:58:20.3367678+02:00</StartWorkInCompany>
+    <TransportType>Motorcycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass1942</Password>
     <IsActive>true</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-09-28T19:00:07.6177144+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>2</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>4</DeliveredInTime>
+    <DeliveredNotInTime>3</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>431826</Id>
-    <Name>Amit Mizrahi</Name>
-    <Phone>+972573284161</Phone>
-    <Email>amit.mizrahi26@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-12-06T19:00:07.6420002+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>0</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>185138</Id>
-    <Name>Daniel Shapiro</Name>
-    <Phone>+972547694291</Phone>
-    <Email>daniel.shapiro75@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-09-20T19:00:07.6635672+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>0</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>480730</Id>
-    <Name>Lior Biton</Name>
-    <Phone>+972511897665</Phone>
-    <Email>lior.biton84@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-06-08T19:00:07.6860978+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>1</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>880870</Id>
-    <Name>Noam Mizrahi</Name>
-    <Phone>+972560880012</Phone>
-    <Email>noam.mizrahi49@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-01-27T19:00:07.7127923+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>7</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>666907</Id>
-    <Name>David Mizrahi</Name>
-    <Phone>+972573769722</Phone>
-    <Email>david.mizrahi28@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000020</CourierID>
+    <FullName>Amit Barak</FullName>
+    <Phone>0581166090</Phone>
+    <Email>user20@mail.com</Email>
+    <StartWorkInCompany>2023-02-16T16:58:20.3668614+02:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass9145</Password>
     <IsActive>false</IsActive>
-    <Transport>Foot</Transport>
-    <StartDate>2025-03-17T19:00:07.7365248+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>2</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>7</DeliveredInTime>
+    <DeliveredNotInTime>6</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>723786</Id>
-    <Name>David Shapiro</Name>
-    <Phone>+972543003498</Phone>
-    <Email>david.shapiro27@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000021</CourierID>
+    <FullName>Amit Barak</FullName>
+    <Phone>0566838816</Phone>
+    <Email>user21@mail.com</Email>
+    <StartWorkInCompany>2024-12-03T16:58:20.3978111+02:00</StartWorkInCompany>
+    <TransportType>Walk</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass1017</Password>
     <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-11-30T19:00:07.7631383+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>20</MaxDistance>
+    <MaxDeliveryDistanceKm xsi:nil="true" />
+    <DeliveredInTime>24</DeliveredInTime>
+    <DeliveredNotInTime>1</DeliveredNotInTime>
   </Courier>
   <Courier>
-    <Id>464400</Id>
-    <Name>David Shapiro</Name>
-    <Phone>+972523476083</Phone>
-    <Email>david.shapiro78@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-12-16T19:00:07.786337+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>9</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>657054</Id>
-    <Name>David Dahan</Name>
-    <Phone>+972598550221</Phone>
-    <Email>david.dahan6@gmail.com</Email>
-    <Password>password</Password>
+    <CourierID>300000022</CourierID>
+    <FullName>Amit Barak</FullName>
+    <Phone>0599500302</Phone>
+    <Email>user22@mail.com</Email>
+    <StartWorkInCompany>2024-11-11T16:58:20.4282053+02:00</StartWorkInCompany>
+    <TransportType>Bicycle</TransportType>
+    <DeliveryType xsi:nil="true" />
+    <Password>Pass4020</Password>
     <IsActive>false</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-04-15T19:00:07.8130276+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>7</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>919501</Id>
-    <Name>Itay Peretz</Name>
-    <Phone>+972515646957</Phone>
-    <Email>itay.peretz37@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-05-13T19:00:07.8393941+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>44</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>892784</Id>
-    <Name>Lior Friedman</Name>
-    <Phone>+972530760411</Phone>
-    <Email>lior.friedman71@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>false</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-07-10T19:00:07.8658273+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>27</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>367189</Id>
-    <Name>David Biton</Name>
-    <Phone>+972581676725</Phone>
-    <Email>david.biton16@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2026-01-14T19:00:07.891926+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>6</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>169509</Id>
-    <Name>Eitan Peretz</Name>
-    <Phone>+972529588443</Phone>
-    <Email>eitan.peretz11@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-03-11T19:00:07.9172384+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>11</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>644710</Id>
-    <Name>Eitan Cohen</Name>
-    <Phone>+972565689347</Phone>
-    <Email>eitan.cohen18@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-05-23T19:00:07.9415391+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>3</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>481005</Id>
-    <Name>Omer Levi</Name>
-    <Phone>+972587560627</Phone>
-    <Email>omer.levi15@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-10-01T19:00:07.9645857+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>11</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>515817</Id>
-    <Name>Itay Friedman</Name>
-    <Phone>+972553196761</Phone>
-    <Email>itay.friedman34@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-04-09T19:00:07.9919745+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>15</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>648707</Id>
-    <Name>Daniel Mizrahi</Name>
-    <Phone>+972564549279</Phone>
-    <Email>daniel.mizrahi54@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-09-13T19:00:08.0225893+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>5</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>233510</Id>
-    <Name>David Mizrahi</Name>
-    <Phone>+972539945298</Phone>
-    <Email>david.mizrahi93@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-07-20T19:00:08.0613342+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>29</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>152638</Id>
-    <Name>Omer Friedman</Name>
-    <Phone>+972522711923</Phone>
-    <Email>omer.friedman21@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-02-27T19:00:08.0982383+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>35</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>882300</Id>
-    <Name>Lior Peretz</Name>
-    <Phone>+972549951224</Phone>
-    <Email>lior.peretz52@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-02-26T19:00:08.1374468+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>17</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>710390</Id>
-    <Name>Noam Shapiro</Name>
-    <Phone>+972528266382</Phone>
-    <Email>noam.shapiro87@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Motorcycle</Transport>
-    <StartDate>2025-12-18T19:00:08.176613+02:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>11</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>579887</Id>
-    <Name>Itay Mizrahi</Name>
-    <Phone>+972574433541</Phone>
-    <Email>itay.mizrahi84@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Bike</Transport>
-    <StartDate>2025-05-14T19:00:08.2072304+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>5</MaxDistance>
-  </Courier>
-  <Courier>
-    <Id>652753</Id>
-    <Name>David Katz</Name>
-    <Phone>+972584027051</Phone>
-    <Email>david.katz38@gmail.com</Email>
-    <Password>password</Password>
-    <IsActive>true</IsActive>
-    <Transport>Car</Transport>
-    <StartDate>2025-07-03T19:00:08.2312468+03:00</StartDate>
-    <Administrator>Courier</Administrator>
-    <MaxDistance>22</MaxDistance>
+    <MaxDeliveryDistanceKm>23</MaxDeliveryDistanceKm>
+    <DeliveredInTime>33</DeliveredInTime>
+    <DeliveredNotInTime>1</DeliveredNotInTime>
   </Courier>
 </ArrayOfCourier>

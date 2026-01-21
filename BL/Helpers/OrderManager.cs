@@ -1,983 +1,173 @@
-﻿using BO;
+﻿namespace Helpers;
 using DalApi;
-using DO;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 
-namespace Helpers;
-
+/// <summary>
+/// Manages order-related operations.
+/// Provides methods for CRUD operations and business logic for orders.
+/// </summary>
 internal static class OrderManager
 {
+    internal static ObserverManager Observers = new();  //stage 5
     private static readonly IDal s_dal = Factory.Get;
 
-    internal static ObserverManager Observers = new();
-    
-    internal static void PeriodicOrdersUpdates(DateTime oldClock, DateTime newClock)
+    /// <summary>
+    /// Gets an order by its ID.
+    /// </summary>
+    /// <param name="orderId">The ID of the order to retrieve.</param>
+    /// <returns>The order object if found, null otherwise.</returns>
+    internal static DO.Order? GetOrderById(int orderId)
     {
-        try
-        {
-            // Read config values once
-            TimeSpan maxDeliveryTime = s_dal.Config.MaxTimeDelivery;
-            TimeSpan riskRange = s_dal.Config.RiskRange;
-
-            // Read all deliveries once to avoid multiple DAL calls
-            var deliveriesAll = s_dal.Delivery.ReadAll().ToList();
-            bool deliveriesUpdated = false;
-            var updatedOrders = new HashSet<int>(); // Track which orders were affected
-
-            // Iterate over a snapshot of orders
-            foreach (var o in s_dal.Order.ReadAll().ToList())
-            {
-                // Deliveries for this order
-                var orderDeliveries = deliveriesAll.Where(d => d.OrderId == o.Id).ToList();
-
-                // 1) Start deliveries whose pickup time was reached (Status == null -> Processing)
-                foreach (var d in orderDeliveries.Where(d => d.Status == null && d.PickupTime > oldClock && d.PickupTime <= newClock))
-                {
-                    var upd = d with { Status = DO.OrderStatus.Processing };
-                    s_dal.Delivery.Update(upd);
-                    deliveriesUpdated = true;
-                    updatedOrders.Add(d.OrderId); // Track the affected order
-                }
-
-                // 2) Cancel processing deliveries that exceed maxDeliveryTime (best-effort)
-                //    We use order.OrderDate as the reference for allowed delivery window.
-                foreach (var d in orderDeliveries.Where(d => d.Status == DO.OrderStatus.Processing && d.ArrivalTime == null))
-                {
-                    if (newClock - o.OrderDate > maxDeliveryTime)
-                    {
-                        var upd = d with
-                        {
-                            Status = DO.OrderStatus.Canceled,
-                            ArrivalTime = newClock // Mark finished so it won't be considered open anymore
-                        };
-                        s_dal.Delivery.Update(upd);
-                        deliveriesUpdated = true;
-                        updatedOrders.Add(d.OrderId); // Track the affected order
-                    }
-                }
-
-                // 3) Compute in-memory order status (BO) using deliveries + time-based escalation
-                var deliveryBasedStatus = Tools.CalculateOrderStatus(orderDeliveries); // BO.OrderStatus
-                TimeSpan elapsed = newClock - o.OrderDate;
-                BO.OrderStatus timeBasedStatus = BO.OrderStatus.Pending;
-
-                if (elapsed > maxDeliveryTime)
-                    timeBasedStatus = BO.OrderStatus.Canceled;
-                else if (elapsed >= (maxDeliveryTime - riskRange))
-                    timeBasedStatus = deliveryBasedStatus == BO.OrderStatus.Pending ? BO.OrderStatus.Processing : deliveryBasedStatus;
-                else
-                    timeBasedStatus = BO.OrderStatus.Pending;
-
-                BO.OrderStatus finalStatus;
-                if (deliveryBasedStatus == BO.OrderStatus.Delivered
-                    || deliveryBasedStatus == BO.OrderStatus.Returned
-                    || deliveryBasedStatus == BO.OrderStatus.Canceled)
-                {
-                    finalStatus = deliveryBasedStatus;
-                }
-                else
-                {
-                    finalStatus = timeBasedStatus;
-                }
-
-                // 4) No persistence to DO.Order (by design).
-            }
-
-            // Notify observers if any deliveries were updated
-            if (deliveriesUpdated)
-            {
-                // Notify each affected order individually
-                foreach (var orderId in updatedOrders)
-                {
-                    Observers.NotifyItemUpdated(orderId);
-                }
-                // Notify that the list has been updated
-                Observers.NotifyListUpdated();
-            }
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Order.Read(o => o.OrderID == orderId);
     }
 
-    internal static IEnumerable<int> GetOrderSummary(int requesterId)
+    /// <summary>
+    /// Gets all orders from the database.
+    /// </summary>
+    /// <returns>Collection of all orders.</returns>
+    internal static IEnumerable<DO.Order> GetAllOrders()
     {
-        try
-        {
-            // Validate requester
-            var requester = s_dal.Courier.Read(requesterId) ?? throw new BLNotFoundException($"Requester with id {requesterId} does not exist.");
-
-            // Read data once
-            var orders = s_dal.Order.ReadAll().ToList();
-            var deliveriesAll = s_dal.Delivery.ReadAll().ToList();
-            var config = AdminManager.GetConfig();
-
-            int statusCount = Enum.GetValues(typeof(BO.OrderStatus)).Length;
-            int scheduleCount = Enum.GetValues(typeof(BO.ScheduleStatus)).Length;
-            int[] summary = new int[statusCount * scheduleCount];
-
-            var projections = orders.Select(o =>
-            {
-                var orderDeliveries = deliveriesAll.Where(d => d.OrderId == o.Id).ToList();
-                var lastDelivery = orderDeliveries.OrderByDescending(d => d.PickupTime).FirstOrDefault();
-                DateTime? realArrival = lastDelivery?.ArrivalTime;
-
-                double lat = o.Latitude ?? 0;
-                double lon = o.Longitude ?? 0;
-                if (lat == 0 && lon == 0)
-                {
-                    try
-                    {
-                        var coords = Tools.GetCoordinatesFromAddressAsync(o.CustomerAddress).GetAwaiter().GetResult();
-                        lat = coords.Latitude;
-                        lon = coords.Longitude;
-                    }
-                    catch { }
-                }
-
-                double distance = Tools.BirdDistance(
-                    config.CompanyLatitude,
-                    config.CompanyLongitude,
-                    lat,
-                    lon
-                );
-
-                // Choose speed based on last delivery transport if available, else fallback to car speed
-                double speed = config.CarSpeed;
-                if (lastDelivery != null)
-                    speed = Tools.GetSpeed(lastDelivery.Transport, config);
-
-                DateTime? estArrival = distance > 0
-                    ? Tools.CalculateEstimatedArrival(o.OrderDate, distance, speed)
-                    : null;
-
-                DateTime? maxArrival = estArrival?.Add(config.RiskRange);
-
-                var orderStatus = Tools.CalculateOrderStatus(orderDeliveries);
-                var scheduleStatus = Tools.CalculateScheduleStatus(orderStatus, o.OrderDate, estArrival, maxArrival, realArrival);
-
-                return new { Status = orderStatus, Schedule = scheduleStatus };
-            });
-
-            var groups = projections.GroupBy(p => new { p.Status, p.Schedule });
-
-            foreach (var g in groups)
-            {
-                int sIdx = (int)g.Key.Status;
-                int schIdx = (int)g.Key.Schedule;
-                int idx = sIdx * scheduleCount + schIdx;
-                summary[idx] = g.Count();
-            }
-
-            return summary;
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Order.ReadAll().ToList();
     }
 
-    internal static IEnumerable<BO.OrderInList> orderInLists(int requesterId, Enum? filter, object? Object, Enum? sorter)
+    /// <summary>
+    /// Gets orders that match the specified filter.
+    /// </summary>
+    /// <param name="filter">Filter function to apply on orders.</param>
+    /// <returns>Collection of orders matching the filter.</returns>
+    internal static IEnumerable<DO.Order> GetOrdersByFilter(Func<DO.Order, bool> filter)
     {
-        try
-        {
-            // Validation of requesterId
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var doOrders = s_dal.Order.ReadAll().ToList();
-            var deliveriesDO = s_dal.Delivery.ReadAll().ToList();
-            var config = AdminManager.GetConfig();
-
-            var now = AdminManager.Now;
-
-            var list = doOrders.Select(order =>
-            {
-                var orderDeliveries = deliveriesDO.Where(d => d.OrderId == order.Id).ToList();
-                var lastDelivery = orderDeliveries.OrderByDescending(d => d.PickupTime).FirstOrDefault();
-                int? deliveryId = lastDelivery?.Id;
-
-                double lat = order.Latitude ?? 0;
-                double lon = order.Longitude ?? 0;
-                if (lat == 0 && lon == 0)
-                {
-                    try
-                    {
-                        var coords = Tools.GetCoordinatesFromAddressAsync(order.CustomerAddress).GetAwaiter().GetResult();
-                        lat = coords.Latitude;
-                        lon = coords.Longitude;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new BLFailedOperation(ex.Message);
-                    }
-                }
-
-                double distance = Tools.BirdDistance(
-                    config.CompanyLatitude,
-                    config.CompanyLongitude,
-                    lat,
-                    lon
-                );
-
-                // Pick speed depending on lastDelivery transport if available, otherwise default
-                double speed = config.CarSpeed;
-                if (lastDelivery != null)
-                    speed = Tools.GetSpeed(lastDelivery.Transport, config);
-
-                DateTime? estArrival = distance > 0
-                    ? Tools.CalculateEstimatedArrival(order.OrderDate, distance, speed)
-                    : null;
-
-                DateTime? maxArrival = estArrival?.Add(config.RiskRange);
-                DateTime? realArrival = lastDelivery?.ArrivalTime;
-
-                var orderStatus = Tools.CalculateOrderStatus(orderDeliveries);
-
-                var schedule = Tools.CalculateScheduleStatus(
-                    orderStatus,
-                    order.OrderDate,
-                    estArrival,
-                    maxArrival,
-                    realArrival
-                );
-
-                return new BO.OrderInList
-                {
-                    DeliveryId = deliveryId,
-                    OrderId = order.Id,
-                    Type = (BO.OrderType)order.Type,
-                    Distance = distance,
-                    Status = orderStatus,
-                    ScheduleStatus = schedule,
-                    OrderEndTime = realArrival != null ? realArrival.Value - order.OrderDate : now - order.OrderDate,
-                    TreatmentEndTime = lastDelivery != null ? lastDelivery.PickupTime - order.OrderDate : TimeSpan.Zero,
-                    NumberOfCouriers = orderDeliveries.Select(d => d.CourierId).Distinct().Count()
-                };
-            }).ToList();
-
-            if (filter != null)
-            {
-                if (filter is BO.OrderStatus os)
-                    list = list.Where(l => l.Status == os).ToList();
-                else if (filter is BO.OrderType ot)
-                    list = list.Where(l => l.Type == ot).ToList();
-            }
-
-            if (sorter != null)
-            {
-                string key = sorter.ToString() ?? string.Empty;
-                bool ascending = Object is bool b ? b : true;
-
-                list = key switch
-                {
-                    "Distance" => ascending ? list.OrderBy(l => l.Distance).ToList() : list.OrderByDescending(l => l.Distance).ToList(),
-                    "OrderEndTime" => ascending ? list.OrderBy(l => l.OrderEndTime).ToList() : list.OrderByDescending(l => l.OrderEndTime).ToList(),
-                    "TreatmentEndTime" => ascending ? list.OrderBy(l => l.TreatmentEndTime).ToList() : list.OrderByDescending(l => l.TreatmentEndTime).ToList(),
-                    "NumberOfCouriers" => ascending ? list.OrderBy(l => l.NumberOfCouriers).ToList() : list.OrderByDescending(l => l.NumberOfCouriers).ToList(),
-                    "OrderId" => ascending ? list.OrderBy(l => l.OrderId).ToList() : list.OrderByDescending(l => l.OrderId).ToList(),
-                    "Status" => ascending ? list.OrderBy(l => l.Status).ToList() : list.OrderByDescending(l => l.Status).ToList(),
-                    "ScheduleStatus" => ascending ? list.OrderBy(l => l.ScheduleStatus).ToList() : list.OrderByDescending(l => l.ScheduleStatus).ToList(),
-                    _ => list
-                };
-            }
-
-            return list;
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Order.ReadAll(filter).ToList();
     }
 
-    internal static IEnumerable<BO.OrderInList> GetOrdersList(int requesterId, BO.OrderStatus? statusFilter, object? sortParameter)
+    /// <summary>
+    /// Adds a new order to the database.
+    /// </summary>
+    /// <param name="order">The order object to add.</param>
+    internal static void AddOrder(DO.Order order)
     {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var config = AdminManager.GetConfig();
-            var ordersDO = s_dal.Order.ReadAll().ToList();
-            var deliveriesDO = s_dal.Delivery.ReadAll().ToList();
-
-            var now = AdminManager.Now;
-
-            var list = ordersDO.Select(order =>
-            {
-                var orderDeliveries = deliveriesDO
-                    .Where(d => d.OrderId == order.Id)
-                    .ToList();
-
-                var lastDelivery = orderDeliveries
-                    .OrderByDescending(d => d.PickupTime)
-                    .FirstOrDefault();
-
-                int? deliveryId = lastDelivery?.Id;
-
-                double lat = order.Latitude ?? 0;
-                double lon = order.Longitude ?? 0;
-
-                if (lat == 0 && lon == 0)
-                {
-                    var coords = Tools.GetCoordinatesFromAddressAsync(order.CustomerAddress).Result;
-                    lat = coords.Latitude;
-                    lon = coords.Longitude;
-                }
-
-                double distance = Tools.BirdDistance(
-                    config.CompanyLatitude,
-                    config.CompanyLongitude,
-                    lat,
-                    lon
-                );
-
-                double speed = config.CarSpeed;
-                if (lastDelivery != null)
-                    speed = Tools.GetSpeed(lastDelivery.Transport, config);
-
-                DateTime? estArrival = distance > 0
-                    ? Tools.CalculateEstimatedArrival(order.OrderDate, distance, speed)
-                    : null;
-
-                DateTime? maxArrival = estArrival?.Add(config.RiskRange);
-                DateTime? realArrival = lastDelivery?.ArrivalTime;
-
-                var orderStatus = Tools.CalculateOrderStatus(orderDeliveries);
-
-                var schedule = Tools.CalculateScheduleStatus(
-                    orderStatus,
-                    order.OrderDate,
-                    estArrival,
-                    maxArrival,
-                    realArrival
-                );
-
-                return new BO.OrderInList
-                {
-                    DeliveryId = deliveryId,
-                    OrderId = order.Id,
-                    Type = (BO.OrderType)order.Type,
-                    Distance = distance,
-                    Status = orderStatus,
-                    ScheduleStatus = schedule,
-                    OrderEndTime = realArrival != null ? realArrival.Value - order.OrderDate : now - order.OrderDate,
-                    TreatmentEndTime = lastDelivery != null ? lastDelivery.PickupTime - order.OrderDate : TimeSpan.Zero,
-                    NumberOfCouriers = orderDeliveries.Select(d => d.CourierId).Distinct().Count()
-                };
-
-            }).ToList();
-
-            return list;
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        lock (AdminManager.BlMutex) //stage 7
+            s_dal.Order.Create(order);
+        Observers.NotifyListUpdated(); //stage 5
     }
 
-    internal static BO.Order GetOrderDetails(int requesterId, int orderId)
+    /// <summary>
+    /// Updates an existing order in the database.
+    /// </summary>
+    /// <param name="order">The order object with updated information.</param>
+    internal static void UpdateOrder(DO.Order order)
     {
-        try
-        {
-            // Validate requester
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            // Read order
-            var doOrder = s_dal.Order.Read(orderId) ?? throw new BLNotFoundException($"Order with id {orderId} not found.");
-
-            // Get deliveries for this order
-            var deliveries = s_dal.Delivery.ReadAll(d => d.OrderId == orderId).ToList();
-            var lastDelivery = deliveries.OrderByDescending(d => d.PickupTime).FirstOrDefault();
-
-            var config = AdminManager.GetConfig();
-
-            // Coordinates (use geocoding if missing)
-            double lat = doOrder.Latitude ?? 0;
-            double lon = doOrder.Longitude ?? 0;
-            if (lat == 0 && lon == 0)
-            {
-                try
-                {
-                    var coords = Tools.GetCoordinatesFromAddressAsync(doOrder.CustomerAddress).GetAwaiter().GetResult();
-                    lat = coords.Latitude;
-                    lon = coords.Longitude;
-                }
-                catch
-                {
-                    // Fallback to 0,0 if geocoding fails
-                }
-            }
-
-            double distance = Tools.BirdDistance(config.CompanyLatitude, config.CompanyLongitude, lat, lon);
-
-            double speed = config.CarSpeed;
-            if (lastDelivery != null)
-                speed = Tools.GetSpeed(lastDelivery.Transport, config);
-
-            DateTime? estArrival = distance > 0 ? (DateTime?)Tools.CalculateEstimatedArrival(doOrder.OrderDate, distance, speed) : null;
-            DateTime? maxArrival = estArrival?.Add(config.RiskRange);
-            DateTime? realArrival = lastDelivery?.ArrivalTime;
-
-            var status = Tools.CalculateOrderStatus(deliveries);
-            var schedule = Tools.CalculateScheduleStatus(status, doOrder.OrderDate, estArrival, maxArrival, realArrival);
-
-            TimeSpan arrivalEstDuration = estArrival != null ? estArrival.Value - doOrder.OrderDate : TimeSpan.Zero;
-
-            // Map deliveries to BO.DeliveryPerOrderInList
-            var deliveriesPerOrder = deliveries.Select(d =>
-            {
-                var courier = s_dal.Courier.Read(d.CourierId);
-                return new BO.DeliveryPerOrderInList
-                {
-                    DeliveryId = d.Id,
-                    CourierId = d.CourierId == 0 ? null : (int?)d.CourierId,
-                    Name = courier?.Name ?? string.Empty,
-                    PickupTime = d.PickupTime,
-                    OrderStatus = d.Status.HasValue ? (BO.OrderStatus?)(BO.OrderStatus)d.Status.Value : null,
-                    ArrivalTime = d.ArrivalTime
-                };
-            }).ToList();
-
-            // Build BO.Order
-            return new BO.Order
-            {
-                Id = doOrder.Id,
-                Type = (BO.OrderType)doOrder.Type,
-                OrderDescription = doOrder.Description,
-                CustomerAddress = doOrder.CustomerAddress,
-                Latitude = lat,
-                Longitude = lon,
-                Distance = distance,
-                CustomerName = doOrder.CustomerName,
-                CustomerPhone = doOrder.CustomerPhone,
-                Weight = doOrder.weight,
-                Fragility = doOrder.Fragility.HasValue ? (BO.FragilityLevel?)(BO.FragilityLevel)doOrder.Fragility.Value : null,
-                Volume = doOrder.size,
-                OrderDate = doOrder.OrderDate,
-                ArrivalDateEstimeted = estArrival,
-                ArrivalDateMax = maxArrival,
-                Status = status,
-                ScheduleStatus = schedule,
-                ArrivalTimeEstimeted = arrivalEstDuration,
-                DeliveriesPerOrder = deliveriesPerOrder
-            };
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        lock (AdminManager.BlMutex) //stage 7
+            s_dal.Order.Update(order);
+        Observers.NotifyListUpdated(); //stage 5
     }
 
-    internal static void UpdateOrderDetails(int requesterId, BO.Order order)
+    /// <summary>
+    /// Deletes an order from the database by its ID.
+    /// </summary>
+    /// <param name="orderId">The ID of the order to delete.</param>
+    internal static void DeleteOrder(int orderId)
     {
-        try
-        {
-            // Validate requester first
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException($"Requester with id {requesterId} does not exist.");
-
-            // Validate the order exists
-            var existingOrder = s_dal.Order.Read(order.Id);
-            if (existingOrder == null)
-                throw new BLNotFoundException($"Order with id {order.Id} does not exist.");
-
-            // Get coordinates with better error handling
-            (double Latitude, double Longitude) coordinates;
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(order.CustomerAddress))
-                {
-                    coordinates = Tools.GetCoordinatesFromAddressAsync(order.CustomerAddress).GetAwaiter().GetResult();
-                }
-                else
-                {
-                    // Use existing coordinates if address is empty
-                    coordinates = (existingOrder.Latitude ?? 0, existingOrder.Longitude ?? 0);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the actual geocoding error for debugging
-                System.Diagnostics.Debug.WriteLine($"Geocoding failed for address '{order.CustomerAddress}': {ex.Message}");
-                
-                // Fallback to existing coordinates or default
-                coordinates = (existingOrder.Latitude ?? 0, existingOrder.Longitude ?? 0);
-            }
-
-            // Validate required fields
-            if (string.IsNullOrWhiteSpace(order.CustomerName))
-                throw new BLInvalidInputException("Customer name cannot be empty.");
-        
-            if (string.IsNullOrWhiteSpace(order.CustomerAddress))
-                throw new BLInvalidInputException("Customer address cannot be empty.");
-
-            // Map BO.Order to DO.Order with proper null handling
-            var doOrder = new DO.Order
-            {
-                Id = order.Id,
-                Type = (DO.OrderType)order.Type,
-                CustomerName = order.CustomerName,
-                CustomerAddress = order.CustomerAddress,
-                CustomerPhone = order.CustomerPhone ?? existingOrder.CustomerPhone,
-                OrderDate = order.OrderDate != default ? order.OrderDate : existingOrder.OrderDate,
-                size = order.Volume ?? existingOrder.size,
-                weight = order.Weight ?? existingOrder.weight,
-                Latitude = coordinates.Latitude,
-                Longitude = coordinates.Longitude,
-                Description = order.OrderDescription ?? existingOrder.Description,
-                Fragility = order.Fragility.HasValue ? (DO.FragilityLevel)order.Fragility.Value : existingOrder.Fragility
-            };
-            
-            s_dal.Order.Update(doOrder);
-            
-            // Notifications for order modification
-            Observers.NotifyItemUpdated(order.Id);
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            // Enhanced error logging
-            System.Diagnostics.Debug.WriteLine($"UpdateOrderDetails failed: {ex.GetType().Name}: {ex.Message}");
-        
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation($"Unexpected error in UpdateOrderDetails: {ex.Message}", ex);
-        }
-    }
-
-    internal static void CancelOrder(int requesterId, int orderId)
-    {
-        try
-        {
+        lock (AdminManager.BlMutex) //stage 7
             s_dal.Order.Delete(orderId);
-            
-            // Notifications for order cancellation/deletion
-            Observers.NotifyItemUpdated(orderId);
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        Observers.NotifyItemUpdated(orderId);
+        Observers.NotifyListUpdated(); //stage 5
     }
 
-    internal static void RemoveOrder(int requesterId, int orderId)
+    /// <summary>
+    /// Checks if an order exists in the database.
+    /// </summary>
+    /// <param name="orderId">The ID of the order to check.</param>
+    /// <returns>True if the order exists, false otherwise.</returns>
+    internal static bool IsOrderExists(int orderId)
     {
         try
         {
-            // Validate requester
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            // Delete associated deliveries first
-            var deliveries = s_dal.Delivery.ReadAll(d => d.OrderId == orderId).ToList();
-            foreach (var d in deliveries)
-                s_dal.Delivery.Delete(d.Id);
-
-            // Then delete order
-            s_dal.Order.Delete(orderId);
-            
-            // Notifications for order removal
-            Observers.NotifyItemUpdated(orderId);
-            Observers.NotifyListUpdated();
+            lock (AdminManager.BlMutex) //stage 7
+                s_dal.Order.Read(o => o.OrderID == orderId);
+            return true;
         }
-        catch (Exception ex)
+        catch
         {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
+            return false;
         }
     }
 
-    internal static void AddOrder(int requesterId, BO.Order order)
+    /// <summary>
+    /// Gets the destination coordinates of an order.
+    /// </summary>
+    /// <param name="orderId">The ID of the order.</param>
+    /// <returns>Tuple containing latitude and longitude of the order destination.</returns>
+    internal static (double Latitude, double Longitude) GetOrderDestination(int orderId)
     {
-        try
-        {
-            // Validate requester first
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException($"Requester with id {requesterId} does not exist.");
-
-            // Get coordinates with better error handling (like UpdateOrderDetails)
-            (double Latitude, double Longitude) coordinates;
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(order.CustomerAddress))
-                {
-                    coordinates = Tools.GetCoordinatesFromAddressAsync(order.CustomerAddress).GetAwaiter().GetResult();
-                }
-                else
-                {
-                    // Default coordinates if no address provided
-                    coordinates = (0, 0);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the actual geocoding error for debugging
-                System.Diagnostics.Debug.WriteLine($"Geocoding failed for address '{order.CustomerAddress}': {ex.Message}");
-                
-                // Fallback to default coordinates
-                coordinates = (0, 0);
-            }
-
-            // Validate required fields
-            if (string.IsNullOrWhiteSpace(order.CustomerName))
-                throw new BLInvalidInputException("Customer name cannot be empty.");
-    
-            if (string.IsNullOrWhiteSpace(order.CustomerAddress))
-                throw new BLInvalidInputException("Customer address cannot be empty.");
-
-            // Ensure StartDate is valid (avoid DateTime.MinValue)
-            DateTime startDate = order.OrderDate == default ? AdminManager.Now : order.OrderDate;
-
-            // Map BO.Order to DO.Order before passing to DAL with proper coordinate handling
-            var doOrder = new DO.Order
-            {
-                //123
-                Id = order.Id,
-                Type = (DO.OrderType)order.Type,
-                CustomerName = order.CustomerName,
-                CustomerAddress = order.CustomerAddress,
-                CustomerPhone = order.CustomerPhone,
-                OrderDate = startDate,
-                size = order.Volume,
-                weight = order.Weight,
-                Latitude = coordinates.Latitude,
-                Longitude = coordinates.Longitude,
-                Description = order.OrderDescription,
-                Fragility = order.Fragility.HasValue ? (DO.FragilityLevel)order.Fragility.Value : null
-            };
-            
-            s_dal.Order.Create(doOrder);
-            
-            // Notification for adding order to list
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            // Enhanced error logging (like UpdateOrderDetails)
-            System.Diagnostics.Debug.WriteLine($"AddOrder failed: {ex.GetType().Name}: {ex.Message}");
-    
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation($"Unexpected error in AddOrder: {ex.Message}", ex);
-        }
+        var order = GetOrderById(orderId);
+        return (order.Latitude, order.Longitude);
     }
 
-    internal static void FinishOrder(int requesterId, int courierId, int deliveryId)
+    /// <summary>
+    /// Gets the creation/opening time of an order.
+    /// </summary>
+    /// <param name="orderId">The ID of the order.</param>
+    /// <returns>The date and time when the order was created.</returns>
+    internal static DateTime GetOrderCreationTime(int orderId)
     {
-        try
-        {
-            // Validate requester and courier
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var courier = s_dal.Courier.Read(courierId) ?? throw new BLNotFoundException($"Courier {courierId} not found.");
-            var delivery = s_dal.Delivery.Read(deliveryId) ?? throw new BLNotFoundException($"Delivery {deliveryId} not found.");
-
-            var order = s_dal.Order.Read(delivery.OrderId) ?? throw new BLNotFoundException($"Order {delivery.OrderId} not found.");
-            var config = AdminManager.GetConfig();
-
-            // Compute coordinates and distance
-            double lat = order.Latitude ?? 0;
-            double lon = order.Longitude ?? 0;
-            if (lat == 0 && lon == 0)
-            {
-                try
-                {
-                    var coords = Tools.GetCoordinatesFromAddressAsync(order.CustomerAddress).GetAwaiter().GetResult();
-                    lat = coords.Latitude;
-                    lon = coords.Longitude;
-                }
-                catch { }
-            }
-
-            double distance = Tools.BirdDistance(config.CompanyLatitude, config.CompanyLongitude, lat, lon);
-
-            // Update delivery
-            var updated = delivery with
-            {
-                ArrivalTime = AdminManager.Now,
-                Distance = distance,
-                Status = DO.OrderStatus.Delivered
-            };
-
-            s_dal.Delivery.Update(updated);
-
-            // Optionally update courier activity (best-effort)
-            try
-            {
-                Tools.UpdateCourierActivity(courier, config.InactivityThreshold);
-                s_dal.Courier.Update(courier);
-            }
-            catch { }
-
-            // Notifications for order/delivery completion
-            Observers.NotifyItemUpdated(delivery.OrderId);
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        var order = GetOrderById(orderId);
+        return order.OrderOpeningTime;
     }
 
-    internal static void AssignOrderToCourier(int requesterId, int orderId, int courierId)
+    /// <summary>
+    /// Calculates the distance between two geographic coordinates using the Haversine formula.
+    /// </summary>
+    /// <param name="lat1">Latitude of the first point.</param>
+    /// <param name="lon1">Longitude of the first point.</param>
+    /// <param name="lat2">Latitude of the second point.</param>
+    /// <param name="lon2">Longitude of the second point.</param>
+    /// <returns>Distance in kilometers.</returns>
+    internal static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
     {
-        try
-        {
-            // Validate requester, courier and order
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var courier = s_dal.Courier.Read(courierId) ?? throw new BLNotFoundException($"Courier {courierId} not found.");
-            var order = s_dal.Order.Read(orderId) ?? throw new BLNotFoundException($"Order {orderId} not found.");
-
-            // Verify courier is active
-            if (!courier.IsActive)
-                throw new BO.BLInvalidOperationException($"Cannot assign order {orderId} to courier {courierId}: courier is not active.");
-
-            // Verify courier is not Director
-            if (courier.Administrator == DO.Administrator.Director)
-                throw new BO.BLInvalidOperationException($"Cannot assign order {orderId} to courier {courierId}: courier is a Director.");
-
-            // Create a new delivery assigned to courier
-            var delivery = new DO.Delivery
-            {
-                Id = 0,
-                OrderId = orderId,
-                Transport = courier.Transport,
-                CourierId = courierId,
-                PickupTime = DateTime.Now,
-                ArrivalTime = null,
-                Distance = null,
-                Status = DO.OrderStatus.Processing
-            };
-
-            s_dal.Delivery.Create(delivery);
-            
-            // Notifications for order assignment
-            Observers.NotifyItemUpdated(orderId);
-            Observers.NotifyListUpdated();
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        const double R = 6371;
+        var dLat = ToRadians(lat2 - lat1);
+        var dLon = ToRadians(lon2 - lon1);
+        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+        return R * c;
     }
 
-    internal static IEnumerable<BO.ClosedDeliveryInList> GetClosedDeliveriesForCourier(int requesterId, int courierId, BO.OrderType? filter, Enum? sorter)
+    /// <summary>
+    /// Converts degrees to radians.
+    /// </summary>
+    /// <param name="degrees">Angle in degrees.</param>
+    /// <returns>Angle in radians.</returns>
+    private static double ToRadians(double degrees)
     {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var courier = s_dal.Courier.Read(courierId) ?? throw new BLNotFoundException($"Courier {courierId} not found.");
-
-            var deliveries = s_dal.Delivery.ReadAll(d => d.CourierId == courierId && d.ArrivalTime != null).ToList();
-            var orders = s_dal.Order.ReadAll().ToDictionary(o => o.Id);
-
-            var list = deliveries.Select(d =>
-            {
-                orders.TryGetValue(d.OrderId, out var o);
-                return new BO.ClosedDeliveryInList
-                {
-                    DeliveryId = d.Id,
-                    OrderId = d.OrderId,
-                    OrderType = o != null ? (BO.OrderType)o.Type : BO.OrderType.FastFood,
-                    CustomerAdress = o?.CustomerAddress ?? string.Empty,
-                    DeliveryTransport = (BO.DeliveryTransport)d.Transport,
-                    ActualDistance = d.Distance,
-                    DeliveryTotalTime = d.ArrivalTime!.Value - d.PickupTime,
-                    DeliveredStatus = d.Status switch
-                    {
-                        DO.OrderStatus.Delivered => BO.DeliveredStatus.Delivered,
-                        DO.OrderStatus.Canceled => BO.DeliveredStatus.Canceled,
-                        DO.OrderStatus.Returned => BO.DeliveredStatus.Rejected,
-                        _ => BO.DeliveredStatus.Failed
-                    }
-                };
-            }).ToList();
-
-            if (filter.HasValue)
-                list = list.Where(x => x.OrderType == filter.Value).ToList();
-
-            if (sorter != null)
-            {
-                string key = sorter.ToString() ?? string.Empty;
-                bool ascending = true;
-                list = key switch
-                {
-                    "DeliveryTotalTime" => ascending ? list.OrderBy(x => x.DeliveryTotalTime).ToList() : list.OrderByDescending(x => x.DeliveryTotalTime).ToList(),
-                    "ActualDistance" => ascending ? list.OrderBy(x => x.ActualDistance).ToList() : list.OrderByDescending(x => x.ActualDistance).ToList(),
-                    _ => list
-                };
-            }
-
-            return list;
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        return degrees * Math.PI / 180;
     }
 
-    internal static IEnumerable<BO.OpenOrderInList> GetOpenOrdersForCourier(int requesterId, int courierId, BO.OrderType? filter, BO.DeliveredStatus? sorter)
+    /// <summary>
+    /// Gets all unique order IDs that have been assigned to a specific courier.
+    /// </summary>
+    /// <param name="courierId">The ID of the courier.</param>
+    /// <returns>Collection of distinct order IDs.</returns>
+    internal static IEnumerable<int> GetOrderIdsByCourier(int courierId)
     {
-        try
-        {
-            var requester = s_dal.Courier.Read(requesterId);
-            if (requester == null)
-                throw new BLNotFoundException("Requester does not exist.");
-
-            var courier = s_dal.Courier.Read(courierId) ?? throw new BLNotFoundException($"Courier {courierId} not found.");
-
-            var deliveries = s_dal.Delivery.ReadAll(d => d.CourierId == courierId && d.ArrivalTime == null).ToList();
-            var orders = s_dal.Order.ReadAll().ToDictionary(o => o.Id);
-            var config = AdminManager.GetConfig();
-
-            var list = deliveries.Select(d =>
-            {
-                orders.TryGetValue(d.OrderId, out var o);
-                double lat = o?.Latitude ?? 0;
-                double lon = o?.Longitude ?? 0;
-                if (lat == 0 && lon == 0 && o != null)
-                {
-                    try
-                    {
-                        var coords = Tools.GetCoordinatesFromAddressAsync(o.CustomerAddress).GetAwaiter().GetResult();
-                        lat = coords.Latitude;
-                        lon = coords.Longitude;
-                    }
-                    catch { }
-                }
-                double bird = Tools.BirdDistance(config.CompanyLatitude, config.CompanyLongitude, lat, lon);
-
-                // Use delivery pickup time + delivery transport speed for ETA when available
-                DateTime? estArrival = null;
-                TimeSpan estTimeSpan = TimeSpan.Zero;
-                if (o != null)
-                {
-                    double speed = Tools.GetSpeed(d.Transport, config);
-                    estArrival = Tools.CalculateEstimatedArrival(d.PickupTime, bird, speed);
-                    estTimeSpan = estArrival != null ? estArrival.Value - d.PickupTime : TimeSpan.Zero;
-                }
-
-                DateTime maxDelivered = estArrival?.Add(config.RiskRange) ?? AdminManager.Now;
-
-                return new BO.OpenOrderInList
-                {
-                    CourierId = d.CourierId == 0 ? null : (int?)d.CourierId,
-                    OrderId = d.OrderId,
-                    OrderType = o != null ? (BO.OrderType)o.Type : BO.OrderType.FastFood,
-                    Fragility = o?.Fragility != null ? (BO.FragilityLevel?)(BO.FragilityLevel)o.Fragility.Value : null,
-                    CustomerAddress = o?.CustomerAddress ?? string.Empty,
-                    BirdDistance = bird,
-                    Distance = d.Distance,
-                    AddedTime = (o != null) ? (TimeSpan?)(AdminManager.Now - o.OrderDate) : null,
-                    ScheduleStatus = Tools.CalculateScheduleStatus(Tools.CalculateOrderStatus(new List<DO.Delivery> { d }), o?.OrderDate ?? AdminManager.Now, estArrival, estArrival?.Add(config.RiskRange), d.ArrivalTime),
-                    EstimatedDeliveryTime = estTimeSpan,
-                    MaxDeliveredTime = maxDelivered
-                };
-            }).ToList();
-
-            if (filter.HasValue)
-                list = list.Where(x => x.OrderType == filter.Value).ToList();
-
-            // Sorter param is DeliveredStatus? but for open orders we'll support sorting by AddedTime or BirdDistance via enum name string
-            if (sorter != null)
-            {
-                string key = sorter.ToString() ?? string.Empty;
-                bool ascending = true;
-                list = key switch
-                {
-                    "BirdDistance" => ascending ? list.OrderBy(x => x.BirdDistance).ToList() : list.OrderByDescending(x => x.BirdDistance).ToList(),
-                    "AddedTime" => ascending ? list.OrderBy(x => x.AddedTime).ToList() : list.OrderByDescending(x => x.AddedTime).ToList(),
-                    _ => list
-                };
-            }
-
-            return list;
-        }
-        catch (Exception ex)
-        {
-            if (ex is BO.BLNotFoundException || ex is BO.BLInvalidInputException || ex is BO.BLAlreadyExistsException || ex is BO.BLInvalidOperationException) throw;
-            if (ex is DO.DalDoesNotExistException) throw new BO.BLNotFoundException(ex.Message, ex);
-            if (ex is DO.DalAlreadyExistsException) throw new BO.BLAlreadyExistsException(ex.Message, ex);
-            if (ex is DO.DalFormatException) throw new BO.BLInvalidInputException(ex.Message, ex);
-            if (ex is DO.DalNullReferenceException || ex is DO.DalXMLFileLoadCreateException) throw new BO.BLFailedOperation(ex.Message, ex);
-            throw new BO.BLFailedOperation(ex.Message, ex);
-        }
+        IEnumerable<DO.Delivery> deliveries;
+        lock (AdminManager.BlMutex) //stage 7
+            deliveries = s_dal.Delivery.ReadAll(d => d.CourierID == courierId).ToList();
+        return deliveries.Select(d => d.OrderID).Distinct();
     }
-    // 1234
-   
+
+    /// <summary>
+    /// Counts the number of orders that match the specified status filter.
+    /// </summary>
+    /// <param name="statusFilter">Filter function to apply on orders.</param>
+    /// <returns>Count of orders matching the status filter.</returns>
+    internal static int CountOrdersByStatus(Func<DO.Order, bool> statusFilter)
+    {
+        lock (AdminManager.BlMutex) //stage 7
+            return s_dal.Order.ReadAll(statusFilter).Count();
+    }
 }

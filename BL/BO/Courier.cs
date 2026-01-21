@@ -1,78 +1,73 @@
-﻿using Helpers;
+﻿namespace BO;
+using Helpers;
 
-namespace BO;
-
-/// <summary>
-/// Represents a courier who performs deliveries.
-/// </summary>
 public class Courier
 {
     /// <summary>
-    /// Unique identifier of the courier.
+    /// Unique identifier for the courier
     /// </summary>
-    public int Id { get; init; }
+    public int CourierID { get; init; }
 
     /// <summary>
-    /// Full name of the courier.
+    /// Full name of the courier
     /// </summary>
-    public string Name { get; set; }
+    public string? FullName { get; set; }
 
     /// <summary>
-    /// Contact phone number for the courier.
+    /// Phone number of the courier
     /// </summary>
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
 
     /// <summary>
-    /// Contact email address for the courier.
+    /// Email address of the courier
     /// </summary>
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     /// <summary>
-    /// password for the courier's account.
-    ///</summary>
-    public string Password { get; set; }
+    /// Start date of the courier's employment
+    /// </summary>
+    public DateTime? StartWorkInCompany { get; init; }
 
     /// <summary>
-    /// Indicates whether the courier is currently active and available for assignments.
+    /// Type of transport used by the courier
     /// </summary>
-    public bool IsActive { get; set; }
+    public DeliveryTransport TransportType { get; set; }
 
     /// <summary>
-    /// Primary transport method used by the courier.
+    /// Type of delivery service provided by the courier
     /// </summary>
-    public DeliveryTransport Transport { get; set; }
+    public DeliveryType? DeliveryType { get; set; }
+
 
     /// <summary>
-    /// Date when the courier started working (immutable after creation).
+    /// Password for the courier's account
     /// </summary>
-    public DateTime StartDate { get; init; }
+    public string? Password { get; set; }
 
     /// <summary>
-    /// Total number of deliveries completed on time.
+    /// Indicates if the courier is currently active
     /// </summary>
-    public int NumberOfOnTimeDeliveries { get; init; }
+    public Boolean IsActive { get; set; }
 
     /// <summary>
-    /// Total number of deliveries completed late.
+    /// Maximum delivery distance for the courier
     /// </summary>
-    public int NumberOfLateDeliveries { get; init; }
+    public double? MaxDeliveryDistanceKM { get; set; }
 
     /// <summary>
-    /// The order the courier is currently working on, or <c>null</c> when idle.
+    /// Number of deliveries made on time
     /// </summary>
-    public OrderInProgress? CurrentOrder { get; init; }
+    public int DeliveredInTime { get; set; }
 
     /// <summary>
-    /// Maximum distance (in kilometers) the courier is willing or allowed to travel for a delivery.
-    /// Nullable when no limit is specified.
+    /// Number of deliveries made late
     /// </summary>
-    public double? MaxDistance { get; set; }
+    public int DeliveredNotInTime { get; set; }
 
     /// <summary>
-    /// Say if the courier is administrator or director
+    /// Current order in progress for the courier
     /// </summary>
-    public Administrator Administrator { get; init; }
+    public BO.OrderInProgress? orderInProgress { get; set; }
 
     public override string ToString() => this.ToStringProperty();
-
 }

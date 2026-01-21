@@ -3,177 +3,144 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Courier"
         mc:Ignorable="d"
-        Title="Courier Dashboard"
-        Height="720"
+        Title="Courier Management"
+        Height="640"
         Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="#EEF2F7"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Background="#F4F6F8"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
 
-    <!-- ========= RESOURCES ========= -->
-    <Window.Resources>
-
-        <!-- Header Title -->
-        <Style x:Key="HeaderTitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <!-- Toolbar Label -->
-        <Style x:Key="ToolbarLabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="#455A64"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-        </Style>
-
-        <!-- Flat ComboBox -->
-        <Style x:Key="FlatComboBoxStyle" TargetType="ComboBox">
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="Padding" Value="10,6"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontSize" Value="13"/>
-        </Style>
-
-        <!-- Clean DataGrid -->
-        <Style x:Key="CleanDataGridStyle" TargetType="DataGrid">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#F7F9FC"/>
-            <Setter Property="GridLinesVisibility" Value="None"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-        </Style>
-
-        <!-- Floating Button -->
-        <Style x:Key="FloatingButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="56"/>
-            <Setter Property="Height" Value="56"/>
-            <Setter Property="Background" Value="#1976D2"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="28">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </Window.Resources>
-
-    <!-- ========= LAYOUT ========= -->
-    <Grid>
-
+    <!-- Main container -->
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="160"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ===== HEADER ===== -->
-        <Border Grid.Row="0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#1565C0" Offset="0"/>
-                    <GradientStop Color="#42A5F5" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
+        <!-- Header / Filter Bar -->
+        <Border Grid.Row="0"
+                Background="White"
+                CornerRadius="12"
+                Padding="16"
+                Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="40"
-                        VerticalAlignment="Center">
-                <TextBlock Text="Courier Management"
-                           Style="{StaticResource HeaderTitleStyle}"/>
+                <TextBlock Text="Filter by transport"
+                           VerticalAlignment="Center"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="#333"/>
 
-                <TextBlock Text="Overview &amp; performance tracking"
-                           FontSize="14"
-                           Foreground="#E3F2FD"
-                           Margin="0,6,0,0"/>
-            </StackPanel>
+                <ComboBox Grid.Column="1"
+                          Margin="16,0,0,0"
+                          Height="36"
+                          ItemsSource="{Binding Source={StaticResource DeliveryTransportKey}}"
+                          SelectedValue="{Binding Path=TransportType, Mode=TwoWay}"
+                          SelectionChanged="FilterChanged"
+                          FontSize="14"/>
+            </Grid>
         </Border>
 
-        <!-- ===== TOOLBAR ===== -->
+        <!-- Data Grid -->
         <Border Grid.Row="1"
                 Background="White"
-                Margin="30,-40,30,20"
                 CornerRadius="12"
-                Padding="20">
-
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center">
-
-                <TextBlock Text="Filter by transport:"
-                           Style="{StaticResource ToolbarLabelStyle}"
-                           Margin="0,0,15,0"/>
-
-                <ComboBox Style="{StaticResource FlatComboBoxStyle}"
-                          Width="220"
-                          ItemsSource="{Binding Source={StaticResource TransportsCollectionKey}}"
-                          SelectedValue="{Binding CourierDelivery, Mode=TwoWay}"
-                          SelectionChanged="TransportFilter_SelectionChanged"/>
-            </StackPanel>
-        </Border>
-
-        <!-- ===== DATA GRID ===== -->
-        <Border Grid.Row="2"
-                Background="White"
-                Margin="30,0,30,30"
-                CornerRadius="12"
-                Padding="20">
-
-            <DataGrid Style="{StaticResource CleanDataGridStyle}"
-                      ItemsSource="{Binding CourierList}"
+                Padding="10">
+            <DataGrid ItemsSource="{Binding CourierList}"
+                      SelectedItem="{Binding SelectedCourier}"
                       AutoGenerateColumns="False"
-                      MouseDoubleClick="dgCourierList_MouseDoubleClick">
+                      IsReadOnly="True"
+                      MouseDoubleClick="Update_DoubleClick"
+                      HeadersVisibility="Column"
+                      RowBackground="#FAFAFA"
+                      AlternatingRowBackground="#F0F2F5"
+                      GridLinesVisibility="None"
+                      FontSize="13">
 
                 <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding CourierID}"/>
+                    <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}"/>
+                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartWorkInCompany}"/>
 
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
-
-                    <DataGridTemplateColumn Header="Active" Width="Auto">
+                    <DataGridTemplateColumn Header="Transport">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsActive}"
-                                          IsEnabled="False"
-                                          HorizontalAlignment="Center"/>
+                                <Border CornerRadius="6"
+                                        Padding="6"
+                                        Background="{Binding TransportType, Converter={StaticResource TransportTypeToBackgroundKey}}">
+                                    <TextBlock Text="{Binding TransportType}"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="Transport" Binding="{Binding Transport}" Width="Auto"/>
-                    <DataGridTextColumn Header="Start Date"
-                                        Binding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                    <DataGridTextColumn Header="Password" Binding="{Binding Password}"/>
+                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}"/>
+                    <DataGridTextColumn Header="Max Distance (KM)" Binding="{Binding MaxDeliveryDistanceKM}"/>
 
-                    <DataGridTextColumn Header="On Time" Binding="{Binding NumberOfOnTimeDeliveries}"/>
-                    <DataGridTextColumn Header="Late" Binding="{Binding NumberOfLateDeliveries}"/>
-                    <DataGridTextColumn Header="Current Order" Binding="{Binding ActualOrder}"/>
+                    <DataGridTemplateColumn Header="Delivery Type">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="6"
+                                        Padding="6"
+                                        Background="{Binding DeliveryType, Converter={StaticResource DeliveryTypeToBackgroundKey}}">
+                                    <TextBlock Text="{Binding DeliveryType}"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="On Time" Binding="{Binding DeliveredInTime}"/>
+                    <DataGridTextColumn Header="Late" Binding="{Binding DeliveredNotInTime}"/>
+                    <DataGridTextColumn Header="Current Order"
+                                        Binding="{Binding orderInProgress.OrderID}"/>
+
+                    <DataGridTemplateColumn Header="Delete">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete"
+                                        Click="btnDelete_Click"
+                                        Background="#E53935"
+                                        Foreground="White"
+                                        Padding="10,4"
+                                        BorderThickness="0"
+                                        Cursor="Hand"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
 
-        <!-- ===== FLOATING ACTION BUTTON ===== -->
+        <!-- Add Button -->
         <Button Grid.Row="2"
-                Content="+"
-                Style="{StaticResource FloatingButtonStyle}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,50,50"
-                Click="btnAddCourier_Click"/>
-
+                Content="+ Add Courier"
+                Width="180"
+                Height="45"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Center"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Background="#1976D2"
+                Foreground="White"
+                BorderThickness="0"
+                Cursor="Hand"
+                Click="btnAdd_Click"/>
     </Grid>
 </Window>

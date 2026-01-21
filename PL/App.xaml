@@ -2,10 +2,33 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PL"
-             StartupUri="LoginWindow.xaml">
+             xmlns:conv="clr-namespace:PL"
+             StartupUri="LoginPage.xaml">
     <Application.Resources>
-        <local:TransportsCollection x:Key="TransportsCollectionKey" />
-        <local:OrderStatusCollection x:Key="OrderStatusCollectionKey" />
+        <!-- enum collections live in `PL` namespace (PL\Enums.cs) -->
+        <local:DeliveryTransport x:Key="DeliveryTransportKey" />
+        <local:DeliveryType x:Key="DeliveryTypeKey" />
+        <local:DeliveryDoneType x:Key="DeliveryDoneTypeKey" />
+        <local:ScheduleStatus x:Key="ScheduleStatusKey" />
+        <local:OrderType x:Key="OrderTypeKey" />
+        <local:OrderStatus x:Key="OrderStatusKey" />
+        <local:PizzaSize x:Key="PizzaSizeKey" />
+        <local:OrderListFilterProperty x:Key="OrderListFilterPropertyKey" />
+        <local:OrderListSortProperty x:Key="OrderListSortPropertyKey" />
 
+        <!-- converters live in `PL` namespace (PL\Converters\*.cs) -->
+        <conv:ConverterUpdateToTrue x:Key="ConvertUpdateToTrueKey" />
+        <conv:ConverterAddToTrue x:Key="ConvertAddToTrueKey" />
+        <conv:ConverterAddToFalse x:Key="ConvertAddToFalseKey" />
+        <conv:ConverterUpdateToVisible x:Key="ConvertUpdateToVisibleKey" />
+        <conv:ForceDataFormatConverter x:Key="ForceDataFormatKey" />
+        <conv:ConvertAddToVisibleKey x:Key="ConvertAddToVisibleKey" />
+        <conv:ConvertAddToNotVisibleKey x:Key="ConvertAddToNotVisibleKey" />
+        <conv:TransportTypeToBackgroundConverter x:Key="TransportTypeToBackgroundKey" />
+        <conv:DeliveryTypeToBackgroundConverter x:Key="DeliveryTypeToBackgroundKey" />
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityKey" />
+        <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityKey" />
+        <conv:OrderStatusToCancelVisibilityConverter x:Key="OrderStatusToCancelVisibilityConverter" />
+        <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </Application.Resources>
 </Application>

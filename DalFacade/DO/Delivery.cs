@@ -1,52 +1,28 @@
-﻿namespace DO
+﻿namespace DO;
+
+/// <summary>
+/// Creates a new delivery record with all relevant details
+/// </summary>
+/// <param name="DeliveryID">Unique identifier of the delivery</param>
+/// <param name="OrderID">Identifier of the related order</param>
+/// <param name="CourierID">Identifier of the courier assigned to the delivery</param>
+/// <param name="deliveryType">Type of delivery (e.g., express, scheduled, etc.)</param>
+/// <param name="DeliveryStartTime">Date and time when the delivery started</param>
+/// <param name="DeliveryDistance">Total distance of the delivery route</param>
+/// <param name="DeliveryDoneType">Indicates how the delivery was completed (e.g., successful, canceled, failed)</param>
+/// <param name="DeliveryDoneTime">Date and time when the delivery was completed</param>
+
+public record Delivery
+(
+    int DeliveryID,
+    int OrderID,
+    int CourierID,
+    DeliveryType? DeliveryType,
+    DateTime DeliveryStartTime,
+    double? DeliveryDistance,
+    ProcessResult? DeliveryDoneType,
+    DateTime? DeliveryDoneTime
+)
 {
-    /// <summary>
-    /// Represents a delivery assignment linking an order to a courier, with timing,
-    /// distance and transport metadata used to track and manage the delivery lifecycle.
-    /// </summary>
-    /// <param name="Id">Unique identifier of the delivery.</param>
-    /// <param name="OrderId">Identifier of the associated order.</param>
-    /// <param name="CourierId">Identifier of the assigned courier.</param>
-    /// <param name="PickupTime">
-    /// Scheduled or actual pickup time for the delivery. Prefer using UTC to avoid
-    /// ambiguity across services; callers should normalize to UTC when appropriate.
-    /// </param>
-    /// <param name="ArrivalTime">Optional arrival / completion time. Null until delivery is completed or recorded.</param>
-    /// <param name="Distance">Optional measured distance of the delivery in kilometers. Null when not measured.</param>
-    /// <param name="Transport">Transport mode used for the delivery. See <see cref="DeliveryTransport"/>.</param>
-    /// <param name="Status">Current delivery status. See <see cref="OrderStatus"/>; null if not set.</param>
-    /// <remarks>
-    /// - Nullable fields (<see cref="ArrivalTime"/>, <see cref="Distance"/>, <see cref="Status"/>) indicate values
-    ///   that may not be known at creation time and can be populated later.
-    /// - Use UTC for time fields across services to avoid timezone issues.
-    /// - Validate and sanitize any external input used to populate address or distance-related fields before persisting.
-    /// </remarks>
-    public record Delivery
-    (
-        int Id,
-        int OrderId,
-        DeliveryTransport Transport,
-        int CourierId,
-        DateTime PickupTime,
-        DateTime? ArrivalTime = null,
-        double? Distance = null,
-        OrderStatus? Status = null
-    )
-    {
-        /// <summary>
-        /// Initializes a new instance of <see cref="Delivery"/> with default values.
-        /// </summary>
-        /// <remarks>
-        /// Defaults:
-        /// - Id = 0
-        /// - OrderId = 0
-        /// - CourierId = 0
-        /// - PickupTime = <see cref="DateTime.Now"/> (consider using UTC in callers)
-        /// - ArrivalTime = null
-        /// - Distance = null
-        /// - Transport = <see cref="DeliveryTransport.Car"/>
-        /// - Status = <see cref="OrderStatus.Pending"/> (may be null depending on caller)
-        /// </remarks>
-        public Delivery() : this(0, 0, DeliveryTransport.Car, 0, DateTime.Now) { }
-    }
+    public Delivery() : this(0, 0, 0, null, DateTime.MinValue, null, null, null) { }
 }

@@ -4,31 +4,57 @@ namespace Dal;
 
 internal class ConfigImplementation : IConfig
 {
-    public DateTime Clock { get => Config.Clock; set => Config.Clock = value; }
+    public DateTime Clock
+    {
+        get => Config.Clock;
+        set => Config.Clock = value;
+    }
 
-    public int BossId { get => Config.BossId; set => Config.BossId = value; }
+    public IReadOnlyDictionary<int, string> Managers => Config.Managers;
 
-    public string BossPassword { get => Config.BossPassword; set => Config.BossPassword = value; }
+    public IReadOnlyDictionary<int, string> Couriers => Config.Couriers;
 
-    public double CarSpeed { get => Config.CarSpeed; set => Config.CarSpeed = value; }
+    public string? CompanyAddress
+    {
+        get => null;
+        set { }
+    }
 
-    public double MotorcycleSpeed { get => Config.MotorcycleSpeed; set => Config.MotorcycleSpeed = value; }
+    public double? Latitude
+    {
+        get => Config.Latitude;
+        set => Config.Latitude = value;
+    }
 
-    public double BikeSpeed { get => Config.BikeSpeed; set => Config.BikeSpeed = value; }
+    public double? Longitude
+    {
+        get => Config.Longitude;
+        set => Config.Longitude = value;
+    }
 
-    public double WalkingSpeed { get => Config.WalkingSpeed; set => Config.WalkingSpeed = value; }
+    public double? MaxDeliveryDistance
+    {
+        get => Config.MaxDeliveryDistance;
+        set => Config.MaxDeliveryDistance = value;
+    }
 
-    public TimeSpan MaxTimeDelivery { get => Config.MaxTimeDelivery; set => Config.MaxTimeDelivery = value; }
+    public TimeSpan MaxDeliveryTimeRange
+    {
+        get => Config.MaxDeliveryTimeRange;
+        set => Config.MaxDeliveryTimeRange = value;
+    }
 
-    public TimeSpan RiskRange { get => Config.RiskRange; set => Config.RiskRange = value; }
+    public TimeSpan RiskRange
+    {
+        get => Config.RiskRange;
+        set => Config.RiskRange = value;
+    }
 
-    public TimeSpan Inactivity { get => Config.Inactivity; set => Config.Inactivity = value; }
-
-    public string CompanyAdress { get => Config.CompanyAddress ?? string.Empty; set => Config.CompanyAddress = value; }
-    public double Latitude { get => Config.Latitude ?? 0.0; set => Config.Latitude = value; }
-    public double Longitude { get => Config.Longitude ?? 0.0; set => Config.Longitude = value; }
-    public double MaxDistance { get => Config.MaxDistance ?? 0.0; set => Config.MaxDistance = value; }
-
+    public TimeSpan InactivityTimeRange
+    {
+        get => Config.InactivityTimeRange;
+        set => Config.InactivityTimeRange = value;
+    }
 
     public void Reset()
     {
