@@ -237,11 +237,12 @@ namespace PL.Order
             if (string.IsNullOrWhiteSpace(text))
                 return false;
 
-            // Accept HH:mm:ss or HH:mm
-            return TimeSpan.TryParseExact(text.Trim(), "hh\\:mm\\:ss", CultureInfo.InvariantCulture, out time)
-                || TimeSpan.TryParseExact(text.Trim(), "hh\\:mm", CultureInfo.InvariantCulture, out time)
+            // Accept HH:mm:ss or HH:mm (24-hour clock)
+            return TimeSpan.TryParseExact(text.Trim(), "HH\\:mm\\:ss", CultureInfo.InvariantCulture, out time)
+                || TimeSpan.TryParseExact(text.Trim(), "HH\\:mm", CultureInfo.InvariantCulture, out time)
                 || TimeSpan.TryParse(text.Trim(), CultureInfo.CurrentCulture, out time);
         }
+
 
         public string ButtonText
         {
@@ -376,4 +377,5 @@ namespace PL.Order
         private void OnPropertyChanged(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
+
 }

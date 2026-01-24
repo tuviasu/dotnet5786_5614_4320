@@ -81,6 +81,12 @@ internal class AdminImplementation : IAdmin
         _ = AdminManager.GetConfig(requesterId);
         AdminManager.Stop(); //stage 7
     }
+    public void ResetClock(string requesterId)
+    {
+        AdminManager.ThrowOnSimulatorIsRunning();
+        AdminManager.ResetClock();
+    }
+
     #endregion Stage 7
 
     #region Stage 5

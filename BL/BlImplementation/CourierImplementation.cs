@@ -305,11 +305,11 @@ internal class CourierImplementation : ICourier
         // Couriers cannot change transport/delivery type while an order is in progress.
         // Managers may override (if you want to restrict managers too, change this to always enforce like courier).
         var effectiveTransport = (!requesterIsManager && hasOrderInProgress)
-            ? existingCourier.TransportType
+            ? existingCourier!.TransportType
             : (DO.DeliveryTransport)courier.TransportType;
 
         var effectiveDeliveryType = (!requesterIsManager && hasOrderInProgress)
-            ? existingCourier.DeliveryType
+            ? existingCourier!.DeliveryType
             : (courier.DeliveryType.HasValue ? (DO.DeliveryType?)courier.DeliveryType.Value : existingCourier.DeliveryType);
 
         if (!string.IsNullOrWhiteSpace(courier.Password) && courier.Password != existingCourier.Password)
@@ -317,7 +317,7 @@ internal class CourierImplementation : ICourier
             PasswordValidator.ValidateOrThrow(courier.Password);
         }
 
-        var updatedCourier = existingCourier with
+        var updatedCourier = existingCourier! with
         {
             FullName = courier.FullName ?? existingCourier.FullName,
             Phone = courier.Phone ?? existingCourier.Phone,

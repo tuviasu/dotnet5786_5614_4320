@@ -61,7 +61,11 @@ public interface IAdmin
     /// </summary>
     /// <param name="requesterId">Manager requester ID</param>
     void StopSimulator(int requesterId);
+    void ResetClock(string requesterId);
+
     #endregion Stage 7
+
+
 
     #region Stage 5
     void AddConfigObserver(Action configObserver);

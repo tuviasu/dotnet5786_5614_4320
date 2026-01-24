@@ -265,6 +265,10 @@ internal static class AdminManager //stage 4
     /// Simulates automatic delivery assignment and processing
     /// </summary>
     // Simulation logic is implemented inside relevant manager classes (stage 7)
+    internal static void ResetClock()
+{
+    UpdateClock(DateTime.Now);
+}
 
     #endregion Stage 7 base
 }

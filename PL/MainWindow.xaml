@@ -14,33 +14,30 @@
     <!-- ===================== -->
     <Window.Resources>
 
-        <!-- Clock format converter -->
         <local:ForceDataFormatConverter x:Key="ForceDataFormatConverter"/>
 
-        <!-- Card container -->
         <Style x:Key="CardStyle" TargetType="Border">
             <Setter Property="Background" Value="White"/>
             <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="12"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="8"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="10"
+                    <DropShadowEffect BlurRadius="8"
                                       ShadowDepth="2"
                                       Opacity="0.15"/>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Main button -->
         <Style x:Key="MainButton" TargetType="Button">
             <Setter Property="Background" Value="#4F6EF7"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="MinWidth" Value="150"/>
-            <Setter Property="MinHeight" Value="44"/>
-            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="MinWidth" Value="140"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="Padding" Value="16,8"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
@@ -56,21 +53,52 @@
             </Setter>
         </Style>
 
+        <Style x:Key="WatermarkTextBox" TargetType="TextBox">
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="6"/>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="4"/>
+                            <TextBlock Text="{TemplateBinding Tag}"
+                                       Foreground="#999"
+                                       Margin="10,0,0,0"
+                                       VerticalAlignment="Center"
+                                       IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+                                                         Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <!-- ===================== -->
-    <!-- Main Layout Grid      -->
+    <!-- Layout                -->
     <!-- ===================== -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Clock -->
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <!-- Configuration -->
-            <RowDefinition Height="Auto"/>
-            <!-- Orders Summary -->
-            <RowDefinition Height="Auto"/>
-            <!-- Actions -->
         </Grid.RowDefinitions>
 
         <!-- ===================== -->
@@ -78,122 +106,88 @@
         <!-- ===================== -->
         <Border Grid.Row="0" Style="{StaticResource CardStyle}">
             <StackPanel HorizontalAlignment="Center">
-
                 <TextBlock Text="System Clock"
-                           FontSize="20"
+                           FontSize="18"
                            FontWeight="Bold"/>
 
                 <TextBlock Text="{Binding CurrentTime, Converter={StaticResource ForceDataFormatConverter}}"
-                           FontSize="26"
+                           FontSize="24"
                            FontWeight="Bold"
-                           Margin="0,10"/>
+                           Margin="0,6"/>
 
                 <WrapPanel HorizontalAlignment="Center">
-                    <Button Content="+ Minute" Style="{StaticResource MainButton}" Margin="6"
-                            Click="btnAddOneMinute_Click"/>
-                    <Button Content="+ Hour" Style="{StaticResource MainButton}" Margin="6"
-                            Click="btnAddOneHour_Click"/>
-                    <Button Content="+ Day" Style="{StaticResource MainButton}" Margin="6"
-                            Click="btnAddOneDay_Click"/>
-                    <Button Content="+ Month" Style="{StaticResource MainButton}" Margin="6"
+                    <Button Content="+ Minute" Style="{StaticResource MainButton}" Margin="4" Click="btnAddOneMinute_Click"/>
+                    <Button Content="+ Hour"   Style="{StaticResource MainButton}" Margin="4" Click="btnAddOneHour_Click"/>
+                    <Button Content="+ Day"    Style="{StaticResource MainButton}" Margin="4" Click="btnAddOneDay_Click"/>
+                    <Button Content="+ Month"  Style="{StaticResource MainButton}" Margin="4" Click="btnAddOneMonth_Click"/>
+                    <Button Content="+ Year"   Style="{StaticResource MainButton}" Margin="4" Click="btnAddOneYear_Click"/>
 
-                            Click="btnAddOneMonth_Click"/>
-                    <Button Content="+ Year" Style="{StaticResource MainButton}" Margin="6"
-                            Click="btnAddOneYear_Click"/>
+                    <!-- RESET CLOCK BUTTON -->
+                    <Button Content="Reset System Clock"
+                            Style="{StaticResource MainButton}"
+                            Background="#FFB74D"
+                            Foreground="Black"
+                            Margin="12,4"
+                            Click="ResetClock_Click"/>
                 </WrapPanel>
-
             </StackPanel>
         </Border>
 
-        <!-- ================= CONFIG SECTION ================= -->
-
-        <!-- max delivery distance -->
-        <Label Grid.Row="2"
-       Content="Max Delivery Distance:"
-       FontWeight="Bold"
-       HorizontalAlignment="Center"
-       VerticalAlignment="Center"
-       Width="150"/>
-
-        <TextBox Grid.Column="1" Grid.Row="2"
-         Width="70"
-         Text="{Binding EditableMaxDeliveryDistance, UpdateSourceTrigger=LostFocus}"
-         HorizontalContentAlignment="Center"
-         VerticalContentAlignment="Center"/>
-
-        <!-- max delivery time -->
-        <Label Grid.Row="3"
-       Content="Max Delivery Time:"
-       FontWeight="Bold"
-       HorizontalAlignment="Center"
-       VerticalAlignment="Center"
-       Width="150"/>
-
-        <TextBox Grid.Column="1" Grid.Row="3"
-         Width="70"
-         Text="{Binding EditableMaxDeliveryTimeRange, UpdateSourceTrigger=LostFocus}"
-         HorizontalContentAlignment="Center"
-         VerticalContentAlignment="Center"/>
-
-        <!-- risk range -->
-        <Label Grid.Row="4"
-       Content="Risk Range:"
-       FontWeight="Bold"
-       HorizontalAlignment="Center"
-       VerticalAlignment="Center"
-       Width="150"/>
-
-        <TextBox Grid.Column="1" Grid.Row="4"
-         Width="70"
-         Text="{Binding EditableRiskRange, UpdateSourceTrigger=LostFocus}"
-         HorizontalContentAlignment="Center"
-         VerticalContentAlignment="Center"/>
-
-        <!-- inactivity time -->
-        <Label Grid.Row="5"
-       Content="Inactivity Time:"
-       FontWeight="Bold"
-       HorizontalAlignment="Center"
-       VerticalAlignment="Center"
-       Width="150"/>
-
-        <TextBox Grid.Column="1" Grid.Row="5"
-         Width="70"
-         Text="{Binding EditableInactivityTimeRange, UpdateSourceTrigger=LostFocus}"
-         HorizontalContentAlignment="Center"
-         VerticalContentAlignment="Center"/>
-
-        <!-- SINGLE UPDATE BUTTON -->
-        <Button Content="Update Configuration"
-        Grid.Column="2"
-        Grid.ColumnSpan="2"
-        Grid.Row="7"
-        Margin="0,20,0,0"
-        FontSize="18"
-        FontWeight="Bold"
-        BorderBrush="Black"
-        BorderThickness="3"
-        Width="240"
-        Height="55"
-        HorizontalAlignment="Center"
-        Click="btnUpdateConfig_Click"/>
-
-
         <!-- ===================== -->
-        <!-- Orders Summary        -->
+        <!-- Middle Section        -->
         <!-- ===================== -->
-        <Border Grid.Row="2" Style="{StaticResource CardStyle}">
-            <StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Orders Summary"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="0,0,0,10"/>
+            <!-- Configuration -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="System Configuration" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                <WrapPanel VerticalAlignment="Center">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Distance"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource WatermarkTextBox}"
+                                 Text="{Binding EditableMaxDeliveryDistance}" Tag="km"/>
 
-                    <ComboBox Width="200"
-                              SelectedItem="{Binding SelectedSummaryDeliveryDoneType}">
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Time"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource WatermarkTextBox}"
+                                 Text="{Binding EditableMaxDeliveryTimeRange}" Tag="hh:mm:ss"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource WatermarkTextBox}"
+                                 Text="{Binding EditableRiskRange}" Tag="hh:mm:ss"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource WatermarkTextBox}"
+                                 Text="{Binding EditableInactivityTimeRange}" Tag="hh:mm:ss"/>
+                    </Grid>
+
+                    <Button Content="Update Configuration"
+                            Style="{StaticResource MainButton}"
+                            HorizontalAlignment="Center"
+                            Margin="0,8,0,0"
+                            Click="btnUpdateConfig_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Orders Summary -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Orders Summary" FontSize="18" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <ComboBox Margin="0,4" SelectedItem="{Binding SelectedSummaryDeliveryDoneType}">
                         <ComboBoxItem Content="Delivery Done Type" IsSelected="True"/>
                         <ComboBoxItem Content="Delivered"/>
                         <ComboBoxItem Content="CustomerRefused"/>
@@ -202,62 +196,32 @@
                         <ComboBoxItem Content="Failed"/>
                     </ComboBox>
 
-                    <ComboBox Width="200" Margin="10,0,0,0"
-                              SelectedItem="{Binding SelectedSummaryScheduleStatus}">
+                    <ComboBox Margin="0,4" SelectedItem="{Binding SelectedSummaryScheduleStatus}">
                         <ComboBoxItem Content="Schedule Status" IsSelected="True"/>
                         <ComboBoxItem Content="OnTime"/>
                         <ComboBoxItem Content="InRisk"/>
                         <ComboBoxItem Content="Late"/>
                     </ComboBox>
 
-                    <Button Content="Apply Filter"
-                            Style="{StaticResource MainButton}"
-                            Margin="10,0,0,0"
-                            Click="SummaryFilter_Click"/>
-
-                    <Button Content="{Binding SummaryFilteredCount}"
-                            Style="{StaticResource MainButton}"
-                            Margin="10,0,0,0"
-                            MinWidth="80"
-                            Click="SummaryFilteredCount_Click"/>
-                </WrapPanel>
-
-            </StackPanel>
-        </Border>
+                    <WrapPanel Margin="0,8">
+                        <Button Content="Apply Filter" Style="{StaticResource MainButton}" Click="SummaryFilter_Click"/>
+                        <Button Content="{Binding SummaryFilteredCount}" Style="{StaticResource MainButton}"
+                                Margin="8,0,0,0" Click="SummaryFilteredCount_Click"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
 
         <!-- ===================== -->
         <!-- Actions Section       -->
         <!-- ===================== -->
-        <Border Grid.Row="3" Style="{StaticResource CardStyle}">
+        <Border Grid.Row="2" Style="{StaticResource CardStyle}">
             <WrapPanel HorizontalAlignment="Center">
-
-                <Button Content="Courier List"
-                        Style="{StaticResource MainButton}"
-                        Margin="8"
-                        Click="btnCouriersListWindow_Click"/>
-
-                <Button Content="Order List"
-                        Style="{StaticResource MainButton}"
-                        Margin="8"
-                        Click="btnOrdersListWindow_Click"/>
-
-                <Button Content="Init DB"
-                        Background="#2ECC71"
-                        Style="{StaticResource MainButton}"
-                        Margin="8"
-                        Click="btnInitDB_Click"/>
-
-                <Button Content="Reset DB"
-                        Background="#E74C3C"
-                        Style="{StaticResource MainButton}"
-                        Margin="8"
-                        Click="btnResetDB_Click"/>
-
-                <Button Content="Log Out"
-                        Background="#555"
-                        Style="{StaticResource MainButton}"
-                        Margin="8"
-                        Click="btnLOGOUT_Click"/>
+                <Button Content="Courier List" Style="{StaticResource MainButton}" Margin="6" Click="btnCouriersListWindow_Click"/>
+                <Button Content="Order List"   Style="{StaticResource MainButton}" Margin="6" Click="btnOrdersListWindow_Click"/>
+                <Button Content="Init DB" Background="#2ECC71" Style="{StaticResource MainButton}" Margin="6" Click="btnInitDB_Click"/>
+                <Button Content="Reset DB" Background="#E74C3C" Style="{StaticResource MainButton}" Margin="6" Click="btnResetDB_Click"/>
+                <Button Content="Log Out" Background="#555" Style="{StaticResource MainButton}" Margin="6" Click="btnLOGOUT_Click"/>
             </WrapPanel>
         </Border>
 

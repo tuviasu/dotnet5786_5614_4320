@@ -248,34 +248,8 @@ public partial class MainWindow : Window
 
     private void btnUpdateConfig_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var currentConfig = s_bl.Admin.GetConfig(requesterId);
-
-            currentConfig.MaxDeliveryDistance = EditableMaxDeliveryDistance;
-            currentConfig.MaxDeliveryTimeRange = EditableMaxDeliveryTimeRange;
-            currentConfig.RiskRange = EditableRiskRange;
-            currentConfig.InactivityTimeRange = EditableInactivityTimeRange;
-
-            s_bl.Admin.SetConfig(requesterId, currentConfig);
-
-            Configuration = s_bl.Admin.GetConfig(requesterId);
-            LoadConfigFieldsFromConfiguration();
-
-            MessageBox.Show(
-                "Configuration updated successfully!",
-                "Update Configuration",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(
-                ex.Message,
-                "Configuration Update Failed",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
+        // Intentionally disabled for now.
+        return;
     }
 
     private void LoadConfigFieldsFromConfiguration()
@@ -404,6 +378,29 @@ public partial class MainWindow : Window
 
         return Enum.TryParse<BO.ScheduleStatus>(s, out var v) ? v : null;
     }
+    private void ResetClock_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Admin.ResetClock(requesterId.ToString());
+
+
+            MessageBox.Show(
+                "System clock has been reset successfully.",
+                "Admin Action",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                ex.Message,
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+    }
+
 }
 
 

@@ -55,6 +55,9 @@ internal class ConfigImplementation : IConfig
         get => Config.InactivityTimeRange;
         set => Config.InactivityTimeRange = value;
     }
+    public int NextOrderId { get; set; } = 1000;
+    public int NextDeliveryId { get; set; } = 100000;
+    public int NextCourierId { get; set; } = 300000000;
 
     public void Reset()
     {

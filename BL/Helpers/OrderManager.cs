@@ -103,7 +103,7 @@ internal static class OrderManager
     internal static (double Latitude, double Longitude) GetOrderDestination(int orderId)
     {
         var order = GetOrderById(orderId);
-        return (order.Latitude, order.Longitude);
+        return (order!.Latitude, order.Longitude);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ internal static class OrderManager
     internal static DateTime GetOrderCreationTime(int orderId)
     {
         var order = GetOrderById(orderId);
-        return order.OrderOpeningTime;
+        return order!.OrderOpeningTime;
     }
 
     /// <summary>
