@@ -7,12 +7,12 @@ public static class Config
     //Order
     internal const int startOrderID = 1000;
     private static int nextOrderID = startOrderID;
-    internal static int NextOrderID => nextOrderID++;
+    internal static int NextOrderID => Interlocked.Increment(ref nextOrderID) - 1;
 
     //Delivery
     internal const int startDeliveryID = 100000;
     private static int nextDeliveryID = startDeliveryID;
-    internal static int NextDeliveryID => nextDeliveryID++;
+    internal static int NextDeliveryID => Interlocked.Increment(ref nextDeliveryID) - 1;
 
     //other
     internal static DateTime Clock
@@ -109,8 +109,8 @@ public static class Config
     [MethodImpl(MethodImplOptions.Synchronized)]
     internal static void Reset()
     {
-        nextOrderID = startOrderID;
-        nextDeliveryID = startDeliveryID;
+        Interlocked.Exchange(ref nextOrderID, startOrderID);
+        Interlocked.Exchange(ref nextDeliveryID, startDeliveryID);
         Clock = DateTime.Now;
 
         Managers = new()

@@ -2,10 +2,22 @@
 
 using System.Collections.Concurrent;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 
 public static class Tools
 {
+    /// <summary>
+    /// Returns the SHA-256 hex digest of the given password.
+    /// Use this when storing or comparing passwords — never store plaintext.
+    /// </summary>
+    public static string HashPassword(string password)
+    {
+        byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
+        return Convert.ToHexString(bytes).ToLowerInvariant();
+    }
+
     public static string ToStringProperty<T>(this T t)
     {
         var props = typeof(T).GetProperties();

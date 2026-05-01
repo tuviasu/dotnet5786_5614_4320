@@ -31,7 +31,7 @@ internal class CourierImplementation : ICourier
             StartWorkInCompany: courier.StartWorkInCompany ?? AdminManager.Now,
             TransportType: (DO.DeliveryTransport)courier.TransportType,
             DeliveryType: courier.DeliveryType.HasValue ? (DO.DeliveryType?)courier.DeliveryType.Value : null,
-            Password: courier.Password!,
+            Password: Helpers.Tools.HashPassword(courier.Password!),
             IsActive: courier.IsActive,
             MaxDeliveryDistanceKm: courier.MaxDeliveryDistanceKM,
             OrderInProgress: null
@@ -324,7 +324,9 @@ internal class CourierImplementation : ICourier
             Email = courier.Email ?? existingCourier.Email,
             TransportType = effectiveTransport,
             DeliveryType = effectiveDeliveryType,
-            Password = !string.IsNullOrWhiteSpace(courier.Password) ? courier.Password! : existingCourier.Password,
+            Password = !string.IsNullOrWhiteSpace(courier.Password)
+                ? Helpers.Tools.HashPassword(courier.Password!)
+                : existingCourier.Password,
             IsActive = effectiveIsActive,
             MaxDeliveryDistanceKm = courier.MaxDeliveryDistanceKM ?? existingCourier.MaxDeliveryDistanceKm,
             OrderInProgress = existingCourier.OrderInProgress,
