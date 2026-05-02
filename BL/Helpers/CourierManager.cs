@@ -143,23 +143,46 @@ internal static class CourierManager
                         continue;
 
                     var chosen = openOrders[s_rand.Next(openOrders.Count)];
+                    int chosenOrderId = chosen.OrderID;
+                    bool created = false;
 
-                    DO.Delivery newDelivery = new(
-                        DeliveryID: 0,
-                        OrderID: chosen.OrderID,
-                        CourierID: courier.CourierID,
-                        DeliveryType: DO.DeliveryType.Regular,
-                        DeliveryStartTime: AdminManager.Now,
-                        DeliveryDistance: null,
-                        DeliveryDoneType: null,
-                        DeliveryDoneTime: null);
+                    // Re-validate courier and order state inside the same lock used to create
+                    // the delivery, eliminating the race window between validation and creation.
+                    lock (AdminManager.BlMutex)
+                    {
+                        bool courierFree = !s_dal.Delivery
+                            .ReadAll(d => d.CourierID == courier.CourierID && d.DeliveryDoneTime == null)
+                            .Any();
 
-                    lock (AdminManager.BlMutex) //stage 7
-                        s_dal.Delivery.Create(newDelivery);
+                        var lastForOrder = s_dal.Delivery
+                            .ReadAll(d => d.OrderID == chosenOrderId)
+                            .OrderByDescending(d => d.DeliveryID)
+                            .FirstOrDefault();
+                        bool orderFree = lastForOrder == null || lastForOrder.DeliveryDoneTime != null;
 
-                    deliveriesListChanged = true;
-                    courierIdsToNotify.Add(courier.CourierID);
-                    orderIdsToNotify.Add(chosen.OrderID);
+                        if (courierFree && orderFree)
+                        {
+                            DO.Delivery newDelivery = new(
+                                DeliveryID: 0,
+                                OrderID: chosenOrderId,
+                                CourierID: courier.CourierID,
+                                DeliveryType: DO.DeliveryType.Regular,
+                                DeliveryStartTime: AdminManager.Now,
+                                DeliveryDistance: null,
+                                DeliveryDoneType: null,
+                                DeliveryDoneTime: null);
+
+                            s_dal.Delivery.Create(newDelivery);
+                            created = true;
+                        }
+                    }
+
+                    if (created)
+                    {
+                        deliveriesListChanged = true;
+                        courierIdsToNotify.Add(courier.CourierID);
+                        orderIdsToNotify.Add(chosenOrderId);
+                    }
                 }
                 else
                 {
@@ -263,22 +286,25 @@ internal static class CourierManager
     {
         try
         {
-            // 1) Fixed courier credentials (like managers in config)
+            string hashedInput = Tools.HashPassword(password);
+
+            // 1) Fixed courier credentials stored in config (stored as plaintext in config dict)
             if (int.TryParse(username, out int configCourierId))
             {
                 lock (AdminManager.BlMutex) //stage 7
                 {
-                    if (s_dal.Config.Couriers.TryGetValue(configCourierId, out var configPwd) && configPwd == password)
+                    if (s_dal.Config.Couriers.TryGetValue(configCourierId, out var configPwd)
+                        && configPwd == password) // config passwords are not hashed
                         return true;
                 }
             }
 
-            // 2) Regular couriers entity store
+            // 2) Regular couriers — passwords stored as SHA-256 hashes
             if (!int.TryParse(username, out int courierId))
                 return false;
 
             var courier = GetCourierById(courierId);
-            return courier.Password == password;
+            return courier != null && courier.Password == hashedInput;
         }
         catch
         {

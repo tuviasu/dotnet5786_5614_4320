@@ -94,10 +94,9 @@ public enum OpenOrderListSortProperty
 
 public enum TimeUnit
 {
-   
+    Seconds,
     Minutes,
     Hours,
     Days,
-    Month,
     Years
 }

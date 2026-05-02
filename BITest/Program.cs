@@ -185,6 +185,7 @@ internal class Program
             Console.WriteLine();
             Console.WriteLine("Username cannot be NULL.");
             AuthenticateCourier();
+            return;
         }
 
         Console.Write("Enter password: ");
@@ -195,6 +196,7 @@ internal class Program
             Console.WriteLine();
             Console.WriteLine("Password cannot be NULL.");
             AuthenticateCourier();
+            return;
         }
 
         string role = s_bl.Courier.AuthenticateCourier(username, password);
@@ -943,12 +945,12 @@ internal class Program
 
         BO.TimeUnit timeUnit = choice switch
         {
-            1 => BO.TimeUnit.Month,
+            1 => BO.TimeUnit.Seconds,
             2 => BO.TimeUnit.Minutes,
             3 => BO.TimeUnit.Hours,
             4 => BO.TimeUnit.Days,
             5 => BO.TimeUnit.Years,
-            _ => BO.TimeUnit.Minutes
+            _ => BO.TimeUnit.Seconds
         };
 
         s_bl.Admin.ForwardClock(requesterId, timeUnit);

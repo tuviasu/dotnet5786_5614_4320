@@ -9,7 +9,7 @@ internal class AdminImplementation : IAdmin
     {
         PasswordValidator.ValidateOrThrow(password);
 
-        // currently stored as plaintext (hashing will be applied later)
+        // Manager passwords are stored as plaintext in the config dictionary.
         return DalApi.Factory.Get.Config.Managers.TryGetValue(managerId, out var storedPwd)
             && storedPwd == password;
     }
@@ -21,7 +21,7 @@ internal class AdminImplementation : IAdmin
 
         switch (timeUnit)
         {
-            case TimeUnit.Month:
+            case TimeUnit.Seconds:
                 AdminManager.UpdateClock(AdminManager.Now.AddSeconds(1));
                 break;
             case TimeUnit.Minutes:

@@ -91,9 +91,9 @@ internal class OrderImplementation : IOrder
         if (delivery.DeliveryDoneTime != null)
             throw new BlInvalidIdException($"Delivery {deliveryId} is already completed", null);
 
+        // doneType is always Completed when triggered by a courier completing their run.
+        // The requesterId is a user/manager identifier, not a delivery result string.
         DO.ProcessResult doneType = DO.ProcessResult.Completed;
-        if (Enum.TryParse<BO.DeliveryDoneType>(requesterId, true, out var parsed))
-            doneType = (DO.ProcessResult)parsed;
 
         var updatedDelivery = delivery with
         {
@@ -394,30 +394,36 @@ internal class OrderImplementation : IOrder
         if (!CourierManager.IsCourierExists(courierIdInt))
             throw new BlItemNotFoundException($"Courier with ID {courierId} not found", null);
 
-        // Only orders that are currently available to be taken:
-        // - No deliveries yet
-        // - OR last delivery is completed AND was not a cancellation
-        var openOrders = OrderManager.GetAllOrders()
-            .Where(o =>
-            {
-                var lastDelivery = DeliveryManager.GetLastDeliveryForOrder(o.OrderID);
-                if (lastDelivery == null)
-                    return true;
+        // Fetch all required data under a single lock, then work on in-memory snapshots
+        // to avoid O(N×M) repeated lock acquisitions inside LINQ predicates.
+        var allOrders = OrderManager.GetAllOrders().ToList();
+        var allDeliveries = DeliveryManager.GetAllDeliveries().ToList();
 
-                if (lastDelivery.DeliveryDoneTime == null)
-                    return false; // already in progress
+        // Build a lookup: orderId -> last delivery (by start time)
+        var lastDeliveryByOrder = allDeliveries
+            .GroupBy(d => d.OrderID)
+            .ToDictionary(
+                g => g.Key,
+                g => g.OrderByDescending(d => d.DeliveryStartTime).First());
 
-                if (lastDelivery.DeliveryDoneType == DO.ProcessResult.Cancelled)
-                    return false;
+        var openOrders = allOrders.Where(o =>
+        {
+            if (!lastDeliveryByOrder.TryGetValue(o.OrderID, out var lastDelivery))
+                return true; // no deliveries yet
 
-                return true;
-            });
+            if (lastDelivery.DeliveryDoneTime == null)
+                return false; // already in progress
+
+            if (lastDelivery.DeliveryDoneType == DO.ProcessResult.Cancelled)
+                return false;
+
+            return true;
+        });
 
         if (orderTypeFilter.HasValue)
             openOrders = openOrders.Where(o => (BO.OrderType)o.OrderType == orderTypeFilter.Value);
 
         var config = AdminManager.GetConfig();
-
         var courier = CourierManager.GetCourierById(courierIdInt);
 
         var companyLat = config.Latitude ?? 0;

@@ -927,17 +927,15 @@ internal class Program
             int choice4;
             Console.WriteLine("CONFIG MENU:\n"
                             + "0. Exit to main menu\n"
-                            + "1. Advance system clock by second\n"
-                            + "2. Advance system clock by minute\n"
-                            + "3. Advance system clock by hour\n"
-                            + "4. Advance system clock by day\n"
-                            + "5. Advance system clock by year\n"
-                            + "6. show clock current value\n"
-                            + "7. Set new config value\n"
-                            + "8. get current config value\n"
-                            + "9. Reset all config values");
+                            + "1. Advance system clock by minute\n"
+                            + "2. Advance system clock by hour\n"
+                            + "3. Advance system clock by day\n"
+                            + "4. Show clock current value\n"
+                            + "5. Set new config value\n"
+                            + "6. Get current config value\n"
+                            + "7. Reset all config values");
             Console.Write("Enter your choice: ");
-            if (!int.TryParse(Console.ReadLine(), out choice4) || choice4 < 0 || choice4 > 9)
+            if (!int.TryParse(Console.ReadLine(), out choice4) || choice4 < 0 || choice4 > 7)
             {
                 Console.WriteLine();
                 Console.WriteLine("Enter valid number");
@@ -979,68 +977,70 @@ internal class Program
 
     private static void SetValue()
     {
+        if (s_dal == null)
+        {
+            Console.WriteLine("DAL instance is not available.");
+            return;
+        }
+
         Console.WriteLine("Enter new config values:");
-        Console.Write("Clock (YYYY-MM-DD HH:MM:SS): ");
-        string? newValue = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(newValue) && s_dal != null)
+
+        while (true)
         {
-            s_dal.Config.Clock = DateTime.Parse(newValue);
+            Console.Write("Clock (YYYY-MM-DD HH:MM:SS): ");
+            string? newValue = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(newValue) && DateTime.TryParse(newValue, out var clock))
+            {
+                s_dal.Config.Clock = clock;
+                break;
+            }
+            Console.WriteLine("Invalid input. Please enter a valid date/time.");
         }
-        else
+
+        while (true)
         {
-            Console.WriteLine();
-            Console.WriteLine("Invalid input or DAL not available.");
-            Console.WriteLine();
-            SetValue();
-        }
-        Console.Write("Max Delivery Distance (Km's): ");
-        if (int.TryParse(Console.ReadLine(), out var maxDeliveryDistance))
-        {
-            s_dal.Config.MaxDeliveryDistance = maxDeliveryDistance;
-        }
-        else
-        {
-            Console.WriteLine();
+            Console.Write("Max Delivery Distance (Km's): ");
+            if (int.TryParse(Console.ReadLine(), out var maxDeliveryDistance))
+            {
+                s_dal.Config.MaxDeliveryDistance = maxDeliveryDistance;
+                break;
+            }
             Console.WriteLine("Invalid input. Please enter a valid number.");
-            Console.WriteLine();
-            SetValue();
         }
-        Console.Write("Max Delivery Time Range (HH:MM:SS): ");
-        if (TimeSpan.TryParse(Console.ReadLine(), out var maxDeliveryTimeRange))
+
+        while (true)
         {
-            s_dal.Config.MaxDeliveryTimeRange = maxDeliveryTimeRange;
-        }
-        else
-        {
-            Console.WriteLine();
-            Console.Write("Invalid input. Please enter a valid time span.");
-            Console.WriteLine();
-            SetValue();
-        }
-        Console.Write("Risk Range (0-100): ");
-        if (TimeSpan.TryParse(Console.ReadLine(), out var riskRange))
-        {
-            s_dal.Config.RiskRange = riskRange;
-        }
-        else
-        {
-            Console.WriteLine();
+            Console.Write("Max Delivery Time Range (HH:MM:SS): ");
+            if (TimeSpan.TryParse(Console.ReadLine(), out var maxDeliveryTimeRange))
+            {
+                s_dal.Config.MaxDeliveryTimeRange = maxDeliveryTimeRange;
+                break;
+            }
             Console.WriteLine("Invalid input. Please enter a valid time span.");
-            Console.WriteLine();
-            SetValue();
         }
-        Console.Write("Inactivity Time Range (HH:MM:SS): ");
-        if (TimeSpan.TryParse(Console.ReadLine(), out var inactivityTimeRange))
+
+        while (true)
         {
-            s_dal.Config.InactivityTimeRange = inactivityTimeRange;
-        }
-        else
-        {
-            Console.WriteLine();
+            Console.Write("Risk Range (HH:MM:SS): ");
+            if (TimeSpan.TryParse(Console.ReadLine(), out var riskRange))
+            {
+                s_dal.Config.RiskRange = riskRange;
+                break;
+            }
             Console.WriteLine("Invalid input. Please enter a valid time span.");
-            Console.WriteLine();
-            SetValue();
         }
+
+        while (true)
+        {
+            Console.Write("Inactivity Time Range (HH:MM:SS): ");
+            if (TimeSpan.TryParse(Console.ReadLine(), out var inactivityTimeRange))
+            {
+                s_dal.Config.InactivityTimeRange = inactivityTimeRange;
+                break;
+            }
+            Console.WriteLine("Invalid input. Please enter a valid time span.");
+        }
+
         Console.WriteLine("Config values updated successfully.");
         Console.WriteLine();
     }
