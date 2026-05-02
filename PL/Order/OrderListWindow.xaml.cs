@@ -17,24 +17,13 @@ namespace PL.Order
         private readonly ObserverMutex _ordersMutex = new(); //stage 7
 
         private readonly string _requesterId;
-
-        // keep last filter property so we can detect changes reliably
-        private BO.OrderListFilterProperty? _lastFilterProperty;
-
+        private int _updatingDepth;
         private Predicate<object>? _compositeFilter;
 
         public OrderListWindow(string requesterId = "0")
         {
             _requesterId = requesterId;
             InitializeComponent();
-
-            // default is "no filter" and "no explicit sort"
-            FilterProperty = null;
-            FilterValue = null;
-            SortProperty = null;
-
-            _lastFilterProperty = FilterProperty;
-            BuildFilterValues(resetSelection: true);
         }
 
         public IEnumerable<BO.OrderInList> OrderList
@@ -48,9 +37,23 @@ namespace PL.Order
 
         public BO.OrderInList? SelectedOrder { get; set; }
 
-        public BO.OrderListFilterProperty? FilterProperty { get; set; }
+        public BO.OrderListFilterProperty? FilterProperty
+        {
+            get => (BO.OrderListFilterProperty?)GetValue(FilterPropertyProperty);
+            set => SetValue(FilterPropertyProperty, value);
+        }
+        public static readonly DependencyProperty FilterPropertyProperty =
+            DependencyProperty.Register(nameof(FilterProperty), typeof(BO.OrderListFilterProperty?), typeof(OrderListWindow),
+                new PropertyMetadata(null, (d, _) => ((OrderListWindow)d).OnFilterPropertyChanged()));
 
-        public object? FilterValue { get; set; }
+        public object? FilterValue
+        {
+            get => GetValue(FilterValueProperty);
+            set => SetValue(FilterValueProperty, value);
+        }
+        public static readonly DependencyProperty FilterValueProperty =
+            DependencyProperty.Register(nameof(FilterValue), typeof(object), typeof(OrderListWindow),
+                new PropertyMetadata(null));
 
         public BO.OrderListSortProperty? SortProperty { get; set; }
 
@@ -65,41 +68,45 @@ namespace PL.Order
 
         public void ApplyCompositeFilter(BO.OrderStatus status, BO.ScheduleStatus schedule)
         {
-            _compositeFilter = obj =>
+            _updatingDepth++;
+            try
             {
-                if (obj is not BO.OrderInList o)
-                    return false;
-
-                return o.orderStatus == status && o.scheduleStatus == schedule;
-            };
-
-            // Clear built-in BL filters so we don't show conflicting UI state
-            FilterProperty = null;
-            FilterValue = null;
-
+                _compositeFilter = obj =>
+                {
+                    if (obj is not BO.OrderInList o) return false;
+                    return o.orderStatus == status && o.scheduleStatus == schedule;
+                };
+                FilterProperty = null;
+                FilterValue = null;
+            }
+            finally { _updatingDepth--; }
             QueryOrderList();
         }
 
         public void ApplySummaryFilter(BO.OrderStatus? status, BO.ScheduleStatus? schedule)
         {
-            _compositeFilter = obj =>
+            _updatingDepth++;
+            try
             {
-                if (obj is not BO.OrderInList o)
-                    return false;
-
-                if (status.HasValue && o.orderStatus != status.Value)
-                    return false;
-
-                if (schedule.HasValue && o.scheduleStatus != schedule.Value)
-                    return false;
-
-                return true;
-            };
-
-            FilterProperty = null;
-            FilterValue = null;
-
+                _compositeFilter = obj =>
+                {
+                    if (obj is not BO.OrderInList o) return false;
+                    if (status.HasValue && o.orderStatus != status.Value) return false;
+                    if (schedule.HasValue && o.scheduleStatus != schedule.Value) return false;
+                    return true;
+                };
+                FilterProperty = null;
+                FilterValue = null;
+            }
+            finally { _updatingDepth--; }
             QueryOrderList();
+        }
+
+        private void OnFilterPropertyChanged()
+        {
+            _updatingDepth++;
+            try { BuildFilterValues(resetSelection: true); }
+            finally { _updatingDepth--; }
         }
 
         private void ApplyViewFilterIfNeeded()
@@ -114,8 +121,6 @@ namespace PL.Order
 
         private void BuildFilterValues(bool resetSelection)
         {
-            // IMPORTANT: BL implementation currently supports only Status and OrderType filters.
-            // DeliveryType appears in the enum but is not part of OrderInList and is ignored in BL.
             FilterValues = FilterProperty switch
             {
                 BO.OrderListFilterProperty.Status => Enum.GetValues(typeof(BO.OrderStatus)).Cast<object>().ToArray(),
@@ -124,15 +129,9 @@ namespace PL.Order
             };
 
             if (!FilterValues.Any())
-            {
                 FilterValue = null;
-            }
             else if (resetSelection || FilterValue == null || !FilterValues.Contains(FilterValue))
-            {
                 FilterValue = FilterValues.First();
-            }
-
-            QueryOrderList();
         }
 
         private void QueryOrderList()
@@ -154,17 +153,8 @@ namespace PL.Order
 
         private void FilterChanged(object sender, SelectionChangedEventArgs e)
         {
-            // user interacted with filter UI, so remove any composite filter from the summary screen
+            if (_updatingDepth > 0) return;
             _compositeFilter = null;
-
-            // Detect FilterProperty changes (works reliably regardless of ItemsSource type)
-            if (!Equals(_lastFilterProperty, FilterProperty))
-            {
-                _lastFilterProperty = FilterProperty;
-                BuildFilterValues(resetSelection: true);
-                return;
-            }
-
             QueryOrderList();
         }
 
