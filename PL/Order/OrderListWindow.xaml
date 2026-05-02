@@ -27,54 +27,45 @@
                 CornerRadius="14"
                 Padding="18"
                 Margin="0,0,0,12">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="220"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="200"/>
-                </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
 
-                <TextBlock Grid.Column="0"
-                           Text="Filter by"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           FontWeight="SemiBold"/>
+                <StackPanel Margin="0,0,24,0">
+                    <TextBlock Text="Filter by"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4"/>
+                    <ComboBox Width="180"
+                              Height="34"
+                              ItemsSource="{Binding Source={StaticResource OrderListFilterPropertyKey}}"
+                              SelectedValue="{Binding FilterProperty, Mode=TwoWay}"
+                              SelectionChanged="FilterChanged"/>
+                </StackPanel>
 
-                <ComboBox Grid.Column="1"
-                          Height="34"
-                          ItemsSource="{Binding Source={StaticResource OrderListFilterPropertyKey}}"
-                          SelectedValue="{Binding FilterProperty, Mode=TwoWay}"
-                          SelectionChanged="FilterChanged"/>
+                <StackPanel Margin="0,0,24,0">
+                    <TextBlock Text="Value"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4"/>
+                    <ComboBox Width="200"
+                              Height="34"
+                              ItemsSource="{Binding FilterValues}"
+                              SelectedItem="{Binding FilterValue, Mode=TwoWay}"
+                              SelectionChanged="FilterChanged"/>
+                </StackPanel>
 
-                <TextBlock Grid.Column="3"
-                           Text="Value"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           FontWeight="SemiBold"/>
+                <StackPanel>
+                    <TextBlock Text="Sort by"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4"/>
+                    <ComboBox Width="180"
+                              Height="34"
+                              ItemsSource="{Binding Source={StaticResource OrderListSortPropertyKey}}"
+                              SelectedValue="{Binding SortProperty, Mode=TwoWay}"
+                              SelectionChanged="FilterChanged"/>
+                </StackPanel>
 
-                <ComboBox Grid.Column="4"
-                          Height="34"
-                          ItemsSource="{Binding FilterValues}"
-                          SelectedItem="{Binding FilterValue, Mode=TwoWay}"
-                          SelectionChanged="FilterChanged"/>
-
-                <TextBlock Grid.Column="6"
-                           Text="Sort by"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           FontWeight="SemiBold"/>
-
-                <ComboBox Grid.Column="7"
-                          Height="34"
-                          ItemsSource="{Binding Source={StaticResource OrderListSortPropertyKey}}"
-                          SelectedValue="{Binding SortProperty, Mode=TwoWay}"
-                          SelectionChanged="FilterChanged"/>
-            </Grid>
+            </StackPanel>
         </Border>
 
         <!-- Orders Table -->
