@@ -1,29 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextOrderId>1061</NextOrderId>
+  <!-- ID counters (must stay >= max existing id + 1 in orders.xml / deliveries.xml) -->
+  <NextOrderID>1061</NextOrderID>
   <NextDeliveryID>100091</NextDeliveryID>
-  <Clock>21/01/2026 16:58:19</Clock>
-  <BossId>111111111</BossId>
-  <BossPassword>admin123</BossPassword>
-  <CarSpeed>40</CarSpeed>
-  <MotorcycleSpeed>50</MotorcycleSpeed>
-  <BikeSpeed>20</BikeSpeed>
-  <WalkingSpeed>5</WalkingSpeed>
-  <!-- MaxTimeDelivery is stored as hours -->
-  <MaxTimeDelivery>1</MaxTimeDelivery>
-  <!-- RiskRange is stored as minutes -->
-  <RiskRange>00:00:00</RiskRange>
-  <!-- Inactivity is stored as days -->
-  <Inactivity>30</Inactivity>
-  <CompanyAddress>22 HaMeyasdim jerusalem</CompanyAddress>
-  <Latitude>0</Latitude>
-  <Longitude>0</Longitude>
-  <MaxDistance>25</MaxDistance>
+  <!-- Simulated system clock. Stored in ISO 8601 so it parses back under any culture. -->
+  <Clock>2026-01-21T16:59:19.0000000</Clock>
+  <!-- Operational configuration (TimeSpan values as hh:mm:ss) -->
+  <MaxDeliveryDistance>30</MaxDeliveryDistance>
+  <MaxDeliveryTimeRange>01:30:00</MaxDeliveryTimeRange>
+  <RiskRange>00:15:00</RiskRange>
+  <InactivityTimeRange>08:00:00</InactivityTimeRange>
+  <!-- Company location -->
+  <Latitude>32.064012</Latitude>
+  <Longitude>34.774101</Longitude>
+  <!-- Admin (manager) credentials. Demo only. -->
   <Managers>
     <Manager>
       <Id>111111111</Id>
       <Password>admin123</Password>
     </Manager>
   </Managers>
+  <!-- Courier password map. Populated by "Init DB"; empty until then. -->
   <Couriers />
 </config>

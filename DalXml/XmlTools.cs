@@ -1,6 +1,7 @@
 ﻿namespace Dal;
 
 using DO;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -113,7 +114,9 @@ static class XMLTools
     public static void SetConfigDateVal(string xmlFileName, string elemName, DateTime elemVal)
     {
         XElement root = XMLTools.LoadListFromXMLElement(xmlFileName);
-        root.Element(elemName)?.SetValue((elemVal).ToString());
+        // Write in a culture-invariant, round-trippable ISO 8601 format so the value can
+        // always be parsed back regardless of the runtime thread culture.
+        root.Element(elemName)?.SetValue(elemVal.ToString("o", CultureInfo.InvariantCulture));
         XMLTools.SaveListToXMLElement(root, xmlFileName);
     }
     public static double? GetConfigDoubleVal(string xmlFileName, string elemName)
@@ -247,7 +250,40 @@ static class XMLTools
     public static T? ToEnumNullable<T>(this XElement element, string name) where T : struct, Enum =>
         Enum.TryParse<T>((string?)element.Element(name), out var result) ? (T?)result : null;
     public static DateTime? ToDateTimeNullable(this XElement element, string name) =>
-        DateTime.TryParse((string?)element.Element(name), out var result) ? (DateTime?)result : null;
+        ParseDateTimeRobust((string?)element.Element(name));
+
+    /// <summary>
+    /// Parses a date/time string robustly across cultures and common formats, so that values
+    /// written under one locale (e.g. he-IL "dd/MM/yyyy") can be read back under another
+    /// (e.g. an invariant/en-US runtime). Tries ISO round-trip first, then a set of explicit
+    /// formats, then the current culture. Returns <c>null</c> if nothing matches.
+    /// </summary>
+    private static DateTime? ParseDateTimeRobust(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
+
+        // 1) ISO 8601 round-trip / invariant (handles "o" output and "yyyy-MM-ddTHH:mm:ss").
+        if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var iso))
+            return iso;
+
+        // 2) Common explicit formats, culture-invariant.
+        string[] formats =
+        {
+            "dd/MM/yyyy HH:mm:ss", "dd/MM/yyyy H:mm:ss", "dd/MM/yyyy HH:mm", "dd/MM/yyyy",
+            "MM/dd/yyyy HH:mm:ss", "MM/dd/yyyy H:mm:ss", "MM/dd/yyyy HH:mm", "MM/dd/yyyy",
+            "yyyy-MM-dd HH:mm:ss", "yyyy-MM-ddTHH:mm:ss", "yyyy-MM-dd",
+            "d/M/yyyy HH:mm:ss", "M/d/yyyy HH:mm:ss", "d/M/yyyy", "M/d/yyyy",
+        };
+        if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var explicitDt))
+            return explicitDt;
+
+        // 3) Current culture as a last resort.
+        if (DateTime.TryParse(value, CultureInfo.CurrentCulture, DateTimeStyles.None, out var current))
+            return current;
+
+        return null;
+    }
     public static double? ToDoubleNullable(this XElement element, string name) =>
         double.TryParse((string?)element.Element(name), out var result) ? (double?)result : null;
     public static int? ToIntNullable(this XElement element, string name) =>

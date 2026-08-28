@@ -55,16 +55,26 @@ public partial class MainWindow : Window
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-        CurrentTime = s_bl.Admin.GetClock(requesterId);
-        Configuration = s_bl.Admin.GetConfig(requesterId);
+        try
+        {
+            CurrentTime = s_bl.Admin.GetClock(requesterId);
+            Configuration = s_bl.Admin.GetConfig(requesterId);
 
-        LoadConfigFieldsFromConfiguration();
+            LoadConfigFieldsFromConfiguration();
 
-        s_bl.Admin.AddClockObserver(ClockObserver);
-        s_bl.Admin.AddConfigObserver(ConfigObserver);
+            s_bl.Admin.AddClockObserver(ClockObserver);
+            s_bl.Admin.AddConfigObserver(ConfigObserver);
 
-        s_bl.Order.AddObserver(OrdersObserver);
-        RefreshOrdersSummary();
+            s_bl.Order.AddObserver(OrdersObserver);
+            RefreshOrdersSummary();
+        }
+        catch (Exception ex)
+        {
+            // Defensive: a failure during initial data load must not crash the dashboard.
+            // Keep the window open so the user can still navigate or log out.
+            MessageBox.Show(this, $"Failed to load dashboard data:\n{ex.Message}",
+                "Initialization error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
     private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -82,10 +92,19 @@ public partial class MainWindow : Window
 
         _ = Dispatcher.BeginInvoke(async () =>
         {
-            CurrentTime = s_bl.Admin.GetClock(requesterId);
-
-            if (await _clockMutex.UnsetLoadInProgressAndCheckRestartRequested())
-                ClockObserver();
+            try
+            {
+                CurrentTime = s_bl.Admin.GetClock(requesterId);
+            }
+            catch
+            {
+                // A transient BL error during a clock refresh must not crash the UI thread.
+            }
+            finally
+            {
+                if (await _clockMutex.UnsetLoadInProgressAndCheckRestartRequested())
+                    ClockObserver();
+            }
         });
         #endregion Stage 7 (for multithreading)
     }
@@ -98,11 +117,20 @@ public partial class MainWindow : Window
 
         _ = Dispatcher.BeginInvoke(async () =>
         {
-            Configuration = s_bl.Admin.GetConfig(requesterId);
-            LoadConfigFieldsFromConfiguration();
-
-            if (await _configMutex.UnsetLoadInProgressAndCheckRestartRequested())
-                ConfigObserver();
+            try
+            {
+                Configuration = s_bl.Admin.GetConfig(requesterId);
+                LoadConfigFieldsFromConfiguration();
+            }
+            catch
+            {
+                // A transient BL error during a config refresh must not crash the UI thread.
+            }
+            finally
+            {
+                if (await _configMutex.UnsetLoadInProgressAndCheckRestartRequested())
+                    ConfigObserver();
+            }
         });
         #endregion Stage 7 (for multithreading)
     }
@@ -115,10 +143,19 @@ public partial class MainWindow : Window
 
         _ = Dispatcher.BeginInvoke(async () =>
         {
-            RefreshOrdersSummary();
-
-            if (await _ordersMutex.UnsetLoadInProgressAndCheckRestartRequested())
-                OrdersObserver();
+            try
+            {
+                RefreshOrdersSummary();
+            }
+            catch
+            {
+                // A transient BL error during an orders refresh must not crash the UI thread.
+            }
+            finally
+            {
+                if (await _ordersMutex.UnsetLoadInProgressAndCheckRestartRequested())
+                    OrdersObserver();
+            }
         });
         #endregion Stage 7 (for multithreading)
     }

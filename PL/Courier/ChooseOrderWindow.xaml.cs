@@ -81,21 +81,36 @@ public partial class ChooseOrderWindow : Window
             _loadCts?.Cancel();
             _loadCts?.Dispose();
             _loadCts = new CancellationTokenSource();
+            var token = _loadCts.Token;
 
-            Orders.Clear();
+            // Stream the data on the calling thread (the await continuation may land on a
+            // thread-pool thread), but buffer the results and only touch the bound
+            // ObservableCollection on the UI Dispatcher — otherwise WPF throws a
+            // cross-thread "different thread owns this object" exception.
+            var buffer = new List<BO.OpenOrderInList>();
             await foreach (var item in s_bl.Order.StreamOpenOrdersForCourierAsync(
                                "0",
                                CourierId.ToString(),
                                null,
                                null,
-                               _loadCts.Token))
+                               token))
             {
-                Orders.Add(item);
+                buffer.Add(item);
+                if (token.IsCancellationRequested)
+                    break;
             }
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                Orders.Clear();
+                foreach (var item in buffer)
+                    Orders.Add(item);
+            });
         }
         catch
         {
-            Orders.Clear();
+            // Marshal the collection reset to the UI thread as well.
+            try { await Dispatcher.InvokeAsync(() => Orders.Clear()); } catch { }
         }
     }
 
