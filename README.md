@@ -3,24 +3,53 @@
 ### A desktop logistics control center for a computer-equipment retailer — built with WPF / .NET 8 on a clean 3-tier architecture.
 
 <p align="center">
-  <em>A role-based (Admin / Courier) delivery management desktop app with a live dashboard, real-time observer-driven updates, and swappable XML / in-memory persistence.</em>
+  <em>Role-based (Admin / Courier) delivery management with a live dashboard, real-time observer-driven updates, and swappable XML / in-memory persistence.</em>
+</p>
+
+<p align="center">
+  <a href="https://dotnet.microsoft.com/"><img alt=".NET 8" src="https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet&logoColor=white"></a>
+  <a href="https://learn.microsoft.com/en-us/dotnet/csharp/"><img alt="C# 12" src="https://img.shields.io/badge/C%23-12-239120?logo=csharp&logoColor=white"></a>
+  <a href="https://learn.microsoft.com/en-us/dotnet/desktop/wpf/"><img alt="WPF" src="https://img.shields.io/badge/WPF-XAML-4F46E5?logo=windows&logoColor=white"></a>
+  <img alt="Architecture" src="https://img.shields.io/badge/Architecture-3--Tier%20Layered-F59E0B">
+  <img alt="Persistence" src="https://img.shields.io/badge/Persistence-XML%20%2F%20In--memory-10B981">
+  <img alt="Patterns" src="https://img.shields.io/badge/Patterns-Factory%20%C2%B7%20Singleton%20%C2%B7%20Observer-8B5CF6">
+  <img alt="License" src="https://img.shields.io/badge/License-Academic-94A3B8">
+</p>
+
+<p align="center">
+  <a href="#-quick-start--download">⬇️ Download</a> ·
+  <a href="#-screenshots--demo">📸 Screenshots</a> ·
+  <a href="#-demo-credentials">🔑 Credentials</a> ·
+  <a href="#-architecture--design-patterns">🏗️ Architecture</a> ·
+  <a href="#-demo-video-script">🎥 Video Script</a>
 </p>
 
 ---
 
-## 📸 Screenshots & Demo
+## ⭐ Quick Start & Download
 
-> _Placeholder slots — drop your captures in `docs/` and update the links._
+The easiest way to try the app — no build, no .NET install required:
 
-| Login Screen | Admin Dashboard | Courier Dashboard |
-|---|---|---|
-| `![Login](docs/login.png)` | `![Dashboard](docs/dashboard.png)` | `![Courier](docs/courier.png)` |
+> ### 👉 [Download `DeliveryApp_v1.0.zip`](https://github.com/tuviasu/dotnet5786_5614_4320/releases/download/v1.0/DeliveryApp_v1.0.zip)  *(self-contained Windows x64, ~67 MB)*
 
-| Order List | Order Details | Courier List | Delivery History |
-|---|---|---|---|
-| `![Orders](docs/orders.png)` | `![OrderDetails](docs/order-details.png)` | `![Couriers](docs/couriers.png)` | `![History](docs/history.png)` |
+1. Download and unzip the archive.
+2. Run **`DeliveryApp_v1.0/app/PL.exe`**.
+3. Sign in with the **Admin** credentials below.
 
-🎥 **Demo GIF placeholder:** `![Demo](docs/demo.gif)`
+> The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime.
+
+Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run).
+
+---
+
+## ✨ Key Highlights
+
+- **🧱 Clean 3-Tier / Layered Architecture** — `PL` (WPF UI) → `BL` (business logic) → `DAL` (data). Every layer depends only on the **interface** of the one below it, so the BL never knows which storage engine is running.
+- **🔌 Pluggable persistence** — switch between **XML serialization** (`DalXml`) and **in-memory lists** (`DalList`) by editing a single config line (`xml/dal-config.xml`). Demonstrates the Factory + Facade patterns in practice.
+- **📡 Observer-driven live UI** — the BL exposes `AddObserver / RemoveObserver`; WPF windows subscribe and refresh only affected data (clock, config, orders, couriers). **No polling**, no timers. `INotifyPropertyChanged` + dependency properties drive the bindings.
+- **🧵 Thread-safe dispatch** — background notifications are marshaled onto the UI thread via the WPF `Dispatcher`, with a dedicated `ObserverMutex` preventing re-entrant refresh storms.
+- **🧩 Design patterns throughout** — Singleton (`Factory.Get()`), Factory (BL & DAL creation), Observer (live updates), Facade/Adapter (uniform CRUD over two backends), DI via interfaces.
+- **🎨 Cohesive modern UI** — a shared theme (`App.xaml`) keeps every window visually consistent: rounded buttons/cards, focus-highlight inputs, gradient accents.
 
 ---
 
@@ -31,7 +60,49 @@
 - **Admin / Manager** — full operational control: a system dashboard with a configurable clock, live orders summary with filtering, system configuration, and CRUD over couriers and orders.
 - **Courier** — a focused self-service workspace: view/edit personal details, pick an available order, handle an in-progress delivery, and review past delivery history.
 
-The project was developed as an academic exercise focused on **clean architecture, design patterns, and real-world system design** — layered separation, the Observer pattern for live UI synchronization, thread-safe updates, and a pluggable data-access layer.
+The project was developed as an academic exercise focused on **clean architecture, design patterns, and real-world system design**.
+
+---
+
+## 📸 Screenshots & Demo
+
+> Place captures in [`docs/assets/`](docs/assets) — the links below point to those files. Replace the placeholders with your exports.
+
+| Login Screen | Admin Dashboard | Courier Dashboard |
+|---|---|
+| <img src="docs/assets/login.png" alt="Login" width="420"> | <img src="docs/assets/admin_dashboard.png" alt="Admin Dashboard" width="420"> | <img src="docs/assets/courier_view.png" alt="Courier Dashboard" width="420"> |
+
+| Order Management | Order Details | Courier List |
+|---|---|---|
+| <img src="docs/assets/order_management.png" alt="Order Management" width="420"> | <img src="docs/assets/order_details.png" alt="Order Details" width="420"> | <img src="docs/assets/courier_list.png" alt="Courier List" width="420"> |
+
+| Choose Order | Delivery History | Courier Add/Edit |
+|---|---|---|
+| <img src="docs/assets/choose_order.png" alt="Choose Order" width="420"> | <img src="docs/assets/delivery_history.png" alt="Delivery History" width="420"> | <img src="docs/assets/courier_edit.png" alt="Courier Add/Edit" width="420"> |
+
+### Screenshot checklist (files to capture into `docs/assets/`)
+- `login.png` — the modern login screen (show role chips + validation)
+- `admin_dashboard.png` — MainWindow: clock, config, orders summary, action buttons
+- `courier_view.png` — CourierSelfWindow: details + order-in-progress
+- `order_management.png` — OrderListWindow: filter/sort + orders grid
+- `order_details.png` — OrderWindow: order form + deliveries sub-grid
+- `courier_list.png` — CourierListWindow: filter + couriers grid
+- `choose_order.png` — ChooseOrderWindow: available orders
+- `delivery_history.png` — CourierHistoryWindow: past deliveries
+- `courier_edit.png` — CourierWindow: add/update form
+- `demo.gif` — short screen recording (see [🎥 Video Walkthrough](#-video-walkthrough))
+
+---
+
+## 🎥 Video Walkthrough
+
+> _Embed your demo video/GIF here once recorded. Suggested format: a 60–90 second MP4/GIF linked below._
+
+<p align="center">
+  <a href="docs/assets/demo.gif"><img src="docs/assets/demo.gif" alt="DeliveryApp demo" width="640"></a>
+</p>
+
+> _You can also attach the video to the [v1.0 release](https://github.com/tuviasu/dotnet5786_5614_4320/releases/tag/v1.0) and link it here._
 
 ---
 
@@ -67,7 +138,7 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 
 - **Singleton** — `Factory.Get()` returns a single shared `IBl` / `IDal` instance.
 - **Factory** — `BlApi.Factory` and `DalApi.Factory` decouple creation from implementation.
-- **Observer** — the BL exposes `AddObserver / RemoveObserver`; PL windows subscribe and refresh only the affected data (clock, config, orders, couriers) — no polling.
+- **Observer** — the BL exposes `AddObserver / RemoveObserver`; PL windows subscribe and refresh only the affected data (clock, config, orders, couriers) — no polling. WPF `INotifyPropertyChanged` + dependency properties propagate changes to the UI.
 - **Adapter / Facade** — `DalFacade` presents a uniform CRUD interface over two very different backends.
 - **Dependency Injection via interfaces** — every layer programs to interfaces (`IBl`, `ICourier`, `IOrder`, `IAdmin`, `ICrud<T>`).
 - **Thread-safe observer dispatch** — `ObserverMutex` + `Dispatcher.BeginInvoke` marshal background notifications onto the UI thread and prevent re-entrant refresh storms.
@@ -137,7 +208,7 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 
 ### 1. Clone
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/tuviasu/dotnet5786_5614_4320.git
 cd dotnet5786_5614_4320
 ```
 
@@ -179,11 +250,10 @@ A self-contained, no-.NET-install-required build is published for Windows x64:
 
 ```bash
 dotnet publish PL/PL.csproj -c Release -r win-x64 --self-contained true -o publish/app
-# copy the data files so ..\xml\ resolves at runtime
 cp -r xml publish/xml
 ```
 
-The packaged archive **`DeliveryApp_v1.0.zip`** contains:
+The packaged archive **`DeliveryApp_v1.0.zip`** ([download](https://github.com/tuviasu/dotnet5786_5614_4320/releases/download/v1.0/DeliveryApp_v1.0.zip)) contains:
 - `app/` — the self-contained executable and all runtime files,
 - `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`).
 
@@ -209,9 +279,18 @@ dotnet5786_5614_4320/
 ├── DalXml/                 # XML-persistence DAL
 ├── DalTest/                # DAL tests
 ├── BITest/                 # Integration tests
-├── xml/                    # Runtime data files
+├── docs/assets/           # Screenshots & demo media
+├── xml/                    # Runtime / seed data files
 └── dotnet5786_5614_4320.sln
 ```
+
+---
+
+## 🎬 Demo Video Script
+
+A short (60–90s) walkthrough. See the full script in [`docs/DEMO_VIDEO_SCRIPT.md`](docs/DEMO_VIDEO_SCRIPT.md).
+
+**Flow:** Login → Admin Order Management → Courier Assignment & Status Update → Architecture recap.
 
 ---
 
