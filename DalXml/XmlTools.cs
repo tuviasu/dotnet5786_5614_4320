@@ -7,7 +7,10 @@ using System.Xml.Serialization;
 
 static class XMLTools
 {
-    const string s_xmlDir = @"..\xml\";
+    // Resolved once at type init from several candidate locations (CWD-relative and
+    // AppDomain.BaseDirectory-relative), so the app finds xml\ regardless of how it was
+    // launched (direct PL.exe, START_APP.bat, dotnet bin\PL.dll, or the solution root).
+    static readonly string s_xmlDir = DalApi.XmlPaths.XmlDir;
     static XMLTools()
     {
         if (!Directory.Exists(s_xmlDir))

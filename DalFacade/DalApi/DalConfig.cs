@@ -18,7 +18,9 @@ static class DalConfig
 
     static DalConfig()
     {
-        XElement dalConfig = XElement.Load(@"..\xml\dal-config.xml") ?? throw new DalConfigException("dal-config.xml file is not found");
+        // Resolve the config file location independently of the current working directory,
+        // so the app starts whether launched from app\, bin\, or via START_APP.bat.
+        XElement dalConfig = XElement.Load(XmlPaths.ResolveFile("dal-config.xml")) ?? throw new DalConfigException("dal-config.xml file is not found");
 
         s_dalName = dalConfig.Element("dal")?.Value ?? throw new DalConfigException("<dal> element is missing");
 
