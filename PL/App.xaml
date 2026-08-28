@@ -30,6 +30,7 @@
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityKey" />
         <conv:OrderStatusToCancelVisibilityConverter x:Key="OrderStatusToCancelVisibilityConverter" />
         <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <conv:TimeSpanToReadableConverter x:Key="TimeSpanToReadableConverter" />
 
         <!-- ============================================================ -->
         <!-- SHARED MODERN THEME (used across all windows for consistency)-->
@@ -136,6 +137,24 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <!-- Validated text input: extends AppTextBox with a red border + error
+             tooltip when INotifyDataErrorInfo / IDataErrorInfo reports a validation
+             error for the bound property. -->
+        <Style x:Key="AppValidatedTextBox" TargetType="TextBox" BasedOn="{StaticResource AppTextBox}">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderBrush="{StaticResource BrandDanger}" BorderThickness="2" CornerRadius="10">
+                            <AdornedElementPlaceholder/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip"
+                    Value="{Binding RelativeSource={RelativeSource Self},
+                            Path=(Validation.Errors)[0].ErrorContent}"/>
         </Style>
 
         <!-- Primary button (gradient, rounded, hover/press) -->

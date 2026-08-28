@@ -125,6 +125,7 @@ namespace PL.Order
             {
                 BO.OrderListFilterProperty.Status => Enum.GetValues(typeof(BO.OrderStatus)).Cast<object>().ToArray(),
                 BO.OrderListFilterProperty.OrderType => Enum.GetValues(typeof(BO.OrderType)).Cast<object>().ToArray(),
+                BO.OrderListFilterProperty.DeliveryType => Enum.GetValues(typeof(BO.DeliveryType)).Cast<object>().ToArray(),
                 _ => Array.Empty<object>()
             };
 

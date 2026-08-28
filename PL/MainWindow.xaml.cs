@@ -1,4 +1,9 @@
-﻿using System.Configuration;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +23,7 @@ namespace PL;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, INotifyDataErrorInfo
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
@@ -57,6 +62,12 @@ public partial class MainWindow : Window
     {
         try
         {
+            // Sync the simulation clock with real time on startup so the dashboard
+            // reflects the current moment (Request B #3). If the simulator is running
+            // or the call fails, fall back to the persisted clock value below.
+            try { s_bl.Admin.SetClock(requesterId, DateTime.Now); }
+            catch { /* keep persisted clock if sync is not possible right now */ }
+
             CurrentTime = s_bl.Admin.GetClock(requesterId);
             Configuration = s_bl.Admin.GetConfig(requesterId);
 
@@ -285,9 +296,43 @@ public partial class MainWindow : Window
 
     private void btnUpdateConfig_Click(object sender, RoutedEventArgs e)
     {
-        // Intentionally disabled for now.
-        return;
+        // Push any in-flight edit into the source so validation sees the current text.
+        foreach (var tb in ConfigTextBoxes())
+            tb.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+
+        if (HasErrors || ConfigTextBoxes().Any(tb => Validation.GetErrors(tb).Count > 0))
+        {
+            MessageBox.Show(this,
+                "Some configuration values are invalid. Please fix the highlighted fields before saving.",
+                "Invalid input", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            var cfg = s_bl.Admin.GetConfig(requesterId);
+            cfg.MaxDeliveryDistance = EditableMaxDeliveryDistance;
+            cfg.MaxDeliveryTimeRange = EditableMaxDeliveryTimeRange;
+            cfg.RiskRange = EditableRiskRange;
+            cfg.InactivityTimeRange = EditableInactivityTimeRange;
+            s_bl.Admin.SetConfig(requesterId, cfg);
+
+            Configuration = s_bl.Admin.GetConfig(requesterId);
+            LoadConfigFieldsFromConfiguration();
+            MessageBox.Show(this, "Configuration updated successfully!", "Update",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(this, $"Failed to update configuration:\n{ex.Message}",
+                "Update", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
+
+    private TextBox[] ConfigTextBoxes() => new[]
+    {
+        tbMaxDeliveryDistance, tbMaxDeliveryTime, tbRiskRange, tbInactivityTime
+    };
 
     private void LoadConfigFieldsFromConfiguration()
     {
@@ -300,10 +345,99 @@ public partial class MainWindow : Window
         EditableInactivityTimeRange = Configuration.InactivityTimeRange;
     }
 
-    public double? EditableMaxDeliveryDistance { get; set; }
-    public TimeSpan EditableMaxDeliveryTimeRange { get; set; }
-    public TimeSpan EditableRiskRange { get; set; }
-    public TimeSpan EditableInactivityTimeRange { get; set; }
+    // ----- Editable config fields (validated via INotifyDataErrorInfo) -----
+
+    public double? EditableMaxDeliveryDistance
+    {
+        get => _editableMaxDeliveryDistance;
+        set
+        {
+            _editableMaxDeliveryDistance = value;
+            ValidateMaxDeliveryDistance(value);
+        }
+    }
+    private double? _editableMaxDeliveryDistance;
+
+    public TimeSpan EditableMaxDeliveryTimeRange
+    {
+        get => _editableMaxDeliveryTimeRange;
+        set
+        {
+            _editableMaxDeliveryTimeRange = value;
+            ValidatePositiveTimeSpan(nameof(EditableMaxDeliveryTimeRange), value, "Max delivery time");
+        }
+    }
+    private TimeSpan _editableMaxDeliveryTimeRange;
+
+    public TimeSpan EditableRiskRange
+    {
+        get => _editableRiskRange;
+        set
+        {
+            _editableRiskRange = value;
+            ValidatePositiveTimeSpan(nameof(EditableRiskRange), value, "Risk range");
+        }
+    }
+    private TimeSpan _editableRiskRange;
+
+    public TimeSpan EditableInactivityTimeRange
+    {
+        get => _editableInactivityTimeRange;
+        set
+        {
+            _editableInactivityTimeRange = value;
+            ValidatePositiveTimeSpan(nameof(EditableInactivityTimeRange), value, "Inactivity time");
+        }
+    }
+    private TimeSpan _editableInactivityTimeRange;
+
+    private void ValidateMaxDeliveryDistance(double? value)
+    {
+        const string prop = nameof(EditableMaxDeliveryDistance);
+        ClearErrors(prop);
+        if (!value.HasValue || value.Value <= 0)
+            AddError(prop, "Enter a positive distance (km).");
+    }
+
+    private void ValidatePositiveTimeSpan(string prop, TimeSpan value, string label)
+    {
+        ClearErrors(prop);
+        if (value <= TimeSpan.Zero)
+            AddError(prop, $"{label} must be greater than 00:00:00.");
+    }
+
+    // ----- INotifyDataErrorInfo -----
+
+    private readonly Dictionary<string, List<string>> _errors = new();
+
+    public bool HasErrors => _errors.Count > 0;
+
+    public IEnumerable GetErrors(string? propertyName)
+    {
+        if (string.IsNullOrEmpty(propertyName) || !_errors.ContainsKey(propertyName))
+            return Array.Empty<string>();
+        return _errors[propertyName];
+    }
+
+    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+    private void AddError(string prop, string error)
+    {
+        if (!_errors.TryGetValue(prop, out var list))
+        {
+            list = new List<string>();
+            _errors[prop] = list;
+        }
+        if (!list.Contains(error))
+            list.Add(error);
+        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(prop));
+    }
+
+    private void ClearErrors(string prop)
+    {
+        if (_errors.Remove(prop))
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(prop));
+    }
 
     private void btnUpdateMaxDeliveryDistance_Click(object sender, RoutedEventArgs e)
     {

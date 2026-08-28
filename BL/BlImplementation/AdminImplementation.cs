@@ -48,6 +48,13 @@ internal class AdminImplementation : IAdmin
         return AdminManager.Now;
     }
 
+    public void SetClock(int requesterId, DateTime clock)
+    {
+        AdminManager.ThrowOnSimulatorIsRunning(); //stage 7
+        _ = AdminManager.GetConfig(requesterId); // manager permission check
+        AdminManager.UpdateClock(clock);
+    }
+
     public Config GetConfig(int requesterId)
     {
         return AdminManager.GetConfig(requesterId);

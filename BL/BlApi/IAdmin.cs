@@ -37,6 +37,12 @@ public interface IAdmin
     void ForwardClock(int requesterId, BO.TimeUnit timeUnit);
 
     /// <summary>
+    /// Sets the system clock to an absolute value (e.g. to sync it with real time).
+    /// </summary>
+    /// <param name="clock">The new clock value</param>
+    void SetClock(int requesterId, DateTime clock);
+
+    /// <summary>
     /// Gets the current configuration settings.
     /// </summary>
     /// <returns>Configuration object</returns>

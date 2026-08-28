@@ -194,6 +194,7 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
+_build/
 
 # Release archives (uploaded as GitHub Release assets, not committed)
 *.zip

@@ -130,24 +130,28 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Delivery Distance" VerticalAlignment="Center"/>
-                    <TextBox   Grid.Row="0" Grid.Column="1" Margin="0,4"
-                               Style="{StaticResource AppTextBox}"
-                               Text="{Binding EditableMaxDeliveryDistance}"/>
+                    <TextBox   x:Name="tbMaxDeliveryDistance"
+                               Grid.Row="0" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppValidatedTextBox}"
+                               Text="{Binding EditableMaxDeliveryDistance, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Delivery Time" VerticalAlignment="Center"/>
-                    <TextBox   Grid.Row="1" Grid.Column="1" Margin="0,4"
-                               Style="{StaticResource AppTextBox}"
-                               Text="{Binding EditableMaxDeliveryTimeRange}"/>
+                    <TextBox   x:Name="tbMaxDeliveryTime"
+                               Grid.Row="1" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppValidatedTextBox}"
+                               Text="{Binding EditableMaxDeliveryTimeRange, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range" VerticalAlignment="Center"/>
-                    <TextBox   Grid.Row="2" Grid.Column="1" Margin="0,4"
-                               Style="{StaticResource AppTextBox}"
-                               Text="{Binding EditableRiskRange}"/>
+                    <TextBox   x:Name="tbRiskRange"
+                               Grid.Row="2" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppValidatedTextBox}"
+                               Text="{Binding EditableRiskRange, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity Time" VerticalAlignment="Center"/>
-                    <TextBox   Grid.Row="3" Grid.Column="1" Margin="0,4"
-                               Style="{StaticResource AppTextBox}"
-                               Text="{Binding EditableInactivityTimeRange}"/>
+                    <TextBox   x:Name="tbInactivityTime"
+                               Grid.Row="3" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppValidatedTextBox}"
+                               Text="{Binding EditableInactivityTimeRange, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <!-- Single update button -->

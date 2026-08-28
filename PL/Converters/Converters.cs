@@ -215,3 +215,39 @@ public class NullToVisibilityConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Formats a TimeSpan into a compact, human-readable string.
+/// Negative spans (overdue) collapse to "00:00:00 (Overdue)" so the UI never
+/// shows raw negative TimeSpan dumps like "-458.16:01:58".
+/// Spans >= 1 day render as "2d 3h 15m"; shorter spans render as "hh:mm:ss".
+/// </summary>
+public class TimeSpanToReadableConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is TimeSpan ts)
+        {
+            if (ts < TimeSpan.Zero)
+                return "00:00:00 (Overdue)";
+
+            if (ts.TotalDays >= 1)
+            {
+                int days = (int)ts.TotalDays;
+                int hours = ts.Hours;
+                int minutes = ts.Minutes;
+                return $"{days}d {hours}h {minutes}m";
+            }
+
+            return ts.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+        }
+
+        return value?.ToString() ?? string.Empty;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        // One-way only.
+        throw new NotImplementedException();
+    }
+}

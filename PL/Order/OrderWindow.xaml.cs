@@ -1,7 +1,9 @@
 ﻿using BO;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using PL.Helpers;
 
@@ -287,6 +289,19 @@ namespace PL.Order
             // Ensure times are synced before saving
             ApplyScheduledDateTimeToOrder();
 
+            // Strict validation: reject invalid input before it reaches the BL.
+            var errors = ValidateOrder();
+            if (errors.Count > 0)
+            {
+                ErrorMessage = string.Join("\n", errors);
+                HasError = true;
+                MessageBox.Show(this, ErrorMessage, "Invalid input",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            ErrorMessage = string.Empty;
+            HasError = false;
+
             if (ButtonText == "Add")
             {
                 try
@@ -343,6 +358,63 @@ namespace PL.Order
             CurrentOrder = s_bl.Order.GetOrderDetails(_requesterId, OrderId);
             RefreshCanCancel();
         }
+
+        /// <summary>
+        /// Validates the current order's user-editable fields. Returns the list of
+        /// human-readable problems (empty = valid).
+        /// </summary>
+        private List<string> ValidateOrder()
+        {
+            var errors = new List<string>();
+            if (CurrentOrder == null)
+            {
+                errors.Add("No order is loaded.");
+                return errors;
+            }
+
+            // On Add the user supplies the Order ID; it must be a positive integer.
+            if (ButtonText == "Add" && CurrentOrder.OrderID <= 0)
+                errors.Add("Order ID must be a positive number.");
+
+            if (string.IsNullOrWhiteSpace(CurrentOrder.CustomerFullName))
+                errors.Add("Customer name is required.");
+
+            var phone = CurrentOrder.CustomerPhone?.Trim() ?? "";
+            if (!Regex.IsMatch(phone, @"^05\d{8}$"))
+                errors.Add("Phone must be 10 digits starting with 05 (e.g. 0501234567).");
+
+            if (string.IsNullOrWhiteSpace(CurrentOrder.FullAddress))
+                errors.Add("Address is required.");
+
+            // Scheduled (Corporate) orders need a valid time-of-day.
+            if (SelectedOrderType == BO.OrderType.Corporate &&
+                !TryParseTime(ScheduledTimeText, out _))
+                errors.Add("Scheduled time must be HH:mm or HH:mm:ss.");
+
+            return errors;
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+            }
+        }
+        private string _errorMessage = string.Empty;
+
+        public bool HasError
+        {
+            get => _hasError;
+            set
+            {
+                _hasError = value;
+                OnPropertyChanged(nameof(HasError));
+            }
+        }
+        private bool _hasError;
 
         private void OrderObserver()
         {

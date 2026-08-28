@@ -616,6 +616,12 @@ internal class OrderImplementation : IOrder
             {
                 OrderListFilterProperty.Status => result.Where(x => x.orderStatus.ToString() == filterValue.ToString()),
                 OrderListFilterProperty.OrderType => result.Where(x => x.orderType.ToString() == filterValue.ToString()),
+                OrderListFilterProperty.DeliveryType => result.Where(x =>
+                {
+                    var last = DeliveryManager.GetLastDeliveryForOrder(x.OrderID);
+                    return last?.DeliveryType != null
+                        && last.DeliveryType.Value.ToString() == filterValue.ToString();
+                }),
                 _ => result
             };
         }

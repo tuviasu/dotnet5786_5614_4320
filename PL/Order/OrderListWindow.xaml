@@ -124,11 +124,11 @@
                                         Width="90"/>
 
                     <DataGridTextColumn Header="Remaining Time"
-                                        Binding="{Binding TimeRemainingToComplete}"
-                                        Width="140"/>
+                                        Binding="{Binding TimeRemainingToComplete, Converter={StaticResource TimeSpanToReadableConverter}}"
+                                        Width="160"/>
 
                     <DataGridTextColumn Header="Handling Time"
-                                        Binding="{Binding TotalHandlingTime}"
+                                        Binding="{Binding TotalHandlingTime, Converter={StaticResource TimeSpanToReadableConverter}}"
                                         Width="140"/>
 
                     <DataGridTextColumn Header="Air Distance (km)"

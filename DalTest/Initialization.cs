@@ -29,11 +29,30 @@ public static class Initialization
 
         s_dal.ResetDB();
 
+        // Reset() zeroes the operational config; restore realistic demo values so the
+        // generated orders have a genuine delivery window (mix of OnTime / InRisk / Late)
+        // and real air distances from the store location.
+        SetRealisticConfig();
+
         CreateCouriers();
         CreateOrders();
         CreateDeliveries();
 
+        // Keep the simulation clock aligned with real time so the freshly generated
+        // (DateTime.Now-relative) orders are evaluated against "now".
+        s_dal.Config.Clock = DateTime.Now;
+
         Console.WriteLine("\n=== Initialization Completed ===\n");
+    }
+
+    private static void SetRealisticConfig()
+    {
+        s_dal.Config.MaxDeliveryDistance = 30;                       // km
+        s_dal.Config.MaxDeliveryTimeRange = TimeSpan.FromMinutes(90); // 1h30m window
+        s_dal.Config.RiskRange = TimeSpan.FromMinutes(15);            // "at risk" threshold
+        s_dal.Config.InactivityTimeRange = TimeSpan.FromHours(8);
+        s_dal.Config.Latitude = STORE_LAT;
+        s_dal.Config.Longitude = STORE_LON;
     }
 
     // ============================
