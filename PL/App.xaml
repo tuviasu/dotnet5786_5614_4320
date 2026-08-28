@@ -28,6 +28,7 @@
         <conv:DeliveryTypeToBackgroundConverter x:Key="DeliveryTypeToBackgroundKey" />
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityKey" />
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityKey" />
+        <conv:InverseBooleanConverter x:Key="InverseBooleanKey" />
         <conv:OrderStatusToCancelVisibilityConverter x:Key="OrderStatusToCancelVisibilityConverter" />
         <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <conv:TimeSpanToReadableConverter x:Key="TimeSpanToReadableConverter" />

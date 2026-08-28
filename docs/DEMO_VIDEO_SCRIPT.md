@@ -1,4 +1,4 @@
-# 🎬 Demo Video Script — DeliveryApp v1.0
+# 🎬 Demo Video Script — TechLogistics v1.0
 
 **Target length:** 60–90 seconds · **Audience:** tech recruiters / engineering managers
 **Goal:** show a working app *and* the engineering thinking behind it.
@@ -23,7 +23,7 @@
 ### 0:30–0:55 — Courier: Assignment & Status Update
 **EN:** "Now logging in as a courier — a focused self-service view. I pick an available order, which assigns it to me, then I handle the in-progress delivery and record the result."
 **HE:** כניסה כשליח: בחירת הזמנה זמינה → השלמת טיפול → עדכון תוצאה.
-**Show:** (log out →) log in as courier `300000000` / `Pass4645`. Open **Choose Order**, select an order → it appears in **Order In Progress**. Choose a finish type, click **Finish Handling**. Open **Delivery History** to show the recorded delivery.
+**Show:** (log out →) log in as courier `300000000` / `Pass3710`. Open **Choose Order**, select an order → it appears in **Order In Progress**. Choose a finish type, click **Finish Handling**. Open **Delivery History** to show the recorded delivery.
 
 ### 0:55–1:20 — Architecture recap
 **EN:** "Under the hood: a presentation layer over a business layer over a swappable data layer — XML or in-memory, chosen by one config line. The UI updates live through the Observer pattern, not polling."
@@ -39,5 +39,5 @@
 - [ ] Window size ~1100×720 for list windows.
 
 ## 📝 Suggested closing line
-**EN:** "Built as an academic project to practice clean architecture, design patterns, and real-world UI engineering. Full source and a self-contained build are linked in the README."
-**HE:** פרויקט אקדמי לתרגול ארכיטקטורה נקייה, תבניות עיצוב והנדסת UI. הקוד המלא וגרסה עצמאית להורדה ב-README.
+**EN:** "TechLogistics — a delivery-management platform for computer-equipment retailers, engineered around clean architecture, design patterns, and real-world UI. Full source and a self-contained build are linked in the README."
+**HE:** TechLogistics — מערכת ניהול משלוחים לקמעונאי ציוד מחשוב, מבוססת ארכיטקטורה נקייה, תבניות עיצוב ו-UI מקצועי. הקוד המלא וגרסה עצמאית להורדה ב-README.

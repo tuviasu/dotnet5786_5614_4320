@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -175,12 +177,85 @@ public partial class MainWindow : Window, INotifyDataErrorInfo
     {
         try
         {
-            var list = s_bl.Order.GetOrdersList(requesterId.ToString(), null, null, null);
+            var list = s_bl.Order.GetOrdersList(requesterId.ToString(), null, null, null).ToList();
+
+            // Metric tiles: counts grouped by OrderStatus and ScheduleStatus (from BL data).
+            Summary.Total = list.Count;
+            Summary.NotDelivered = list.Count(o => o.orderStatus == BO.OrderStatus.NotDelivered);
+            Summary.Delivered = list.Count(o => o.orderStatus == BO.OrderStatus.Delivered);
+            Summary.Refused = list.Count(o => o.orderStatus == BO.OrderStatus.CustomerRefused);
+            Summary.Cancelled = list.Count(o => o.orderStatus == BO.OrderStatus.Cancelled);
+            Summary.InRisk = list.Count(o => o.scheduleStatus == BO.ScheduleStatus.InRisk);
+            Summary.Late = list.Count(o => o.scheduleStatus == BO.ScheduleStatus.Late);
+
+            // Manual filter count.
             SummaryFilteredCount = ApplySummaryFilter(list).Count();
         }
         catch
         {
             SummaryFilteredCount = 0;
+        }
+    }
+
+    /// <summary>Bindable summary counts for the metric tiles.</summary>
+    public sealed class SummaryCounts : INotifyPropertyChanged
+    {
+        private int _total, _notDelivered, _delivered, _refused, _cancelled, _inRisk, _late;
+
+        public int Total { get => _total; set => Set(ref _total, value); }
+        public int NotDelivered { get => _notDelivered; set => Set(ref _notDelivered, value); }
+        public int Delivered { get => _delivered; set => Set(ref _delivered, value); }
+        public int Refused { get => _refused; set => Set(ref _refused, value); }
+        public int Cancelled { get => _cancelled; set => Set(ref _cancelled, value); }
+        public int InRisk { get => _inRisk; set => Set(ref _inRisk, value); }
+        public int Late { get => _late; set => Set(ref _late, value); }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+                return;
+            field = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
+    public SummaryCounts Summary
+    {
+        get => (SummaryCounts)GetValue(SummaryProperty);
+        set => SetValue(SummaryProperty, value);
+    }
+    public static readonly DependencyProperty SummaryProperty =
+        DependencyProperty.Register(nameof(Summary), typeof(SummaryCounts), typeof(MainWindow),
+            new PropertyMetadata(new SummaryCounts()));
+
+    /// <summary>
+    /// Clicking a summary metric tile opens the Order Management window pre-filtered
+    /// by the status/schedule the tile represents (project spec: status metric -> filtered list).
+    /// </summary>
+    private void SummaryTile_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var tag = (sender as Button)?.Tag as string ?? string.Empty;
+            tag = tag.Trim();
+
+            BO.OrderStatus? status = null;
+            BO.ScheduleStatus? schedule = null;
+
+            if (Enum.TryParse<BO.OrderStatus>(tag, out var s))
+                status = s;
+            else if (Enum.TryParse<BO.ScheduleStatus>(tag, out var sc))
+                schedule = sc;
+
+            var win = new OrderListWindow(requesterId.ToString());
+            win.ApplySummaryFilter(status, schedule);
+            win.Show();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Orders", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -312,9 +387,16 @@ public partial class MainWindow : Window, INotifyDataErrorInfo
         {
             var cfg = s_bl.Admin.GetConfig(requesterId);
             cfg.MaxDeliveryDistance = EditableMaxDeliveryDistance;
-            cfg.MaxDeliveryTimeRange = EditableMaxDeliveryTimeRange;
-            cfg.RiskRange = EditableRiskRange;
-            cfg.InactivityTimeRange = EditableInactivityTimeRange;
+
+            // The fields are already validated above; parse defensively and keep the
+            // existing value if a parse somehow fails.
+            cfg.MaxDeliveryTimeRange = TryParseStrictTimeSpan(EditableMaxDeliveryTimeRangeText, out var maxTime)
+                ? maxTime : cfg.MaxDeliveryTimeRange;
+            cfg.RiskRange = TryParseStrictTimeSpan(EditableRiskRangeText, out var risk)
+                ? risk : cfg.RiskRange;
+            cfg.InactivityTimeRange = TryParseStrictTimeSpan(EditableInactivityTimeRangeText, out var inact)
+                ? inact : cfg.InactivityTimeRange;
+
             s_bl.Admin.SetConfig(requesterId, cfg);
 
             Configuration = s_bl.Admin.GetConfig(requesterId);
@@ -340,56 +422,57 @@ public partial class MainWindow : Window, INotifyDataErrorInfo
             return;
 
         EditableMaxDeliveryDistance = Configuration.MaxDeliveryDistance;
-        EditableMaxDeliveryTimeRange = Configuration.MaxDeliveryTimeRange;
-        EditableRiskRange = Configuration.RiskRange;
-        EditableInactivityTimeRange = Configuration.InactivityTimeRange;
+        EditableMaxDeliveryTimeRangeText = FormatTimeSpan(Configuration.MaxDeliveryTimeRange);
+        EditableRiskRangeText = FormatTimeSpan(Configuration.RiskRange);
+        EditableInactivityTimeRangeText = FormatTimeSpan(Configuration.InactivityTimeRange);
     }
 
-    // ----- Editable config fields (validated via INotifyDataErrorInfo) -----
+    // ----- Editable config fields (DependencyProperties, validated via INotifyDataErrorInfo) -----
+    // Time fields are bound as strict "hh:mm:ss" strings so the format can be
+    // validated precisely (hours 0-999, minutes/seconds 00-59) and parsed back.
+
+    public static readonly DependencyProperty EditableMaxDeliveryDistanceProperty =
+        DependencyProperty.Register(nameof(EditableMaxDeliveryDistance), typeof(double?), typeof(MainWindow),
+            new PropertyMetadata(null, (d, e) => ((MainWindow)d).ValidateMaxDeliveryDistance((double?)e.NewValue)));
 
     public double? EditableMaxDeliveryDistance
     {
-        get => _editableMaxDeliveryDistance;
-        set
-        {
-            _editableMaxDeliveryDistance = value;
-            ValidateMaxDeliveryDistance(value);
-        }
+        get => (double?)GetValue(EditableMaxDeliveryDistanceProperty);
+        set => SetValue(EditableMaxDeliveryDistanceProperty, value);
     }
-    private double? _editableMaxDeliveryDistance;
 
-    public TimeSpan EditableMaxDeliveryTimeRange
-    {
-        get => _editableMaxDeliveryTimeRange;
-        set
-        {
-            _editableMaxDeliveryTimeRange = value;
-            ValidatePositiveTimeSpan(nameof(EditableMaxDeliveryTimeRange), value, "Max delivery time");
-        }
-    }
-    private TimeSpan _editableMaxDeliveryTimeRange;
+    public static readonly DependencyProperty EditableMaxDeliveryTimeRangeTextProperty =
+        DependencyProperty.Register(nameof(EditableMaxDeliveryTimeRangeText), typeof(string), typeof(MainWindow),
+            new PropertyMetadata(null, (d, e) => ((MainWindow)d).ValidateTimeSpanText(
+                nameof(EditableMaxDeliveryTimeRangeText), (string?)e.NewValue, "Max delivery time")));
 
-    public TimeSpan EditableRiskRange
+    public string? EditableMaxDeliveryTimeRangeText
     {
-        get => _editableRiskRange;
-        set
-        {
-            _editableRiskRange = value;
-            ValidatePositiveTimeSpan(nameof(EditableRiskRange), value, "Risk range");
-        }
+        get => (string?)GetValue(EditableMaxDeliveryTimeRangeTextProperty);
+        set => SetValue(EditableMaxDeliveryTimeRangeTextProperty, value);
     }
-    private TimeSpan _editableRiskRange;
 
-    public TimeSpan EditableInactivityTimeRange
+    public static readonly DependencyProperty EditableRiskRangeTextProperty =
+        DependencyProperty.Register(nameof(EditableRiskRangeText), typeof(string), typeof(MainWindow),
+            new PropertyMetadata(null, (d, e) => ((MainWindow)d).ValidateTimeSpanText(
+                nameof(EditableRiskRangeText), (string?)e.NewValue, "Risk range")));
+
+    public string? EditableRiskRangeText
     {
-        get => _editableInactivityTimeRange;
-        set
-        {
-            _editableInactivityTimeRange = value;
-            ValidatePositiveTimeSpan(nameof(EditableInactivityTimeRange), value, "Inactivity time");
-        }
+        get => (string?)GetValue(EditableRiskRangeTextProperty);
+        set => SetValue(EditableRiskRangeTextProperty, value);
     }
-    private TimeSpan _editableInactivityTimeRange;
+
+    public static readonly DependencyProperty EditableInactivityTimeRangeTextProperty =
+        DependencyProperty.Register(nameof(EditableInactivityTimeRangeText), typeof(string), typeof(MainWindow),
+            new PropertyMetadata(null, (d, e) => ((MainWindow)d).ValidateTimeSpanText(
+                nameof(EditableInactivityTimeRangeText), (string?)e.NewValue, "Inactivity time")));
+
+    public string? EditableInactivityTimeRangeText
+    {
+        get => (string?)GetValue(EditableInactivityTimeRangeTextProperty);
+        set => SetValue(EditableInactivityTimeRangeTextProperty, value);
+    }
 
     private void ValidateMaxDeliveryDistance(double? value)
     {
@@ -399,12 +482,51 @@ public partial class MainWindow : Window, INotifyDataErrorInfo
             AddError(prop, "Enter a positive distance (km).");
     }
 
-    private void ValidatePositiveTimeSpan(string prop, TimeSpan value, string label)
+    private void ValidateTimeSpanText(string prop, string? value, string label)
     {
         ClearErrors(prop);
-        if (value <= TimeSpan.Zero)
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            AddError(prop, $"{label}: enter a time (format hh:mm:ss).");
+            return;
+        }
+
+        if (!TryParseStrictTimeSpan(value, out var ts))
+        {
+            AddError(prop, "Invalid time format. Please enter hours:minutes:seconds (e.g., 01:30:00).");
+            return;
+        }
+
+        if (ts <= TimeSpan.Zero)
+        {
             AddError(prop, $"{label} must be greater than 00:00:00.");
+            return;
+        }
     }
+
+    /// <summary>Strict "hh:mm:ss" parser: hours 0-999, minutes/seconds 00-59.</summary>
+    private static bool TryParseStrictTimeSpan(string? text, out TimeSpan ts)
+    {
+        ts = TimeSpan.Zero;
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+
+        var trimmed = text.Trim();
+        if (!Regex.IsMatch(trimmed, @"^\d{1,3}:[0-5]\d:[0-5]\d$"))
+            return false;
+
+        var parts = trimmed.Split(':');
+        int h = int.Parse(parts[0], CultureInfo.InvariantCulture);
+        int m = int.Parse(parts[1], CultureInfo.InvariantCulture);
+        int s = int.Parse(parts[2], CultureInfo.InvariantCulture);
+        ts = new TimeSpan(h, m, s);
+        return true;
+    }
+
+    /// <summary>Formats a TimeSpan as "h:mm:ss" (hours may exceed 23).</summary>
+    private static string FormatTimeSpan(TimeSpan ts) =>
+        $"{(int)ts.TotalHours}:{ts.Minutes:00}:{ts.Seconds:00}";
 
     // ----- INotifyDataErrorInfo -----
 
@@ -437,46 +559,6 @@ public partial class MainWindow : Window, INotifyDataErrorInfo
     {
         if (_errors.Remove(prop))
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(prop));
-    }
-
-    private void btnUpdateMaxDeliveryDistance_Click(object sender, RoutedEventArgs e)
-    {
-        var currentConfig = s_bl.Admin.GetConfig(requesterId);
-        currentConfig.MaxDeliveryDistance = EditableMaxDeliveryDistance;
-        s_bl.Admin.SetConfig(requesterId, currentConfig);
-        Configuration = s_bl.Admin.GetConfig(requesterId);
-        LoadConfigFieldsFromConfiguration();
-        MessageBox.Show("Max Delivery Distance updated successfully!", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
-
-    private void btnUpdateMaxDeliveryTime_Click(object sender, RoutedEventArgs e)
-    {
-        var currentConfig = s_bl.Admin.GetConfig(requesterId);
-        currentConfig.MaxDeliveryTimeRange = EditableMaxDeliveryTimeRange;
-        s_bl.Admin.SetConfig(requesterId, currentConfig);
-        Configuration = s_bl.Admin.GetConfig(requesterId);
-        LoadConfigFieldsFromConfiguration();
-        MessageBox.Show("Max Delivery Time updated successfully!", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
-
-    private void btnUpdateRiskRange_Click(object sender, RoutedEventArgs e)
-    {
-        var currentConfig = s_bl.Admin.GetConfig(requesterId);
-        currentConfig.RiskRange = EditableRiskRange;
-        s_bl.Admin.SetConfig(requesterId, currentConfig);
-        Configuration = s_bl.Admin.GetConfig(requesterId);
-        LoadConfigFieldsFromConfiguration();
-        MessageBox.Show("Risk Range updated successfully!", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
-
-    private void btnUpdateInactivityTime_Click(object sender, RoutedEventArgs e)
-    {
-        var currentConfig = s_bl.Admin.GetConfig(requesterId);
-        currentConfig.InactivityTimeRange = EditableInactivityTimeRange;
-        s_bl.Admin.SetConfig(requesterId, currentConfig);
-        Configuration = s_bl.Admin.GetConfig(requesterId);
-        LoadConfigFieldsFromConfiguration();
-        MessageBox.Show("Inactivity Time updated successfully!", "Update", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private void btnInitDB_Click(object sender, RoutedEventArgs e)

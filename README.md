@@ -1,6 +1,6 @@
-# 📦 Delivery Management System
+# 📦 TechLogistics
 
-### A desktop logistics control center for a computer-equipment retailer — built with WPF / .NET 8 on a clean 3-tier architecture.
+### Desktop Logistics & Delivery Control Center — a specialized delivery management system for computer-equipment & tech retailers. Built with WPF / .NET 8 on a clean 3-tier architecture.
 
 <p align="center">
   <em>Role-based (Admin / Courier) delivery management with a live dashboard, real-time observer-driven updates, and swappable XML / in-memory persistence.</em>
@@ -13,7 +13,7 @@
   <img alt="Architecture" src="https://img.shields.io/badge/Architecture-3--Tier%20Layered-F59E0B">
   <img alt="Persistence" src="https://img.shields.io/badge/Persistence-XML%20%2F%20In--memory-10B981">
   <img alt="Patterns" src="https://img.shields.io/badge/Patterns-Factory%20%C2%B7%20Singleton%20%C2%B7%20Observer-8B5CF6">
-  <img alt="License" src="https://img.shields.io/badge/License-Academic-94A3B8">
+  <img alt="License" src="https://img.shields.io/badge/License-Proprietary-94A3B8">
 </p>
 
 <p align="center">
@@ -30,14 +30,14 @@
 
 The easiest way to try the app — no build, no .NET install required:
 
-> ### 👉 [Download `DeliveryApp_v1.0.zip`](https://github.com/tuviasu/dotnet5786_5614_4320/releases/download/v1.0/DeliveryApp_v1.0.zip)  *(self-contained Windows x64, ~67 MB)*
+> ### 👉 [Download `TechLogistics v1.0`](https://github.com/tuviasu/TechLogistics/releases/download/v1.0/TechLogistics_v1.0.zip)  *(self-contained Windows x64, ~67 MB)*
 
 1. Download and unzip the archive.
-2. Double-click **`DeliveryApp_v1.0/START_APP.bat`** to launch (1-click).  
-   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
+2. Double-click **`TechLogistics_v1.0/START_APP.bat`** to launch (1-click).  
+   *(or run `TechLogistics_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
 3. Sign in with the **Admin** credentials below.
 
-> The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime.
+> The data files live in `TechLogistics_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime.
 
 Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run).
 
@@ -56,12 +56,12 @@ Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run)
 
 ## 🎯 Project Overview
 
-**Delivery Manager** is a desktop application that simulates the end-to-end delivery operation of a computer-equipment company. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
+**TechLogistics** is a desktop application that drives the end-to-end delivery operation of a computer-equipment & tech retailer. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
 
 - **Admin / Manager** — full operational control: a system dashboard with a configurable clock, live orders summary with filtering, system configuration, and CRUD over couriers and orders.
 - **Courier** — a focused self-service workspace: view/edit personal details, pick an available order, handle an in-progress delivery, and review past delivery history.
 
-The project was developed as an academic exercise focused on **clean architecture, design patterns, and real-world system design**.
+TechLogistics is engineered around **clean architecture, design patterns, and real-world system design**.
 
 ---
 
@@ -100,10 +100,10 @@ The project was developed as an academic exercise focused on **clean architectur
 > _Embed your demo video/GIF here once recorded. Suggested format: a 60–90 second MP4/GIF linked below._
 
 <p align="center">
-  <a href="docs/assets/demo.gif"><img src="docs/assets/demo.gif" alt="DeliveryApp demo" width="640"></a>
+  <a href="docs/assets/demo.gif"><img src="docs/assets/demo.gif" alt="TechLogistics demo" width="640"></a>
 </p>
 
-> _You can also attach the video to the [v1.0 release](https://github.com/tuviasu/dotnet5786_5614_4320/releases/tag/v1.0) and link it here._
+> _You can also attach the video to the [v1.0 release](https://github.com/tuviasu/TechLogistics/releases/tag/v1.0) and link it here._
 
 ---
 
@@ -196,8 +196,8 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 | Role | User ID | Password | Notes |
 |---|---|---|---|
 | **Admin / Manager** | `111111111` | `admin123` | Stored in `xml/data-config.xml` under `<Managers>`. |
-| **Courier** | `300000000` | `Pass4645` | Example — read current values from `xml/couriers.xml`. |
-| **Courier** | `300000001` | `Pass8740` | Example — read current values from `xml/couriers.xml`. |
+| **Courier** | `300000000` | `Pass3710` | Example — read current values from `xml/couriers.xml`. |
+| **Courier** | `300000001` | `Pass5496` | Example — read current values from `xml/couriers.xml`. |
 
 ---
 
@@ -209,13 +209,13 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 
 ### 1. Clone
 ```bash
-git clone https://github.com/tuviasu/dotnet5786_5614_4320.git
-cd dotnet5786_5614_4320
+git clone https://github.com/tuviasu/TechLogistics.git
+cd TechLogistics
 ```
 
 ### 2. Build
 ```bash
-dotnet build dotnet5786_5614_4320.sln -c Debug
+dotnet build TechLogistics.sln -c Debug
 ```
 All projects share a common output directory: `bin/`.
 
@@ -254,7 +254,7 @@ dotnet publish PL/PL.csproj -c Release -r win-x64 --self-contained true -o publi
 cp -r xml publish/xml
 ```
 
-The packaged archive **`DeliveryApp_v1.0.zip`** ([download](https://github.com/tuviasu/dotnet5786_5614_4320/releases/download/v1.0/DeliveryApp_v1.0.zip)) contains:
+The packaged archive **`TechLogistics v1.0`** (`TechLogistics_v1.0.zip`) ([download](https://github.com/tuviasu/TechLogistics/releases/download/v1.0/TechLogistics_v1.0.zip)) contains:
 - `app/` — the self-contained executable and all runtime files,
 - `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`).
 
@@ -265,7 +265,7 @@ Unzip anywhere and run `app/PL.exe`.
 ## 🗂️ Project Structure
 
 ```
-dotnet5786_5614_4320/
+TechLogistics/
 ├── PL/                     # WPF presentation layer (startup project)
 │   ├── App.xaml            # App + shared modern theme (buttons/cards/inputs)
 │   ├── LoginPage.xaml      # Modern role-aware login screen
@@ -282,7 +282,7 @@ dotnet5786_5614_4320/
 ├── BITest/                 # Integration tests
 ├── docs/assets/           # Screenshots & demo media
 ├── xml/                    # Runtime / seed data files
-└── dotnet5786_5614_4320.sln
+└── TechLogistics.sln
 ```
 
 ---
@@ -306,4 +306,4 @@ A short (60–90s) walkthrough. See the full script in [`docs/DEMO_VIDEO_SCRIPT.
 
 ## 📄 License
 
-Academic project — provided as-is for educational and portfolio purposes.
+Proprietary — provided as-is for portfolio and demonstration purposes.

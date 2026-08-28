@@ -61,6 +61,7 @@ public enum DeliveryDoneType
 public enum OrderListFilterProperty
 {
     Status,         // Filter by order status
+    ScheduleStatus, // Filter by schedule status (OnTime / InRisk / Late)
     DeliveryType,   // Filter by delivery type
     OrderType       // Filter by order type
 }

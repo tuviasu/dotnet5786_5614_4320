@@ -124,6 +124,7 @@ namespace PL.Order
             FilterValues = FilterProperty switch
             {
                 BO.OrderListFilterProperty.Status => Enum.GetValues(typeof(BO.OrderStatus)).Cast<object>().ToArray(),
+                BO.OrderListFilterProperty.ScheduleStatus => Enum.GetValues(typeof(BO.ScheduleStatus)).Cast<object>().ToArray(),
                 BO.OrderListFilterProperty.OrderType => Enum.GetValues(typeof(BO.OrderType)).Cast<object>().ToArray(),
                 BO.OrderListFilterProperty.DeliveryType => Enum.GetValues(typeof(BO.DeliveryType)).Cast<object>().ToArray(),
                 _ => Array.Empty<object>()
@@ -221,15 +222,34 @@ namespace PL.Order
             #endregion Stage 7 (for multithreading)
         }
 
+        // Re-query when the simulation clock advances so the Remaining Time countdown
+        // for active orders stays in sync with the displayed system clock (Request #2).
+        private void clockObserver()
+        {
+            #region Stage 7 (for multithreading)
+            if (_ordersMutex.CheckAndSetLoadInProgressOrRestartRequired())
+                return;
+
+            _ = Dispatcher.BeginInvoke(async () =>
+            {
+                QueryOrderList();
+                if (await _ordersMutex.UnsetLoadInProgressAndCheckRestartRequested())
+                    clockObserver();
+            });
+            #endregion Stage 7 (for multithreading)
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             s_bl.Order.AddObserver(ordersObserver);
+            s_bl.Admin.AddClockObserver(clockObserver);
             QueryOrderList();
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             s_bl.Order.RemoveObserver(ordersObserver);
+            s_bl.Admin.RemoveClockObserver(clockObserver);
         }
     }
 }

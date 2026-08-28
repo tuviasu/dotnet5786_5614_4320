@@ -586,6 +586,10 @@ internal class OrderImplementation : IOrder
                 scheduleStatus = lastDelivery.DeliveryDoneTime.Value <= maxDeliveryTime
                     ? ScheduleStatus.OnTime
                     : ScheduleStatus.Late;
+
+                // Closed orders have no remaining time: show 00:00:00 rather than a
+                // negative "Overdue" dump (only open-but-late orders show as Overdue).
+                timeRemaining = TimeSpan.Zero;
             }
 
             var totalHandlingTime = lastDelivery != null && lastDelivery.DeliveryDoneTime.HasValue
@@ -615,6 +619,7 @@ internal class OrderImplementation : IOrder
             result = filterProperty.Value switch
             {
                 OrderListFilterProperty.Status => result.Where(x => x.orderStatus.ToString() == filterValue.ToString()),
+                OrderListFilterProperty.ScheduleStatus => result.Where(x => x.scheduleStatus.ToString() == filterValue.ToString()),
                 OrderListFilterProperty.OrderType => result.Where(x => x.orderType.ToString() == filterValue.ToString()),
                 OrderListFilterProperty.DeliveryType => result.Where(x =>
                 {

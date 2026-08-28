@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Order"
         mc:Ignorable="d"
-        Title="Order Management"
+        Title="TechLogistics - Order Management"
         Height="640"
         Width="1100"
         WindowStartupLocation="CenterScreen"
@@ -13,6 +13,16 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
+
+    <Window.Resources>
+        <!-- Center cell content so it aligns with the centered column headers -->
+        <Style x:Key="CellCenterText" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+    </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -101,43 +111,52 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Order ID"
                                         Binding="{Binding OrderID}"
-                                        Width="90"/>
+                                        Width="90"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Delivery ID"
                                         Binding="{Binding DeliveryID}"
-                                        Width="100"/>
+                                        Width="100"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Type"
                                         Binding="{Binding orderType}"
-                                        Width="90"/>
+                                        Width="100"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Status"
                                         Binding="{Binding orderStatus}"
-                                        Width="110"/>
+                                        Width="120"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Schedule"
                                         Binding="{Binding scheduleStatus}"
-                                        Width="110"/>
+                                        Width="100"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Deliveries"
                                         Binding="{Binding TotalDeliveries}"
-                                        Width="90"/>
+                                        Width="90"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Remaining Time"
                                         Binding="{Binding TimeRemainingToComplete, Converter={StaticResource TimeSpanToReadableConverter}}"
-                                        Width="160"/>
+                                        Width="170"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Handling Time"
                                         Binding="{Binding TotalHandlingTime, Converter={StaticResource TimeSpanToReadableConverter}}"
-                                        Width="140"/>
+                                        Width="150"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <DataGridTextColumn Header="Air Distance (km)"
                                         Binding="{Binding AirDistance}"
-                                        Width="140"/>
+                                        Width="130"
+                                        ElementStyle="{StaticResource CellCenterText}"/>
 
                     <!-- Cancel button stays RED -->
                     <DataGridTemplateColumn Header="Cancel"
-                                            Width="110">
+                                            Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Cancel"

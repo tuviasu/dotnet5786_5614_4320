@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Delivery System — Sign In"
+        Title="TechLogistics - Login"
         Height="620"
         Width="980"
         MinHeight="560"
@@ -77,22 +77,22 @@
                           Data="M3 7 L12 2 L21 7 L21 17 L12 22 L3 17 Z M3 7 L12 12 L21 7 M12 12 L12 22"/>
                 </Grid>
 
-                <TextBlock Text="Delivery Manager"
+                <TextBlock Text="TechLogistics"
                            FontSize="34"
                            FontWeight="Bold"
                            Foreground="#F8FAFC"
                            Margin="0,0,0,8"/>
-                <TextBlock Text="Computer-Store Logistics Platform"
+                <TextBlock Text="Desktop Logistics &amp; Delivery Control Center"
                            FontSize="15"
                            FontWeight="SemiBold"
                            Foreground="#93C5FD"
                            Margin="0,0,0,18"/>
 
-                <TextBlock Text="A desktop control center for orders, couriers and"
+                <TextBlock Text="A specialized delivery management platform for computer"
                            FontSize="13"
                            Foreground="#94A3B8"
                            TextWrapping="Wrap"/>
-                <TextBlock Text="live deliveries — built on a clean 3-tier architecture."
+                <TextBlock Text="hardware &amp; electronics retailers — orders, couriers, live deliveries."
                            FontSize="13"
                            Foreground="#94A3B8"
                            TextWrapping="Wrap"
@@ -114,7 +114,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Path Stretch="Uniform" Width="14" Height="14" Fill="#22C55E" VerticalAlignment="Center"
                           Data="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/>
-                    <TextBlock Text="XML persistence · observers · threaded sync"
+                    <TextBlock Text="Secure operations &amp; live shipment tracking"
                                Foreground="#CBD5E1" FontSize="13" VerticalAlignment="Center" Margin="8,0,0,0"/>
                 </StackPanel>
             </StackPanel>
