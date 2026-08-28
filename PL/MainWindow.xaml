@@ -34,7 +34,7 @@
 
         <!-- Main button -->
         <Style x:Key="MainButton" TargetType="Button">
-            <Setter Property="Background" Value="#4F6EF7"/>
+            <Setter Property="Background" Value="#2563EB"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -129,20 +129,24 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Delivery Distance"/>
-                    <TextBox   Grid.Row="0" Grid.Column="1"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Max Delivery Distance" VerticalAlignment="Center"/>
+                    <TextBox   Grid.Row="0" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppTextBox}"
                                Text="{Binding EditableMaxDeliveryDistance}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Delivery Time"/>
-                    <TextBox   Grid.Row="1" Grid.Column="1"
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Delivery Time" VerticalAlignment="Center"/>
+                    <TextBox   Grid.Row="1" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppTextBox}"
                                Text="{Binding EditableMaxDeliveryTimeRange}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range"/>
-                    <TextBox   Grid.Row="2" Grid.Column="1"
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Risk Range" VerticalAlignment="Center"/>
+                    <TextBox   Grid.Row="2" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppTextBox}"
                                Text="{Binding EditableRiskRange}"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity Time"/>
-                    <TextBox   Grid.Row="3" Grid.Column="1"
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Inactivity Time" VerticalAlignment="Center"/>
+                    <TextBox   Grid.Row="3" Grid.Column="1" Margin="0,4"
+                               Style="{StaticResource AppTextBox}"
                                Text="{Binding EditableInactivityTimeRange}"/>
                 </Grid>
 

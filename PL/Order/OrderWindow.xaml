@@ -198,19 +198,15 @@
                     Click="btnCancel_Click"
                     IsEnabled="{Binding CanCancel}"
                     Width="150"
-                    Height="38"
+                    Height="40"
                     Margin="0,0,12,0"
-                    Background="#D32F2F"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Style="{StaticResource AppDangerButton}"/>
 
             <Button Content="{Binding ButtonText}"
                     Click="btnAddOrUpdate_Click"
                     Width="150"
-                    Height="38"
-                    Background="#1976D2"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Height="40"
+                    Style="{StaticResource AppPrimaryButton}"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -5,82 +5,112 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Courier"
         mc:Ignorable="d"
-        Title="CourierWindow" Height="520" Width="400"
+        Title="Courier Details"
+        Height="680"
+        Width="500"
+        MinHeight="620"
+        MinWidth="460"
+        WindowStartupLocation="CenterOwner"
+        Background="#EEF1F4"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         Loaded="Window_Loaded"
         Closed="Window_Closed">
-    <!-- External Grid -->
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <!-- Title-->
-            <RowDefinition Height="30"/>
-            <!-- Courier ID -->
-            <RowDefinition Height="30"/>
-            <!-- Full Name -->
-            <RowDefinition Height="30"/>
-            <!-- Phone -->
-            <RowDefinition Height="30"/>
-            <!-- Email -->
-            <RowDefinition Height="30"/>
-            <!-- Start Work in company -->
-            <RowDefinition Height="30"/>
-            <!-- Transport Type -->
-            <RowDefinition Height="30"/>
-            <!-- Password -->
-            <RowDefinition Height="30"/>
-            <!-- Is Active -->
-            <RowDefinition Height="30"/>
-            <!-- Max delivery distance -->
-            <RowDefinition Height="30"/>
-            <!-- Delivery Type -->
-            <RowDefinition Height="30"/>
-            <!-- total orders delivered on time -->
-            <RowDefinition Height="30"/>
-            <!-- total orders delivered late -->
-            <RowDefinition Height="30"/>
-            <!-- current order id in progress -->
-            <RowDefinition Height="53*"/>
-            <RowDefinition Height="12*"/>
-            <!-- Button space -->
-
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!--Add new courier or update existing one-->
-        <Button Content="{Binding ButtonText}" Click="btnAddOrUpdate_Click" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="14" VerticalAlignment="Top" Width="70" Height="30" Margin="165,17,0,0"/>
+        <!-- Header -->
+        <TextBlock Grid.Row="0"
+                   Text="{Binding ButtonText, StringFormat='{}{0} Courier'}"
+                   Style="{StaticResource AppHeaderTitle}"
+                   Margin="0,0,0,16"/>
 
+        <!-- Form card -->
+        <Border Grid.Row="1" Style="{StaticResource AppCard}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        <Label Content="Courier ID:"                    HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="1"  VerticalAlignment="Center"/>
-        <Label Content="Full Name:"                     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="2"  VerticalAlignment="Center"/>
-        <Label Content="Phone number:"                  HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="3"  VerticalAlignment="Center"/>
-        <Label Content="Email:"                         HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="4"  VerticalAlignment="Center"/>
-        <Label Content="Start work in company:"         HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="5"  VerticalAlignment="Center"/>
-        <Label Content="Transport type:"                HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="6"  VerticalAlignment="Center"/>
-        <Label Content="Password:"                      HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="7"  VerticalAlignment="Center"/>
-        <Label Content="Is active:"                     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="8"  VerticalAlignment="Center"/>
-        <Label Content="Max delivery distance(Km):"     HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="9"  VerticalAlignment="Center"/>
-        <Label Content="Delivery type:"                 HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="10" VerticalAlignment="Center"/>
-        <Label Content="Delivered on time:"             HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="11" VerticalAlignment="Center"/>
-        <Label Content="Delivered late:"                HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="12" VerticalAlignment="Center"/>
-        <Label Content="Current order ID in progress:"  HorizontalAlignment="Left" Margin="30,0,0,0" Grid.Row="13" VerticalAlignment="Center"/>
+                <!-- Labels -->
+                <TextBlock Grid.Row="0"  Text="Courier ID"                Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="1"  Text="Full Name"                 Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="2"  Text="Phone"                     Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="3"  Text="Email"                     Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="4"  Text="Start Work"                Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="5"  Text="Transport Type"            Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="6"  Text="Password"                  Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="7"  Text="Is Active"                 Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="8"  Text="Max Distance (km)"         Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="9"  Text="Delivery Type"             Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="10" Text="Delivered On Time"         Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="11" Text="Delivered Late"            Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
+                <TextBlock Grid.Row="12" Text="Current Order ID"          Style="{StaticResource AppFieldLabel}" Margin="0,8"/>
 
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.CourierID}" IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5"  VerticalAlignment="Center" Width="150" SelectedDate="{Binding CurrentCourier.StartWorkInCompany, Mode=TwoWay}"/>
-        <ComboBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="6"  VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource DeliveryTransportKey}}" SelectedValue="{Binding CurrentCourier.TransportType, Mode=TwoWay}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="8"  VerticalAlignment="Center" Width="150" IsChecked="{Binding CurrentCourier.IsActive, Mode=TwoWay}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="9"  VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.MaxDeliveryDistanceKM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox   Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="10" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Source={StaticResource DeliveryTypeKey}}" SelectedValue="{Binding CurrentCourier.DeliveryType, Mode=TwoWay}" IsEnabled="{Binding ButtonText, Converter={StaticResource ConvertAddToFalseKey}}"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="11" VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.DeliveredInTime}" IsReadOnly="True"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="12" VerticalAlignment="Center" Width="150" Text="{Binding CurrentCourier.DeliveredNotInTime}" IsReadOnly="True"/>
-        <TextBox    Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="13" VerticalAlignment="Center" Width="150" Text="{Binding CurrentOrderID, Mode=TwoWay}" IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertAddToTrueKey}}"/>
+                <!-- Inputs -->
+                <TextBox Grid.Column="1" Grid.Row="0"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.CourierID}"
+                         IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"/>
+                <TextBox Grid.Column="1" Grid.Row="1"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="2"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Grid.Row="3"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,8" Height="40" VerticalContentAlignment="Center"
+                            SelectedDate="{Binding CurrentCourier.StartWorkInCompany, Mode=TwoWay}"/>
+                <ComboBox Grid.Column="1" Grid.Row="5" Margin="0,8" Height="36"
+                          ItemsSource="{Binding Source={StaticResource DeliveryTransportKey}}"
+                          SelectedValue="{Binding CurrentCourier.TransportType, Mode=TwoWay}"/>
+                <TextBox Grid.Column="1" Grid.Row="6"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Column="1" Grid.Row="7" Margin="0,12,0,0" VerticalAlignment="Center"
+                          IsChecked="{Binding CurrentCourier.IsActive, Mode=TwoWay}"/>
+                <TextBox Grid.Column="1" Grid.Row="8"  Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.MaxDeliveryDistanceKM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Grid.Column="1" Grid.Row="9" Margin="0,8" Height="36"
+                          ItemsSource="{Binding Source={StaticResource DeliveryTypeKey}}"
+                          SelectedValue="{Binding CurrentCourier.DeliveryType, Mode=TwoWay}"
+                          IsEnabled="{Binding ButtonText, Converter={StaticResource ConvertAddToFalseKey}}"/>
+                <TextBox Grid.Column="1" Grid.Row="10" Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.DeliveredInTime}" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="11" Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentCourier.DeliveredNotInTime}" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="12" Margin="0,8" Style="{StaticResource AppTextBox}"
+                         Text="{Binding CurrentOrderID, Mode=TwoWay}"
+                         IsReadOnly="{Binding ButtonText, Converter={StaticResource ConvertUpdateToTrueKey}}"/>
+            </Grid>
+        </Border>
+
+        <!-- Action -->
+        <Button Grid.Row="2"
+                Content="{Binding ButtonText}"
+                Click="btnAddOrUpdate_Click"
+                Width="200"
+                Height="44"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Center"
+                FontSize="15"
+                Style="{StaticResource AppPrimaryButton}"/>
     </Grid>
 </Window>

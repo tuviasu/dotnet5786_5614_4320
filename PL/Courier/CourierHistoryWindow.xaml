@@ -35,12 +35,10 @@
 
                 <Button Content="Close"
                         Width="100"
-                        Height="34"
+                        Height="36"
                         Click="btnClose_Click"
                         DockPanel.Dock="Right"
-                        Background="#E5E7EB"
-                        Foreground="#111827"
-                        BorderThickness="0"/>
+                        Style="{StaticResource AppSecondaryButton}"/>
             </DockPanel>
         </Border>
 
@@ -165,11 +163,9 @@
 
             <Button Content="Refresh"
                     Width="150"
-                    Height="38"
+                    Height="40"
                     Click="btnRefresh_Click"
-                    Background="#2563EB"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Style="{StaticResource AppPrimaryButton}"/>
         </StackPanel>
     </Grid>
 </Window>

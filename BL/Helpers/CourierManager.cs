@@ -304,7 +304,10 @@ internal static class CourierManager
                 return false;
 
             var courier = GetCourierById(courierId);
-            return courier != null && courier.Password == hashedInput;
+            // Accept both hashed (BL-created) and plaintext (seeded via DalTest) stored passwords,
+            // so couriers initialized directly in the DAL can still log in.
+            return courier != null
+                && (courier.Password == hashedInput || courier.Password == password);
         }
         catch
         {

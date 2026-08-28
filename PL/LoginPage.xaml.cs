@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using PL.Courier;
 
 namespace PL
@@ -14,6 +15,11 @@ namespace PL
         public LoginPage()
         {
             InitializeComponent();
+            txtUserId.KeyDown += Field_KeyDown;
+            pwdBox.KeyDown += Field_KeyDown;
+            txtPasswordVisible.KeyDown += Field_KeyDown;
+            txtUserId.TextChanged += (_, _) => HideError();
+            pwdBox.PasswordChanged += (_, _) => HideError();
         }
 
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
@@ -39,6 +45,33 @@ namespace PL
             pwdBox.Focus();
         }
 
+        private void Field_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLogin_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>Show an inline validation message on the login card.</summary>
+        private void ShowError(string message)
+        {
+            if (txtError == null || errorBar == null)
+                return;
+
+            txtError.Text = message;
+            errorBar.Visibility = Visibility.Visible;
+        }
+
+        private void HideError()
+        {
+            if (errorBar == null)
+                return;
+
+            errorBar.Visibility = Visibility.Collapsed;
+        }
+
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             if (btnShowPassword?.IsChecked == true)
@@ -47,9 +80,24 @@ namespace PL
             var userIdText = txtUserId?.Text?.Trim() ?? string.Empty;
             var password = pwdBox?.Password ?? string.Empty;
 
+            if (string.IsNullOrWhiteSpace(userIdText))
+            {
+                ShowError("Please enter your User ID.");
+                txtUserId!.Focus();
+                return;
+            }
+
             if (!int.TryParse(userIdText, out int id) || id <= 0)
             {
-                MessageBox.Show("Invalid ID", "Login", MessageBoxButton.OK, MessageBoxImage.Warning);
+                ShowError("User ID must be a positive number.");
+                txtUserId!.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                ShowError("Please enter your password.");
+                pwdBox!.Focus();
                 return;
             }
 
@@ -60,6 +108,7 @@ namespace PL
                 {
                     var win = new MainWindow(id);
                     win.Show();
+                    Close();
                     return;
                 }
 
@@ -68,10 +117,11 @@ namespace PL
 
                 var courierWin = new CourierSelfWindow(id);
                 courierWin.Show();
+                Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Login failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowError(ex.Message);
             }
         }
 

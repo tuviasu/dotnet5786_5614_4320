@@ -115,10 +115,11 @@
                             <DataTemplate>
                                 <Button Content="Delete"
                                         Click="btnDelete_Click"
-                                        Background="#E53935"
-                                        Foreground="White"
-                                        Padding="10,4"
-                                        BorderThickness="0"
+                                        Style="{StaticResource AppDangerButton}"
+                                        MinHeight="0"
+                                        Height="30"
+                                        Padding="12,4"
+                                        FontSize="12"
                                         Cursor="Hand"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -131,15 +132,13 @@
         <!-- Add Button -->
         <Button Grid.Row="2"
                 Content="+ Add Courier"
-                Width="180"
-                Height="45"
+                Width="200"
+                Height="46"
                 Margin="0,16,0,0"
                 HorizontalAlignment="Center"
-                FontSize="16"
+                FontSize="15"
                 FontWeight="SemiBold"
-                Background="#1976D2"
-                Foreground="White"
-                BorderThickness="0"
+                Style="{StaticResource AppPrimaryButton}"
                 Cursor="Hand"
                 Click="btnAdd_Click"/>
     </Grid>

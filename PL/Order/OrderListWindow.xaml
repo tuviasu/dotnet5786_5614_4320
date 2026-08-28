@@ -142,10 +142,11 @@
                             <DataTemplate>
                                 <Button Content="Cancel"
                                         Click="btnCancel_Click"
-                                        Padding="10,4"
-                                        Background="#D32F2F"
-                                        Foreground="White"
-                                        BorderThickness="0"
+                                        Style="{StaticResource AppDangerButton}"
+                                        MinHeight="0"
+                                        Height="30"
+                                        Padding="12,4"
+                                        FontSize="12"
                                         Cursor="Hand"
                                         Visibility="{Binding orderStatus,
                                             Converter={StaticResource OrderStatusToCancelVisibilityConverter}}"/>
@@ -164,11 +165,9 @@
                 Height="46"
                 Margin="0,16,0,0"
                 HorizontalAlignment="Center"
-                FontSize="16"
+                FontSize="15"
                 FontWeight="SemiBold"
-                Background="#00897B"
-                Foreground="White"
-                BorderThickness="0"
+                Style="{StaticResource AppSuccessButton}"
                 Cursor="Hand"
                 Click="btnAdd_Click"/>
     </Grid>

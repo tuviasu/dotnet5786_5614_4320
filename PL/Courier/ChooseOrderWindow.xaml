@@ -37,12 +37,10 @@
 
                 <Button Content="Close"
                         Width="90"
-                        Height="32"
+                        Height="34"
                         Click="btnClose_Click"
                         DockPanel.Dock="Right"
-                        Background="#E5E7EB"
-                        BorderThickness="0"
-                        Foreground="#111827"/>
+                        Style="{StaticResource AppSecondaryButton}"/>
             </DockPanel>
         </Border>
 
@@ -118,20 +116,16 @@
 
             <Button Content="Refresh List"
                     Width="140"
-                    Height="36"
+                    Height="38"
                     Click="btnRefresh_Click"
                     Margin="0,0,12,0"
-                    Background="#E0F2FE"
-                    Foreground="#075985"
-                    BorderThickness="0"/>
+                    Style="{StaticResource AppSecondaryButton}"/>
 
             <Button Content="Select Order"
                     Width="140"
-                    Height="36"
+                    Height="38"
                     Click="btnSelect_Click"
-                    Background="#2563EB"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Style="{StaticResource AppPrimaryButton}"/>
         </StackPanel>
     </Grid>
 </Window>

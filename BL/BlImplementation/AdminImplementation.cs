@@ -33,6 +33,9 @@ internal class AdminImplementation : IAdmin
             case TimeUnit.Days:
                 AdminManager.UpdateClock(AdminManager.Now.AddDays(1));
                 break;
+            case TimeUnit.Month:
+                AdminManager.UpdateClock(AdminManager.Now.AddMonths(1));
+                break;
             case TimeUnit.Years:
                 AdminManager.UpdateClock(AdminManager.Now.AddYears(1));
                 break;

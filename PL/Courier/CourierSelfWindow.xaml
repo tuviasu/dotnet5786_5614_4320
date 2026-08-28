@@ -115,11 +115,9 @@
                     <Button Grid.Row="10" Grid.ColumnSpan="2"
                             Content="Update Details"
                             Click="btnUpdate_Click"
-                            Height="38"
+                            Height="40"
                             Margin="0,18,0,0"
-                            Background="#2563EB"
-                            Foreground="White"
-                            BorderThickness="0"/>
+                            Style="{StaticResource AppPrimaryButton}"/>
                 </Grid>
             </Border>
 
@@ -230,12 +228,14 @@
                                     Width="140"
                                     Margin="0,0,10,0"
                                     Click="btnChooseOrder_Click"
-                                    IsEnabled="{Binding CanChooseOrder}"/>
+                                    IsEnabled="{Binding CanChooseOrder}"
+                                    Style="{StaticResource AppSecondaryButton}"/>
 
                             <Button Content="Finish Handling"
                                     Width="140"
                                     Click="btnFinishHandling_Click"
-                                    IsEnabled="{Binding CanFinishHandling}"/>
+                                    IsEnabled="{Binding CanFinishHandling}"
+                                    Style="{StaticResource AppPrimaryButton}"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
@@ -251,19 +251,15 @@
             <Button Content="Delivery History"
                     Click="btnHistory_Click"
                     Width="160"
-                    Height="38"
+                    Height="40"
                     Margin="0,0,10,0"
-                    Background="#6366F1"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Style="{StaticResource AppPrimaryButton}"/>
 
             <Button Content="Log Out"
                     Click="btnLOGOUT_Click"
                     Width="120"
-                    Height="38"
-                    Background="#DC2626"
-                    Foreground="White"
-                    BorderThickness="0"/>
+                    Height="40"
+                    Style="{StaticResource AppDangerButton}"/>
         </StackPanel>
     </Grid>
 </Window>
