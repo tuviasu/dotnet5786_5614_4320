@@ -33,7 +33,8 @@ The easiest way to try the app — no build, no .NET install required:
 > ### 👉 [Download `DeliveryApp_v1.0.zip`](https://github.com/tuviasu/dotnet5786_5614_4320/releases/download/v1.0/DeliveryApp_v1.0.zip)  *(self-contained Windows x64, ~67 MB)*
 
 1. Download and unzip the archive.
-2. Run **`DeliveryApp_v1.0/app/PL.exe`**.
+2. Double-click **`DeliveryApp_v1.0/START_APP.bat`** to launch (1-click).  
+   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
 3. Sign in with the **Admin** credentials below.
 
 > The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime.
@@ -194,7 +195,7 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 
 | Role | User ID | Password | Notes |
 |---|---|---|---|
-| **Admin / Manager** | `326205614` | `admin326` | Stored in `xml/data-config.xml` under `<Managers>`. |
+| **Admin / Manager** | `111111111` | `admin123` | Stored in `xml/data-config.xml` under `<Managers>`. |
 | **Courier** | `300000000` | `Pass4645` | Example — read current values from `xml/couriers.xml`. |
 | **Courier** | `300000001` | `Pass8740` | Example — read current values from `xml/couriers.xml`. |
 

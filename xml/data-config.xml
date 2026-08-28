@@ -3,8 +3,8 @@
   <NextOrderId>1061</NextOrderId>
   <NextDeliveryID>100091</NextDeliveryID>
   <Clock>21/01/2026 16:58:19</Clock>
-  <BossId>326205614</BossId>
-  <BossPassword>admin326</BossPassword>
+  <BossId>111111111</BossId>
+  <BossPassword>admin123</BossPassword>
   <CarSpeed>40</CarSpeed>
   <MotorcycleSpeed>50</MotorcycleSpeed>
   <BikeSpeed>20</BikeSpeed>
@@ -21,8 +21,8 @@
   <MaxDistance>25</MaxDistance>
   <Managers>
     <Manager>
-      <Id>326205614</Id>
-      <Password>admin326</Password>
+      <Id>111111111</Id>
+      <Password>admin123</Password>
     </Manager>
   </Managers>
   <Couriers />

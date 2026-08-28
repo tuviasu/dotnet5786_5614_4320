@@ -27,7 +27,7 @@ public static class Config
         [MethodImpl(MethodImplOptions.Synchronized)] set;
     } = new()
     {
-        { 326205614, "admin326" },
+        { 111111111, "admin123" },
        
     };
 
@@ -115,7 +115,7 @@ public static class Config
 
         Managers = new()
         {
-            { 326205614, "admin326" },
+            { 111111111, "admin123" },
            
         };
 

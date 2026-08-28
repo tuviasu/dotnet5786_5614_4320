@@ -13,7 +13,7 @@
 ### 0:00–0:10 — Hook & Login
 **EN (voiceover):** "This is a delivery-management desktop app for a computer-store chain, built on a clean 3-tier architecture in WPF and .NET 8."
 **HE (on-screen text):** מערכת ניהול משלוחים — ארכיטקטורה בת 3 שכבות ב-WPF ו-.NET 8.
-**Show:** the modern login screen. Type the admin ID `326205614` / password `admin326`, click the 👁 show-password toggle, press **Sign In**.
+**Show:** the modern login screen. Type the admin ID `111111111` / password `admin123`, click the 👁 show-password toggle, press **Sign In**.
 
 ### 0:10–0:30 — Admin: Order Management
 **EN:** "As the admin, I land on the dashboard. I can advance the simulated system clock, tune configuration, and see a live orders summary."

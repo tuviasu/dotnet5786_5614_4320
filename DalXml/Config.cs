@@ -103,7 +103,7 @@ public static class Config
         NextOrderID = 1000;
         NextDeliveryID = 100000;
         Clock = DateTime.Now;
-        Managers = new() { { 326205614, "admin326" }, };
+        Managers = new() { { 111111111, "admin123" }, };
         Couriers = new();
         MaxDeliveryDistance = null;
         MaxDeliveryTimeRange = TimeSpan.Zero;
