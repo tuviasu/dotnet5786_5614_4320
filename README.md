@@ -29,11 +29,11 @@
 
 > DeliveryApp is a **Windows desktop application** (WPF / .NET 8) — it does not run in a browser tab. The fastest way to try it is the self-contained ZIP below: download, unzip, double-click the launcher, and you're in.
 
-> ### 👉 [Download `DeliveryApp_v1.0.zip` from GitHub Releases](https://github.com/tuviasu/DeliveryApp/releases/latest)  *(self-contained Windows x64, ~68 MB, no .NET install required)*
+> ### 👉 [Download `DeliveryApp.zip` from GitHub Releases](https://github.com/tuviasu/DeliveryApp/releases/latest)  *(self-contained Windows x64, ~68 MB, no .NET install required)*
 
-1. **Download** `DeliveryApp_v1.0.zip` from the link above and **unzip** it anywhere.
-2. Double-click **`DeliveryApp_v1.0/Run_DeliveryApp.bat`** to launch (1-click).
-   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
+1. **Download** `DeliveryApp.zip` from the link above and **unzip** it anywhere.
+2. Open the unzipped `DeliveryApp_v1.0/` folder and double-click **`Run_DeliveryApp.bat`** to launch (1-click).
+   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `START_HERE.txt` / `HOW_TO_RUN.txt`)*
 3. Sign in with the **Admin** credentials below.
 
 > The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime. Keep the `app/` and `xml/` folders together.
@@ -233,13 +233,13 @@ dotnet publish PL/PL.csproj -c Release -r win-x64 --self-contained true -o publi
 cp -r xml publish/xml
 ```
 
-The packaged archive **`DeliveryApp_v1.0.zip`** contains:
+The packaged archive **`DeliveryApp.zip`** (on the [Releases page](https://github.com/tuviasu/DeliveryApp/releases/latest)) contains a `DeliveryApp_v1.0/` folder with:
 - `app/` — the self-contained executable and all runtime files,
 - `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`),
 - `Run_DeliveryApp.bat` — 1-click launcher,
-- `HOW_TO_RUN.txt` / `README_FIRST.txt` — quick-start guide.
+- `START_HERE.txt` / `HOW_TO_RUN.txt` — quick-start guide.
 
-Unzip anywhere and run `Run_DeliveryApp.bat` (or `app/PL.exe`).
+Unzip anywhere and run `DeliveryApp_v1.0/Run_DeliveryApp.bat` (or `DeliveryApp_v1.0/app/PL.exe`).
 
 ---
 
