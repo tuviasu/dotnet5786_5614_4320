@@ -1,4 +1,4 @@
-# 📦 Delivery Hub
+# 📦 DeliveryApp
 
 ### Desktop Logistics & Delivery Control Center — a specialized delivery management system for computer-equipment & tech retailers. Built with WPF / .NET 8 on a clean 3-tier architecture.
 
@@ -27,16 +27,16 @@
 
 ## ⭐ Quick Start & Download
 
-> Delivery Hub is a **Windows desktop application** (WPF / .NET 8) — it does not run in a browser tab. The fastest way to try it is the self-contained ZIP below: download, unzip, double-click the launcher, and you're in.
+> DeliveryApp is a **Windows desktop application** (WPF / .NET 8) — it does not run in a browser tab. The fastest way to try it is the self-contained ZIP below: download, unzip, double-click the launcher, and you're in.
 
-> ### 👉 [Download `DeliveryHub_v1.0.zip` from GitHub Releases](https://github.com/tuviasu/DeliveryHub/releases/latest)  *(self-contained Windows x64, ~68 MB, no .NET install required)*
+> ### 👉 [Download `DeliveryApp_v1.0.zip` from GitHub Releases](https://github.com/tuviasu/DeliveryApp/releases/latest)  *(self-contained Windows x64, ~68 MB, no .NET install required)*
 
-1. **Download** `DeliveryHub_v1.0.zip` from the link above and **unzip** it anywhere.
-2. Double-click **`DeliveryHub_v1.0/Run_DeliveryHub.bat`** to launch (1-click).
-   *(or run `DeliveryHub_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
+1. **Download** `DeliveryApp_v1.0.zip` from the link above and **unzip** it anywhere.
+2. Double-click **`DeliveryApp_v1.0/Run_DeliveryApp.bat`** to launch (1-click).
+   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
 3. Sign in with the **Admin** credentials below.
 
-> The data files live in `DeliveryHub_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime. Keep the `app/` and `xml/` folders together.
+> The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime. Keep the `app/` and `xml/` folders together.
 
 Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run).
 
@@ -68,12 +68,12 @@ The app ships seeded with the credentials below. **These are permanent — they 
 
 ## 🎯 Project Overview
 
-**Delivery Hub** is a desktop application that drives the end-to-end delivery operation of a computer-equipment & tech retailer. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
+**DeliveryApp** is a desktop application that drives the end-to-end delivery operation of a computer-equipment & tech retailer. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
 
 - **Admin / Manager** — full operational control: a system dashboard with a configurable clock, live orders summary with filtering, system configuration, and CRUD over couriers and orders.
 - **Courier** — a focused self-service workspace: view/edit personal details, pick an available order, handle an in-progress delivery, and review past delivery history.
 
-Delivery Hub is engineered around **clean architecture, design patterns, and real-world system design**.
+DeliveryApp is engineered around **clean architecture, design patterns, and real-world system design**.
 
 ---
 
@@ -187,13 +187,13 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 
 ### 1. Clone
 ```bash
-git clone https://github.com/tuviasu/DeliveryHub.git
-cd DeliveryHub
+git clone https://github.com/tuviasu/DeliveryApp.git
+cd DeliveryApp
 ```
 
 ### 2. Build
 ```bash
-dotnet build DeliveryHub.sln -c Debug
+dotnet build DeliveryApp.sln -c Debug
 ```
 All projects share a common output directory: `bin/`.
 
@@ -217,7 +217,7 @@ Edit `xml/dal-config.xml`:
 
 ### 5. Run the headless test harness (optional)
 ```bash
-dotnet build DeliveryHub.sln -c Debug
+dotnet build DeliveryApp.sln -c Debug
 dotnet bin/uitest.dll
 ```
 The harness exercises authentication, ResetDB/InitializeDB, order/courier CRUD, filtering, sorting, the simulator, and instantiates every WPF window — it prints `ALL TESTS OK.` on success.
@@ -233,20 +233,20 @@ dotnet publish PL/PL.csproj -c Release -r win-x64 --self-contained true -o publi
 cp -r xml publish/xml
 ```
 
-The packaged archive **`DeliveryHub_v1.0.zip`** contains:
+The packaged archive **`DeliveryApp_v1.0.zip`** contains:
 - `app/` — the self-contained executable and all runtime files,
 - `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`),
-- `Run_DeliveryHub.bat` — 1-click launcher,
+- `Run_DeliveryApp.bat` — 1-click launcher,
 - `HOW_TO_RUN.txt` / `README_FIRST.txt` — quick-start guide.
 
-Unzip anywhere and run `Run_DeliveryHub.bat` (or `app/PL.exe`).
+Unzip anywhere and run `Run_DeliveryApp.bat` (or `app/PL.exe`).
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-DeliveryHub/
+DeliveryApp/
 ├── PL/                     # WPF presentation layer (startup project)
 │   ├── App.xaml            # App + shared modern theme (buttons/cards/inputs)
 │   ├── LoginPage.xaml      # Modern role-aware login screen
@@ -264,7 +264,7 @@ DeliveryHub/
 ├── uitest/                 # Headless UI + BL integration harness
 ├── docs/assets/            # Screenshots & demo media
 ├── xml/                    # Runtime / seed data files
-└── DeliveryHub.sln
+└── DeliveryApp.sln
 ```
 
 ---

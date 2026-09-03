@@ -1,4 +1,4 @@
-# 🎬 Demo Video Script — Delivery Hub v1.0
+# 🎬 Demo Video Script — DeliveryApp v1.0
 
 **Target length:** 60–90 seconds · **Audience:** tech recruiters / engineering managers
 **Goal:** show a working app *and* the engineering thinking behind it.
@@ -39,5 +39,5 @@
 - [ ] Window size ~1100×720 for list windows.
 
 ## 📝 Suggested closing line
-**EN:** "Delivery Hub — a delivery-management platform for computer-equipment retailers, engineered around clean architecture, design patterns, and real-world UI. Full source and a self-contained build are linked in the README."
-**HE:** Delivery Hub — מערכת ניהול משלוחים לקמעונאי ציוד מחשוב, מבוססת ארכיטקטורה נקייה, תבניות עיצוב ו-UI מקצועי. הקוד המלא וגרסה עצמאית להורדה ב-README.
+**EN:** "DeliveryApp — a delivery-management platform for computer-equipment retailers, engineered around clean architecture, design patterns, and real-world UI. Full source and a self-contained build are linked in the README."
+**HE:** DeliveryApp — מערכת ניהול משלוחים לקמעונאי ציוד מחשוב, מבוססת ארכיטקטורה נקייה, תבניות עיצוב ו-UI מקצועי. הקוד המלא וגרסה עצמאית להורדה ב-README.

@@ -198,7 +198,7 @@ _build/
 
 # Release archives (uploaded as GitHub Release assets, not committed)
 *.zip
-DeliveryHub_v*.zip
+DeliveryApp_v*.zip
 
 # Publish Web Output
 *.[Pp]ublish.xml
