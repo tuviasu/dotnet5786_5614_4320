@@ -67,25 +67,35 @@ public static class Tools
 
         string requestUrl = $"https://router.project-osrm.org/route/v1/{profile}/{key.LonSrc},{key.LatSrc};{key.LonDest},{key.LatDest}?overview=false";
 
-        using HttpClient client = new();
-        using HttpResponseMessage response = await client.GetAsync(requestUrl, cancellationToken);
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            using HttpClient client = new();
+            using HttpResponseMessage response = await client.GetAsync(requestUrl, cancellationToken);
+            response.EnsureSuccessStatusCode();
 
-        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
+            await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+            using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
 
-        // OSRM structure: { routes: [ { distance: <meters>, ... } ], ... }
-        if (!doc.RootElement.TryGetProperty("routes", out var routes) || routes.GetArrayLength() == 0)
+            // OSRM structure: { routes: [ { distance: <meters>, ... } ], ... }
+            if (!doc.RootElement.TryGetProperty("routes", out var routes) || routes.GetArrayLength() == 0)
+                return null;
+
+            var first = routes[0];
+            if (!first.TryGetProperty("distance", out var distanceMetersElem))
+                return null;
+
+            double meters = distanceMetersElem.GetDouble();
+            if (meters < 0)
+                return null;
+
+            return meters / 1000.0;
+        }
+        catch (Exception)
+        {
+            // OSRM demo server is rate-limited / often returns 403 or times out.
+            // Treat any network/parse failure as "distance unavailable" — callers
+            // already handle a null RealDistance.
             return null;
-
-        var first = routes[0];
-        if (!first.TryGetProperty("distance", out var distanceMetersElem))
-            return null;
-
-        double meters = distanceMetersElem.GetDouble();
-        if (meters < 0)
-            return null;
-
-        return meters / 1000.0;
+        }
     }
 }

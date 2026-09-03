@@ -2,9 +2,9 @@
 <config>
   <!-- ID counters (must stay >= max existing id + 1 in orders.xml / deliveries.xml) -->
   <NextOrderID>1000</NextOrderID>
-  <NextDeliveryID>100082</NextDeliveryID>
+  <NextDeliveryID>100083</NextDeliveryID>
   <!-- Simulated system clock. Stored in ISO 8601 so it parses back under any culture. -->
-  <Clock>2026-08-28T17:39:51.9567141+03:00</Clock>
+  <Clock>2026-09-03T17:33:02.1433231+03:00</Clock>
   <!-- Operational configuration (TimeSpan values as hh:mm:ss) -->
   <MaxDeliveryDistance>30</MaxDeliveryDistance>
   <MaxDeliveryTimeRange>01:30:00</MaxDeliveryTimeRange>
@@ -17,9 +17,14 @@
   <!-- Courier password map. Populated by "Init DB"; empty until then. -->
   <Managers>
     <Manager>
-      <Id>111111111</Id>
+      <Id>204857392</Id>
       <Password>admin123</Password>
     </Manager>
   </Managers>
-  <Couriers />
+  <Couriers>
+    <Courier>
+      <Id>312458962</Id>
+      <Password>courier123</Password>
+    </Courier>
+  </Couriers>
 </config>

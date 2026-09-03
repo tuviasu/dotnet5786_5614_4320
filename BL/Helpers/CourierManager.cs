@@ -20,6 +20,8 @@ internal static class CourierManager
     /// <returns></returns>
     internal static DO.Courier? GetCourierById(int courierId)
     {
+        if (courierId <= 0)
+            return null;
         lock (AdminManager.BlMutex) //stage 7
             return s_dal.Courier.Read(courierId);
     }

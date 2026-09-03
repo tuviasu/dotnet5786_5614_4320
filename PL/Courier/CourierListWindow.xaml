@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Courier"
         mc:Ignorable="d"
-        Title="TechLogistics - Courier Management"
+        Title="DeliveryApp - Courier Management"
         Height="640"
         Width="1100"
         WindowStartupLocation="CenterScreen"

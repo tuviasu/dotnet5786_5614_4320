@@ -3,767 +3,794 @@
   <Delivery>
     <Id>100000</Id>
     <Order_Id>1000</Order_Id>
-    <Courier_Id>300000004</Courier_Id>
+    <Courier_Id>300000017</Courier_Id>
     <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-25T15:29:29.7696691+03:00</Start_Work>
-    <Actual_Distance>4.440213694878499</Actual_Distance>
+    <Start_Work>2026-09-02T06:24:52.7312554+03:00</Start_Work>
+    <Actual_Distance>3.5632694827489964</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T16:48:29.7696691+03:00</End_Time>
+    <End_Time>2026-09-02T07:47:52.7312554+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100001</Id>
-    <Order_Id>1001</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
+    <Order_Id>1000</Order_Id>
+    <Courier_Id>300000022</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T21:48:29.7734709+03:00</Start_Work>
-    <Actual_Distance>8.551920544405107</Actual_Distance>
+    <Start_Work>2026-09-02T05:35:52.7312554+03:00</Start_Work>
+    <Actual_Distance>11.78033398616674</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T23:16:29.7734709+03:00</End_Time>
+    <End_Time>2026-09-02T06:52:52.7312554+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100002</Id>
-    <Order_Id>1002</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
+    <Order_Id>1001</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T22:18:29.7961983+03:00</Start_Work>
-    <Actual_Distance>14.932006931014051</Actual_Distance>
+    <Start_Work>2026-09-01T03:32:52.7446731+03:00</Start_Work>
+    <Actual_Distance>13.943619272137111</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T23:47:29.7961983+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100003</Id>
-    <Order_Id>1003</Order_Id>
-    <Courier_Id>300000023</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T03:14:29.8101040+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100004</Id>
-    <Order_Id>1004</Order_Id>
-    <Courier_Id>300000024</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T00:22:29.8281326+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100005</Id>
-    <Order_Id>1004</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-25T23:42:29.8281326+03:00</Start_Work>
-    <Actual_Distance>10.773003201875442</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T01:07:29.8281326+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100006</Id>
-    <Order_Id>1005</Order_Id>
-    <Courier_Id>300000018</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T14:59:29.8478376+03:00</Start_Work>
-    <Actual_Distance>18.801188443823392</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T15:26:29.8478376+03:00</End_Time>
+    <End_Time>2026-09-01T04:02:52.7446731+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100007</Id>
-    <Order_Id>1005</Order_Id>
-    <Courier_Id>300000014</Courier_Id>
+    <Order_Id>1004</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T14:43:29.8478376+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100008</Id>
-    <Order_Id>1006</Order_Id>
-    <Courier_Id>300000027</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-25T13:40:29.8661854+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
+    <Start_Work>2026-09-03T00:05:52.7703585+03:00</Start_Work>
+    <Actual_Distance>13.718381969660005</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T01:32:52.7703585+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100009</Id>
-    <Order_Id>1007</Order_Id>
-    <Courier_Id>300000011</Courier_Id>
+    <Order_Id>1005</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T09:50:29.8900906+03:00</Start_Work>
-    <Actual_Distance>14.377205005851149</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T10:31:29.8900906+03:00</End_Time>
+    <Start_Work>2026-08-31T15:06:52.7737218+03:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100010</Id>
-    <Order_Id>1007</Order_Id>
-    <Courier_Id>300000001</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T09:25:29.8900906+03:00</Start_Work>
-    <Actual_Distance>4.239225673532793</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T10:47:29.8900906+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100011</Id>
-    <Order_Id>1008</Order_Id>
-    <Courier_Id>300000009</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T09:39:29.9093392+03:00</Start_Work>
-    <End_Type>Cancelled</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100012</Id>
-    <Order_Id>1008</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T09:29:29.9093392+03:00</Start_Work>
+    <Order_Id>1005</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-08-31T16:01:52.7737218+03:00</Start_Work>
     <End_Type>Failed</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100013</Id>
-    <Order_Id>1009</Order_Id>
-    <Courier_Id>300000017</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T04:28:29.9341616+03:00</Start_Work>
-    <Actual_Distance>7.555243662847544</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T04:46:29.9341616+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100014</Id>
-    <Order_Id>1010</Order_Id>
-    <Courier_Id>300000024</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T11:10:29.9534440+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
   </Delivery>
   <Delivery>
     <Id>100015</Id>
-    <Order_Id>1011</Order_Id>
-    <Courier_Id>300000002</Courier_Id>
+    <Order_Id>1010</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T00:22:29.9766556+03:00</Start_Work>
-    <Actual_Distance>16.822236976095617</Actual_Distance>
+    <Start_Work>2026-09-02T16:40:52.7945905+03:00</Start_Work>
+    <Actual_Distance>1.3681756429066327</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T01:35:29.9766556+03:00</End_Time>
+    <End_Time>2026-09-02T17:58:52.7945905+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100016</Id>
-    <Order_Id>1011</Order_Id>
-    <Courier_Id>300000000</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T00:32:29.9766556+03:00</Start_Work>
-    <End_Type>Cancelled</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100017</Id>
-    <Order_Id>1012</Order_Id>
-    <Courier_Id>300000024</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T05:46:29.9961757+03:00</Start_Work>
-    <Actual_Distance>15.542921614067271</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T06:43:29.9961757+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100018</Id>
-    <Order_Id>1013</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T08:11:30.0183907+03:00</Start_Work>
+    <Order_Id>1010</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-02T17:10:52.7945905+03:00</Start_Work>
     <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
-    <Id>100019</Id>
-    <Order_Id>1013</Order_Id>
-    <Courier_Id>300000030</Courier_Id>
+    <Id>100017</Id>
+    <Order_Id>1011</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T07:05:30.0183907+03:00</Start_Work>
-    <End_Type>CustomerRefused</End_Type>
+    <Start_Work>2026-08-31T12:35:52.7978567+03:00</Start_Work>
+    <Actual_Distance>10.473327987922183</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-08-31T13:02:52.7978567+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100018</Id>
+    <Order_Id>1011</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-08-31T12:25:52.7978567+03:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
+  </Delivery>
+  <Delivery>
+    <Id>100019</Id>
+    <Order_Id>1012</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T15:57:52.8020577+03:00</Start_Work>
+    <Actual_Distance>2.1300378016819344</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T16:54:52.8020577+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100020</Id>
-    <Order_Id>1014</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-26T20:36:30.0365939+03:00</Start_Work>
-    <Actual_Distance>5.263971131716061</Actual_Distance>
+    <Order_Id>1012</Order_Id>
+    <Courier_Id>300000021</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T16:42:52.8020577+03:00</Start_Work>
+    <Actual_Distance>19.133683954068808</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T21:26:30.0365939+03:00</End_Time>
+    <End_Time>2026-09-01T17:42:52.8020577+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100021</Id>
-    <Order_Id>1014</Order_Id>
-    <Courier_Id>300000024</Courier_Id>
+    <Order_Id>1013</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T21:58:30.0365939+03:00</Start_Work>
-    <Actual_Distance>11.867747338751977</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T22:54:30.0365939+03:00</End_Time>
+    <Start_Work>2026-09-02T22:46:52.8060173+03:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
     <Id>100022</Id>
-    <Order_Id>1015</Order_Id>
-    <Courier_Id>300000018</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T17:11:30.0576584+03:00</Start_Work>
-    <Actual_Distance>9.2944993918377</Actual_Distance>
+    <Order_Id>1014</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-02T08:17:52.8101394+03:00</Start_Work>
+    <Actual_Distance>15.937170572229116</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T18:29:30.0576584+03:00</End_Time>
+    <End_Time>2026-09-02T08:42:52.8101394+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100023</Id>
-    <Order_Id>1015</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T15:42:30.0576584+03:00</Start_Work>
-    <Actual_Distance>0.9998229459187291</Actual_Distance>
+    <Order_Id>1014</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T07:58:52.8101394+03:00</Start_Work>
+    <Actual_Distance>8.639557469129057</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T17:06:30.0576584+03:00</End_Time>
+    <End_Time>2026-09-02T08:50:52.8101394+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100024</Id>
-    <Order_Id>1016</Order_Id>
-    <Courier_Id>300000007</Courier_Id>
+    <Order_Id>1015</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T11:33:30.0793792+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
-  </Delivery>
-  <Delivery>
-    <Id>100025</Id>
-    <Order_Id>1016</Order_Id>
-    <Courier_Id>300000000</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T10:09:30.0793792+03:00</Start_Work>
-    <Actual_Distance>3.2668033022990772</Actual_Distance>
+    <Start_Work>2026-09-01T03:55:52.8158346+03:00</Start_Work>
+    <Actual_Distance>10.252556924123947</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T10:33:30.0793792+03:00</End_Time>
+    <End_Time>2026-09-01T04:43:52.8158346+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100026</Id>
-    <Order_Id>1017</Order_Id>
+    <Order_Id>1016</Order_Id>
     <Courier_Id>300000017</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T16:29:30.1045271+03:00</Start_Work>
-    <Actual_Distance>16.42415852061823</Actual_Distance>
+    <Start_Work>2026-09-01T21:47:52.8194059+03:00</Start_Work>
+    <Actual_Distance>16.296881339125996</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T17:42:30.1045271+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100027</Id>
-    <Order_Id>1018</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T08:15:30.1207716+03:00</Start_Work>
-    <Actual_Distance>2.401534382296</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T09:11:30.1207716+03:00</End_Time>
+    <End_Time>2026-09-01T23:05:52.8194059+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100028</Id>
     <Order_Id>1018</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
+    <Courier_Id>300000021</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T08:23:30.1207716+03:00</Start_Work>
-    <Actual_Distance>7.593969382551833</Actual_Distance>
+    <Start_Work>2026-09-01T15:44:52.8266648+03:00</Start_Work>
+    <Actual_Distance>9.258565929589304</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T08:48:30.1207716+03:00</End_Time>
+    <End_Time>2026-09-01T16:57:52.8266648+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100029</Id>
-    <Order_Id>1019</Order_Id>
-    <Courier_Id>300000030</Courier_Id>
+    <Order_Id>1018</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T10:20:30.1437363+03:00</Start_Work>
-    <Actual_Distance>7.363673410550611</Actual_Distance>
+    <Start_Work>2026-09-01T14:20:52.8266648+03:00</Start_Work>
+    <Actual_Distance>5.233957156157283</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T10:41:30.1437363+03:00</End_Time>
+    <End_Time>2026-09-01T14:36:52.8266648+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100030</Id>
-    <Order_Id>1020</Order_Id>
-    <Courier_Id>300000004</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T21:04:30.1662332+03:00</Start_Work>
-    <Actual_Distance>11.509904174001385</Actual_Distance>
+    <Order_Id>1019</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-01T13:45:52.8316653+03:00</Start_Work>
+    <Actual_Distance>8.160438536813643</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T21:43:30.1662332+03:00</End_Time>
+    <End_Time>2026-09-01T14:03:52.8316653+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100031</Id>
     <Order_Id>1020</Order_Id>
-    <Courier_Id>300000017</Courier_Id>
+    <Courier_Id>300000014</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T21:17:30.1662332+03:00</Start_Work>
-    <Actual_Distance>0.6345190163791048</Actual_Distance>
+    <Start_Work>2026-08-31T09:07:52.8367376+03:00</Start_Work>
+    <Actual_Distance>14.636902108115411</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T22:20:30.1662332+03:00</End_Time>
+    <End_Time>2026-08-31T10:33:52.8367376+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100032</Id>
     <Order_Id>1021</Order_Id>
-    <Courier_Id>300000014</Courier_Id>
+    <Courier_Id>300000000</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T18:09:30.1940893+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
+    <Start_Work>2026-08-31T07:38:52.8410076+03:00</Start_Work>
+    <Actual_Distance>1.394372199397984</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-08-31T08:23:52.8410076+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100033</Id>
     <Order_Id>1021</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T17:41:30.1940893+03:00</Start_Work>
-    <Actual_Distance>8.34558787091705</Actual_Distance>
+    <Courier_Id>300000011</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-08-31T07:11:52.8410076+03:00</Start_Work>
+    <Actual_Distance>4.288510767178075</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T18:49:30.1940893+03:00</End_Time>
+    <End_Time>2026-08-31T07:35:52.8410076+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100034</Id>
     <Order_Id>1022</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
+    <Courier_Id>300000017</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T10:43:30.2118576+03:00</Start_Work>
-    <Actual_Distance>8.644434715305662</Actual_Distance>
+    <Start_Work>2026-09-03T11:03:52.8452419+03:00</Start_Work>
+    <Actual_Distance>1.6497978929220358</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T11:42:30.2118576+03:00</End_Time>
+    <End_Time>2026-09-03T11:27:52.8452419+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100035</Id>
-    <Order_Id>1022</Order_Id>
-    <Courier_Id>300000031</Courier_Id>
+    <Order_Id>1023</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T11:09:30.2118576+03:00</Start_Work>
-    <Actual_Distance>12.102631519956999</Actual_Distance>
+    <Start_Work>2026-08-31T20:46:52.8504668+03:00</Start_Work>
+    <Actual_Distance>18.940221805237634</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T12:18:30.2118576+03:00</End_Time>
+    <End_Time>2026-08-31T22:12:52.8504668+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100036</Id>
-    <Order_Id>1023</Order_Id>
-    <Courier_Id>300000000</Courier_Id>
+    <Order_Id>1024</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
     <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T23:24:30.2382685+03:00</Start_Work>
-    <Actual_Distance>4.991150343240591</Actual_Distance>
+    <Start_Work>2026-08-31T22:31:52.8552439+03:00</Start_Work>
+    <Actual_Distance>2.1940942748539616</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T00:16:30.2382685+03:00</End_Time>
+    <End_Time>2026-08-31T23:22:52.8552439+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100037</Id>
     <Order_Id>1024</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-26T07:53:30.2642419+03:00</Start_Work>
-    <Actual_Distance>14.678632919273857</Actual_Distance>
+    <Courier_Id>312458962</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-08-31T23:26:52.8552439+03:00</Start_Work>
+    <Actual_Distance>1.1224614461177174</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T08:55:30.2642419+03:00</End_Time>
+    <End_Time>2026-08-31T23:45:52.8552439+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100038</Id>
     <Order_Id>1025</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
+    <Courier_Id>300000011</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T07:01:30.2819920+03:00</Start_Work>
-    <Actual_Distance>5.906850998011139</Actual_Distance>
+    <Start_Work>2026-09-01T03:45:52.8598756+03:00</Start_Work>
+    <Actual_Distance>10.661994764260312</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T07:55:30.2819920+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100039</Id>
-    <Order_Id>1025</Order_Id>
-    <Courier_Id>300000031</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T06:22:30.2819920+03:00</Start_Work>
-    <Actual_Distance>5.50766094674861</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T07:01:30.2819920+03:00</End_Time>
+    <End_Time>2026-09-01T04:14:52.8598756+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100040</Id>
     <Order_Id>1026</Order_Id>
-    <Courier_Id>300000017</Courier_Id>
+    <Courier_Id>300000013</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T01:27:30.3053279+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
+    <Start_Work>2026-09-01T01:53:52.8648888+03:00</Start_Work>
+    <Actual_Distance>2.1949333443531005</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T02:34:52.8648888+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100041</Id>
     <Order_Id>1027</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-28T13:43:30.3288001+03:00</Start_Work>
-    <Actual_Distance>9.278892603157296</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T14:51:30.3288001+03:00</End_Time>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T11:08:52.8701850+03:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100042</Id>
     <Order_Id>1027</Order_Id>
-    <Courier_Id>300000027</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-28T14:03:30.3288001+03:00</Start_Work>
-    <Actual_Distance>2.7346599132614346</Actual_Distance>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T11:06:52.8701850+03:00</Start_Work>
+    <Actual_Distance>18.770983661762394</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T14:54:30.3288001+03:00</End_Time>
+    <End_Time>2026-09-01T11:27:52.8701850+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100043</Id>
     <Order_Id>1028</Order_Id>
-    <Courier_Id>300000000</Courier_Id>
+    <Courier_Id>300000019</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T13:43:30.3524646+03:00</Start_Work>
-    <Actual_Distance>12.875525014287671</Actual_Distance>
+    <Start_Work>2026-09-03T03:14:52.8756538+03:00</Start_Work>
+    <Actual_Distance>11.493642497563945</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T15:00:30.3524646+03:00</End_Time>
+    <End_Time>2026-09-03T04:17:52.8756538+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100044</Id>
     <Order_Id>1029</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
+    <Courier_Id>300000004</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T12:30:30.3703826+03:00</Start_Work>
-    <Actual_Distance>9.439258028987204</Actual_Distance>
+    <Start_Work>2026-09-01T07:47:52.8805336+03:00</Start_Work>
+    <Actual_Distance>19.308078560478442</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T13:25:30.3703826+03:00</End_Time>
+    <End_Time>2026-09-01T08:42:52.8805336+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100045</Id>
-    <Order_Id>1029</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-28T12:30:30.3703826+03:00</Start_Work>
-    <Actual_Distance>8.98975583294914</Actual_Distance>
+    <Order_Id>1030</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T19:41:52.8853831+03:00</Start_Work>
+    <Actual_Distance>7.87213776861533</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T13:19:30.3703826+03:00</End_Time>
+    <End_Time>2026-09-02T20:08:52.8853831+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100046</Id>
     <Order_Id>1030</Order_Id>
-    <Courier_Id>300000007</Courier_Id>
+    <Courier_Id>300000000</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T03:41:30.3919586+03:00</Start_Work>
-    <End_Type>Cancelled</End_Type>
+    <Start_Work>2026-09-02T19:16:52.8853831+03:00</Start_Work>
+    <Actual_Distance>18.19664092446405</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-02T20:15:52.8853831+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100047</Id>
     <Order_Id>1031</Order_Id>
-    <Courier_Id>300000025</Courier_Id>
+    <Courier_Id>300000012</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T13:13:30.4107826+03:00</Start_Work>
-    <Actual_Distance>10.787043108242035</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T13:53:30.4107826+03:00</End_Time>
+    <Start_Work>2026-09-03T10:53:52.8912820+03:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100048</Id>
     <Order_Id>1031</Order_Id>
     <Courier_Id>300000000</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T12:24:30.4107826+03:00</Start_Work>
-    <Actual_Distance>10.903697239494182</Actual_Distance>
+    <Start_Work>2026-09-03T11:24:52.8912820+03:00</Start_Work>
+    <Actual_Distance>19.017493932751204</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T13:49:30.4107826+03:00</End_Time>
+    <End_Time>2026-09-03T12:46:52.8912820+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100049</Id>
     <Order_Id>1032</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
+    <Courier_Id>300000010</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T04:44:30.4323352+03:00</Start_Work>
-    <Actual_Distance>19.33638169981997</Actual_Distance>
+    <Start_Work>2026-09-02T16:45:52.8967081+03:00</Start_Work>
+    <Actual_Distance>12.603370700641655</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T05:34:30.4323352+03:00</End_Time>
+    <End_Time>2026-09-02T18:09:52.8967081+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100050</Id>
     <Order_Id>1032</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T04:12:30.4323352+03:00</Start_Work>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T17:24:52.8967081+03:00</Start_Work>
     <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100051</Id>
     <Order_Id>1033</Order_Id>
-    <Courier_Id>300000014</Courier_Id>
+    <Courier_Id>300000021</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T13:48:30.4519625+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Start_Work>2026-09-01T19:04:52.9027226+03:00</Start_Work>
+    <Actual_Distance>8.684685554301774</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T20:09:52.9027226+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100052</Id>
     <Order_Id>1033</Order_Id>
-    <Courier_Id>300000009</Courier_Id>
+    <Courier_Id>312458962</Courier_Id>
     <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-28T12:53:30.4519625+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Start_Work>2026-09-01T19:24:52.9027226+03:00</Start_Work>
+    <Actual_Distance>7.329383652891101</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T20:51:52.9027226+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100053</Id>
     <Order_Id>1034</Order_Id>
-    <Courier_Id>300000013</Courier_Id>
+    <Courier_Id>312458962</Courier_Id>
     <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T08:45:30.4731938+03:00</Start_Work>
-    <Actual_Distance>11.440902054945974</Actual_Distance>
+    <Start_Work>2026-09-03T14:27:52.9090443+03:00</Start_Work>
+    <Actual_Distance>14.287202294338492</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T10:13:30.4731938+03:00</End_Time>
+    <End_Time>2026-09-03T14:51:52.9090443+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100054</Id>
-    <Order_Id>1034</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
+    <Order_Id>1035</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T08:38:30.4731938+03:00</Start_Work>
+    <Start_Work>2026-09-01T09:38:52.9140737+03:00</Start_Work>
     <End_Type>CustomerRefused</End_Type>
   </Delivery>
   <Delivery>
     <Id>100055</Id>
     <Order_Id>1035</Order_Id>
-    <Courier_Id>300000009</Courier_Id>
+    <Courier_Id>300000010</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T08:43:30.4967335+03:00</Start_Work>
-    <End_Type>CustomerRefused</End_Type>
+    <Start_Work>2026-09-01T08:47:52.9140737+03:00</Start_Work>
+    <Actual_Distance>2.232429783403518</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T10:05:52.9140737+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100056</Id>
-    <Order_Id>1035</Order_Id>
-    <Courier_Id>300000008</Courier_Id>
+    <Order_Id>1036</Order_Id>
+    <Courier_Id>300000017</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T09:04:30.4967335+03:00</Start_Work>
-    <Actual_Distance>8.403717033312335</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T10:06:30.4967335+03:00</End_Time>
+    <Start_Work>2026-09-02T11:41:52.9202492+03:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
     <Id>100057</Id>
-    <Order_Id>1036</Order_Id>
-    <Courier_Id>300000026</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T18:09:30.5211543+03:00</Start_Work>
-    <Actual_Distance>16.675687017185044</Actual_Distance>
+    <Order_Id>1037</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-02T07:47:52.9254372+03:00</Start_Work>
+    <Actual_Distance>1.9029782300882503</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T18:51:30.5211543+03:00</End_Time>
+    <End_Time>2026-09-02T09:06:52.9254372+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100058</Id>
-    <Order_Id>1036</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-26T18:30:30.5211543+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Order_Id>1038</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-03T05:28:52.9308133+03:00</Start_Work>
+    <Actual_Distance>10.03831931017296</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T05:57:52.9308133+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100059</Id>
-    <Order_Id>1037</Order_Id>
-    <Courier_Id>300000013</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-25T13:36:30.5446843+03:00</Start_Work>
-    <Actual_Distance>8.138344662505524</Actual_Distance>
+    <Order_Id>1038</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-03T06:43:52.9308133+03:00</Start_Work>
+    <Actual_Distance>10.904127266254552</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T14:59:30.5446843+03:00</End_Time>
+    <End_Time>2026-09-03T07:04:52.9308133+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100060</Id>
-    <Order_Id>1037</Order_Id>
-    <Courier_Id>300000025</Courier_Id>
+    <Order_Id>1039</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-25T13:31:30.5446843+03:00</Start_Work>
-    <Actual_Distance>6.828990096094342</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-25T14:38:30.5446843+03:00</End_Time>
+    <Start_Work>2026-09-01T17:47:52.9366869+03:00</Start_Work>
+    <End_Type>CustomerRefused</End_Type>
   </Delivery>
   <Delivery>
     <Id>100061</Id>
-    <Order_Id>1038</Order_Id>
-    <Courier_Id>300000025</Courier_Id>
+    <Order_Id>1039</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T19:24:30.5656532+03:00</Start_Work>
-    <End_Type>CustomerNotFound</End_Type>
+    <Start_Work>2026-09-01T17:03:52.9366869+03:00</Start_Work>
+    <Actual_Distance>3.22806548645572</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T18:20:52.9366869+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100062</Id>
-    <Order_Id>1039</Order_Id>
+    <Order_Id>1040</Order_Id>
     <Courier_Id>300000007</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-28T02:37:30.5908847+03:00</Start_Work>
-    <Actual_Distance>18.00829172203939</Actual_Distance>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-03T12:14:52.9417004+03:00</Start_Work>
+    <Actual_Distance>4.606433639393086</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T03:38:30.5908847+03:00</End_Time>
+    <End_Time>2026-09-03T13:31:52.9417004+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100063</Id>
     <Order_Id>1040</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
+    <Courier_Id>300000007</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T19:09:30.6101373+03:00</Start_Work>
-    <Actual_Distance>15.036711289499953</Actual_Distance>
+    <Start_Work>2026-09-03T11:47:52.9417004+03:00</Start_Work>
+    <Actual_Distance>9.14594997924267</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T19:47:30.6101373+03:00</End_Time>
+    <End_Time>2026-09-03T12:09:52.9417004+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100064</Id>
     <Order_Id>1041</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
+    <Courier_Id>300000010</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T01:39:30.6340127+03:00</Start_Work>
-    <Actual_Distance>19.872794198036907</Actual_Distance>
+    <Start_Work>2026-09-03T13:07:52.9471021+03:00</Start_Work>
+    <Actual_Distance>7.168477669726558</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T02:10:30.6340127+03:00</End_Time>
+    <End_Time>2026-09-03T13:37:52.9471021+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100065</Id>
-    <Order_Id>1042</Order_Id>
-    <Courier_Id>300000016</Courier_Id>
+    <Order_Id>1041</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T06:52:30.6476177+03:00</Start_Work>
-    <Actual_Distance>17.993449893622184</Actual_Distance>
+    <Start_Work>2026-09-03T13:21:52.9471021+03:00</Start_Work>
+    <Actual_Distance>11.711853262158451</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T08:09:30.6476177+03:00</End_Time>
+    <End_Time>2026-09-03T13:38:52.9471021+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100066</Id>
     <Order_Id>1042</Order_Id>
-    <Courier_Id>300000015</Courier_Id>
+    <Courier_Id>300000016</Courier_Id>
     <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-26T06:52:30.6476177+03:00</Start_Work>
-    <End_Type>CustomerRefused</End_Type>
+    <Start_Work>2026-09-02T04:40:52.9535982+03:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
   </Delivery>
   <Delivery>
     <Id>100067</Id>
-    <Order_Id>1043</Order_Id>
-    <Courier_Id>300000008</Courier_Id>
+    <Order_Id>1042</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T15:16:30.6590072+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Start_Work>2026-09-02T05:20:52.9535982+03:00</Start_Work>
+    <Actual_Distance>6.866372934779374</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-02T06:25:52.9535982+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100068</Id>
-    <Order_Id>1044</Order_Id>
+    <Order_Id>1043</Order_Id>
     <Courier_Id>300000023</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T00:19:30.6779245+03:00</Start_Work>
-    <Actual_Distance>9.165450219808207</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T00:56:30.6779245+03:00</End_Time>
+    <Start_Work>2026-09-01T23:23:52.9587164+03:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100069</Id>
-    <Order_Id>1045</Order_Id>
-    <Courier_Id>300000025</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T18:07:30.7022374+03:00</Start_Work>
-    <End_Type>Cancelled</End_Type>
+    <Order_Id>1043</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-01T22:29:52.9587164+03:00</Start_Work>
+    <Actual_Distance>3.0120988318661324</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T22:56:52.9587164+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100070</Id>
-    <Order_Id>1045</Order_Id>
-    <Courier_Id>300000008</Courier_Id>
+    <Order_Id>1044</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T19:14:30.7022374+03:00</Start_Work>
-    <Actual_Distance>17.311540820820017</Actual_Distance>
+    <Start_Work>2026-08-31T20:30:52.9644426+03:00</Start_Work>
+    <Actual_Distance>15.529866673621001</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T20:25:30.7022374+03:00</End_Time>
+    <End_Time>2026-08-31T20:54:52.9644426+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100071</Id>
-    <Order_Id>1046</Order_Id>
-    <Courier_Id>300000001</Courier_Id>
+    <Order_Id>1045</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T07:32:30.7203155+03:00</Start_Work>
-    <Actual_Distance>19.71694341994276</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T08:14:30.7203155+03:00</End_Time>
+    <Start_Work>2026-08-31T20:39:52.9701989+03:00</Start_Work>
+    <End_Type>Cancelled</End_Type>
   </Delivery>
   <Delivery>
     <Id>100072</Id>
-    <Order_Id>1047</Order_Id>
-    <Courier_Id>300000013</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T00:44:30.7401290+03:00</Start_Work>
-    <Actual_Distance>3.235200598000678</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T01:19:30.7401290+03:00</End_Time>
-  </Delivery>
-  <Delivery>
-    <Id>100073</Id>
-    <Order_Id>1047</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
+    <Order_Id>1046</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T00:01:30.7401290+03:00</Start_Work>
-    <Actual_Distance>19.718605286225515</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T01:07:30.7401290+03:00</End_Time>
+    <Start_Work>2026-09-01T17:08:52.9752206+03:00</Start_Work>
+    <End_Type>CustomerNotFound</End_Type>
   </Delivery>
   <Delivery>
     <Id>100074</Id>
-    <Order_Id>1048</Order_Id>
-    <Courier_Id>300000031</Courier_Id>
+    <Order_Id>1047</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-27T13:23:30.7633811+03:00</Start_Work>
-    <Actual_Distance>3.2088961909452585</Actual_Distance>
-    <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T14:39:30.7633811+03:00</End_Time>
+    <Start_Work>2026-09-02T15:44:52.9808364+03:00</Start_Work>
+    <End_Type>Failed</End_Type>
   </Delivery>
   <Delivery>
     <Id>100075</Id>
-    <Order_Id>1049</Order_Id>
-    <Courier_Id>300000002</Courier_Id>
+    <Order_Id>1047</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-28T01:33:30.7851027+03:00</Start_Work>
-    <Actual_Distance>5.5924585391413935</Actual_Distance>
+    <Start_Work>2026-09-02T15:05:52.9808364+03:00</Start_Work>
+    <Actual_Distance>11.394658143917182</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-28T02:56:30.7851027+03:00</End_Time>
+    <End_Time>2026-09-02T15:47:52.9808364+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100076</Id>
-    <Order_Id>1050</Order_Id>
-    <Courier_Id>300000018</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T09:45:30.8093652+03:00</Start_Work>
-    <Actual_Distance>9.301494794949367</Actual_Distance>
+    <Order_Id>1048</Order_Id>
+    <Courier_Id>300000023</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-03T09:58:52.9894629+03:00</Start_Work>
+    <Actual_Distance>8.608257536689763</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-27T10:36:30.8093652+03:00</End_Time>
+    <End_Time>2026-09-03T10:18:52.9894629+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100077</Id>
-    <Order_Id>1050</Order_Id>
-    <Courier_Id>300000000</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-27T10:21:30.8093652+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Order_Id>1049</Order_Id>
+    <Courier_Id>300000017</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T09:49:52.9954425+03:00</Start_Work>
+    <Actual_Distance>3.932363387326274</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-01T10:39:52.9954425+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100078</Id>
-    <Order_Id>1051</Order_Id>
-    <Courier_Id>300000014</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T19:35:30.8303517+03:00</Start_Work>
-    <Actual_Distance>4.904697088557491</Actual_Distance>
+    <Order_Id>1050</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-03T02:54:53.0015737+03:00</Start_Work>
+    <Actual_Distance>16.824311377596338</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T20:55:30.8303517+03:00</End_Time>
+    <End_Time>2026-09-03T03:56:53.0015737+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100079</Id>
-    <Order_Id>1051</Order_Id>
-    <Courier_Id>300000030</Courier_Id>
-    <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T20:18:30.8303517+03:00</Start_Work>
-    <End_Type>Failed</End_Type>
+    <Order_Id>1050</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-03T02:37:53.0015737+03:00</Start_Work>
+    <Actual_Distance>13.671337883242353</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T03:09:53.0015737+03:00</End_Time>
   </Delivery>
   <Delivery>
     <Id>100080</Id>
-    <Order_Id>1052</Order_Id>
-    <Courier_Id>300000029</Courier_Id>
+    <Order_Id>1051</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
     <Delivery_Type>Regular</Delivery_Type>
-    <Start_Work>2026-08-26T04:45:30.8537150+03:00</Start_Work>
+    <Start_Work>2026-09-01T10:34:53.0075640+03:00</Start_Work>
     <End_Type>CustomerRefused</End_Type>
   </Delivery>
   <Delivery>
     <Id>100081</Id>
     <Order_Id>1052</Order_Id>
-    <Courier_Id>300000025</Courier_Id>
-    <Delivery_Type>Express</Delivery_Type>
-    <Start_Work>2026-08-26T05:39:30.8537150+03:00</Start_Work>
-    <Actual_Distance>8.08467988685752</Actual_Distance>
+    <Courier_Id>0</Courier_Id>
+    <Delivery_Type></Delivery_Type>
+    <Start_Work>2026-09-03T17:32:53.4914605+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Cancelled</End_Type>
+    <End_Time>2026-09-03T17:32:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100073</Id>
+    <Order_Id>1046</Order_Id>
+    <Courier_Id>300000000</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T17:29:52.9752206+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
     <End_Type>Completed</End_Type>
-    <End_Time>2026-08-26T06:35:30.8537150+03:00</End_Time>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100027</Id>
+    <Order_Id>1017</Order_Id>
+    <Courier_Id>300000001</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T04:22:52.8231961+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100012</Id>
+    <Order_Id>1007</Order_Id>
+    <Courier_Id>300000003</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T02:42:52.7809280+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100006</Id>
+    <Order_Id>1003</Order_Id>
+    <Courier_Id>300000004</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-02T04:25:52.7671801+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100014</Id>
+    <Order_Id>1009</Order_Id>
+    <Courier_Id>300000009</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-08-31T14:26:52.7884795+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100003</Id>
+    <Order_Id>1001</Order_Id>
+    <Courier_Id>300000010</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T02:44:52.7446731+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>CustomerRefused</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100005</Id>
+    <Order_Id>1002</Order_Id>
+    <Courier_Id>300000012</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-01T06:30:52.7627792+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100025</Id>
+    <Order_Id>1016</Order_Id>
+    <Courier_Id>300000013</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T23:02:52.8194059+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100008</Id>
+    <Order_Id>1004</Order_Id>
+    <Courier_Id>300000014</Courier_Id>
+    <Delivery_Type>Express</Delivery_Type>
+    <Start_Work>2026-09-02T22:44:52.7703585+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>CustomerNotFound</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100011</Id>
+    <Order_Id>1006</Order_Id>
+    <Courier_Id>300000016</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T20:24:52.7767764+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100004</Id>
+    <Order_Id>1002</Order_Id>
+    <Courier_Id>300000017</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T06:19:52.7627792+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:33:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100082</Id>
+    <Order_Id>1031</Order_Id>
+    <Courier_Id>300000018</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-03T17:35:53.4914605+03:00</Start_Work>
+  </Delivery>
+  <Delivery>
+    <Id>100013</Id>
+    <Order_Id>1008</Order_Id>
+    <Courier_Id>300000019</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-02T05:02:52.7839959+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:35:53.4914605+03:00</End_Time>
+  </Delivery>
+  <Delivery>
+    <Id>100039</Id>
+    <Order_Id>1025</Order_Id>
+    <Courier_Id>300000023</Courier_Id>
+    <Delivery_Type>Regular</Delivery_Type>
+    <Start_Work>2026-09-01T03:44:52.8598756+03:00</Start_Work>
+    <Actual_Distance>0</Actual_Distance>
+    <End_Type>Completed</End_Type>
+    <End_Time>2026-09-03T17:35:53.4914605+03:00</End_Time>
   </Delivery>
 </deliveries.xml>

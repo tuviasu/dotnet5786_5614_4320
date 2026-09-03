@@ -3,6 +3,11 @@ using DalApi;
 
 sealed internal class DalList : IDal
 {
+    private static readonly (int Id, string Name, string Password, DO.DeliveryTransport Transport, double MaxDistance)[] FixedCouriers =
+    {
+        (312458962, "Yossi Cohen", "courier123", DO.DeliveryTransport.Motorcycle, 35.0),
+    };
+
     public static IDal Instance { get; } = new DalList();
 
     private DalList()
@@ -29,22 +34,22 @@ sealed internal class DalList : IDal
 
     private void EnsureFixedCouriersExist()
     {
-        foreach (var kvp in Dal.Config.Couriers)
+        foreach (var fixedCourier in FixedCouriers)
         {
-            if (DataSource.Couriers.Any(c => c.CourierID == kvp.Key))
+            if (DataSource.Couriers.Any(c => c.CourierID == fixedCourier.Id))
                 continue;
 
             DataSource.Couriers.Add(new DO.Courier(
-                CourierID: kvp.Key,
-                FullName: "Test Courier",
+                CourierID: fixedCourier.Id,
+                FullName: fixedCourier.Name,
                 Phone: "0500000000",
-                Email: $"courier.{kvp.Key}@gmail.com",
+                Email: $"courier.{fixedCourier.Id}@gmail.com",
                 StartWorkInCompany: Dal.Config.Clock,
-                TransportType: DO.DeliveryTransport.Car,
+                TransportType: fixedCourier.Transport,
                 DeliveryType: null,
-                Password: kvp.Value,
+                Password: fixedCourier.Password,
                 IsActive: true,
-                MaxDeliveryDistanceKm: Dal.Config.MaxDeliveryDistance,
+                MaxDeliveryDistanceKm: fixedCourier.MaxDistance,
                 OrderInProgress: null,
                 DeliveredInTime: 0,
                 DeliveredNotInTime: 0

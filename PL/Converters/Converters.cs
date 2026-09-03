@@ -114,15 +114,15 @@ public class TransportTypeToBackgroundConverter : IValueConverter
         {
             return transportType switch
             {
-                BO.DeliveryTransport.Car => new SolidColorBrush(Colors.LightBlue),
-                BO.DeliveryTransport.Motorcycle => new SolidColorBrush(Colors.LightGreen),
-                BO.DeliveryTransport.Bicycle => new SolidColorBrush(Colors.LightYellow),
-                BO.DeliveryTransport.Walk => new SolidColorBrush(Colors.LightPink),
-                BO.DeliveryTransport.All => new SolidColorBrush(Colors.White),
-                _ => new SolidColorBrush(Colors.White)
+                BO.DeliveryTransport.Car => new SolidColorBrush(Color.FromRgb(0x25, 0x63, 0xEB)),       // brand blue
+                BO.DeliveryTransport.Motorcycle => new SolidColorBrush(Color.FromRgb(0x16, 0xA3, 0x4A)), // green
+                BO.DeliveryTransport.Bicycle => new SolidColorBrush(Color.FromRgb(0xF5, 0x9E, 0x0B)),    // amber (white text readable)
+                BO.DeliveryTransport.Walk => new SolidColorBrush(Color.FromRgb(0xDC, 0x26, 0x26)),       // red
+                BO.DeliveryTransport.All => new SolidColorBrush(Color.FromRgb(0x47, 0x55, 0x69)),       // slate
+                _ => new SolidColorBrush(Color.FromRgb(0x47, 0x55, 0x69))
             };
         }
-        return new SolidColorBrush(Colors.White);
+        return new SolidColorBrush(Color.FromRgb(0x47, 0x55, 0x69));
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

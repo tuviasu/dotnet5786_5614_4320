@@ -4,6 +4,11 @@ using System.Diagnostics;
 
 sealed internal class DalXml : IDal
 {
+    private static readonly (int Id, string Name, string Password, DO.DeliveryTransport Transport, double MaxDistance)[] FixedCouriers =
+    {
+        (312458962, "Yossi Cohen", "courier123", DO.DeliveryTransport.Motorcycle, 35.0),
+    };
+
     public static IDal Instance { get; } = new DalXml();
     private DalXml()
     {
@@ -29,11 +34,11 @@ sealed internal class DalXml : IDal
 
     private void EnsureFixedCouriersExist()
     {
-        foreach (var kvp in Config.Couriers)
+        foreach (var fixedCourier in FixedCouriers)
         {
             try
             {
-                if (Courier.Read(kvp.Key) is not null)
+                if (Courier.Read(fixedCourier.Id) is not null)
                     continue;
             }
             catch
@@ -44,16 +49,16 @@ sealed internal class DalXml : IDal
             try
             {
                 Courier.Create(new DO.Courier(
-                    CourierID: kvp.Key,
-                    FullName: "Fixed Courier",
+                    CourierID: fixedCourier.Id,
+                    FullName: fixedCourier.Name,
                     Phone: "0500000000",
-                    Email: $"courier.{kvp.Key}@company.local",
+                    Email: $"courier.{fixedCourier.Id}@company.local",
                     StartWorkInCompany: Config.Clock,
-                    TransportType: DO.DeliveryTransport.Car,
+                    TransportType: fixedCourier.Transport,
                     DeliveryType: null,
-                    Password: kvp.Value,
+                    Password: fixedCourier.Password,
                     IsActive: true,
-                    MaxDeliveryDistanceKm: Config.MaxDeliveryDistance,
+                    MaxDeliveryDistanceKm: fixedCourier.MaxDistance,
                     OrderInProgress: null,
                     DeliveredInTime: 0,
                     DeliveredNotInTime: 0

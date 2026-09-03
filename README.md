@@ -1,4 +1,4 @@
-# 📦 TechLogistics
+# 📦 DeliveryApp
 
 ### Desktop Logistics & Delivery Control Center — a specialized delivery management system for computer-equipment & tech retailers. Built with WPF / .NET 8 on a clean 3-tier architecture.
 
@@ -18,28 +18,40 @@
 
 <p align="center">
   <a href="#-quick-start--download">⬇️ Download</a> ·
-  <a href="#-screenshots--demo">📸 Screenshots</a> ·
   <a href="#-demo-credentials">🔑 Credentials</a> ·
-  <a href="#-architecture--design-patterns">🏗️ Architecture</a> ·
-  <a href="#-demo-video-script">🎥 Video Script</a>
+  <a href="#-screenshots--demo">📸 Screenshots</a> ·
+  <a href="#-architecture--design-patterns">🏗️ Architecture</a>
 </p>
 
 ---
 
 ## ⭐ Quick Start & Download
 
-The easiest way to try the app — no build, no .NET install required:
+> DeliveryApp is a **Windows desktop application** (WPF / .NET 8) — it does not run in a browser tab. The fastest way to try it is the self-contained ZIP below: download, unzip, double-click the launcher, and you're in.
 
-> ### 👉 [Download `TechLogistics v1.0`](https://github.com/tuviasu/TechLogistics/releases/download/v1.0/TechLogistics_v1.0.zip)  *(self-contained Windows x64, ~67 MB)*
+> ### 👉 [Download `DeliveryApp_v1.0.zip` from GitHub Releases](https://github.com/tuviasu/TechLogistics/releases/latest)  *(self-contained Windows x64, ~68 MB, no .NET install required)*
 
-1. Download and unzip the archive.
-2. Double-click **`TechLogistics_v1.0/START_APP.bat`** to launch (1-click).  
-   *(or run `TechLogistics_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
+1. **Download** `DeliveryApp_v1.0.zip` from the link above and **unzip** it anywhere.
+2. Double-click **`DeliveryApp_v1.0/Run_DeliveryApp.bat`** to launch (1-click).
+   *(or run `DeliveryApp_v1.0/app/PL.exe` directly — full instructions in `HOW_TO_RUN.txt`)*
 3. Sign in with the **Admin** credentials below.
 
-> The data files live in `TechLogistics_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime.
+> The data files live in `DeliveryApp_v1.0/xml/` (sibling of `app/`), which is where the app reads from at runtime. Keep the `app/` and `xml/` folders together.
 
 Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run).
+
+---
+
+## 🔑 Demo Credentials
+
+The app ships seeded with the credentials below. **These are permanent — they survive both `Reset DB` and `Init DB`.**
+
+| Role | User ID | Password | Notes |
+|---|---|---|---|
+| **Admin / Manager** | `204857392` | `admin123` | Stored in `xml/data-config.xml` under `<Managers>`. |
+| **Courier** | `312458962` | `courier123` | Name: **Yossi Cohen** · Transport: **Motorcycle** · Max distance: **35 km**. Seeded automatically on every launch and after every DB reset. |
+
+> If you add more couriers via the Admin UI and then run **Init DB**, those new couriers are re-randomized — but the demo courier above is always restored with the same ID, name, and password.
 
 ---
 
@@ -56,12 +68,12 @@ Prefer to build from source? See [🛠️ Local Setup & Run](#-local-setup--run)
 
 ## 🎯 Project Overview
 
-**TechLogistics** is a desktop application that drives the end-to-end delivery operation of a computer-equipment & tech retailer. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
+**DeliveryApp** is a desktop application that drives the end-to-end delivery operation of a computer-equipment & tech retailer. It manages **orders**, **couriers**, and **deliveries**, and exposes two distinct experiences through a single login screen:
 
 - **Admin / Manager** — full operational control: a system dashboard with a configurable clock, live orders summary with filtering, system configuration, and CRUD over couriers and orders.
 - **Courier** — a focused self-service workspace: view/edit personal details, pick an available order, handle an in-progress delivery, and review past delivery history.
 
-TechLogistics is engineered around **clean architecture, design patterns, and real-world system design**.
+DeliveryApp is engineered around **clean architecture, design patterns, and real-world system design**.
 
 ---
 
@@ -70,7 +82,7 @@ TechLogistics is engineered around **clean architecture, design patterns, and re
 > Place captures in [`docs/assets/`](docs/assets) — the links below point to those files. Replace the placeholders with your exports.
 
 | Login Screen | Admin Dashboard | Courier Dashboard |
-|---|---|
+|---|---|---|
 | <img src="docs/assets/login.png" alt="Login" width="420"> | <img src="docs/assets/admin_dashboard.png" alt="Admin Dashboard" width="420"> | <img src="docs/assets/courier_view.png" alt="Courier Dashboard" width="420"> |
 
 | Order Management | Order Details | Courier List |
@@ -80,30 +92,6 @@ TechLogistics is engineered around **clean architecture, design patterns, and re
 | Choose Order | Delivery History | Courier Add/Edit |
 |---|---|---|
 | <img src="docs/assets/choose_order.png" alt="Choose Order" width="420"> | <img src="docs/assets/delivery_history.png" alt="Delivery History" width="420"> | <img src="docs/assets/courier_edit.png" alt="Courier Add/Edit" width="420"> |
-
-### Screenshot checklist (files to capture into `docs/assets/`)
-- `login.png` — the modern login screen (show role chips + validation)
-- `admin_dashboard.png` — MainWindow: clock, config, orders summary, action buttons
-- `courier_view.png` — CourierSelfWindow: details + order-in-progress
-- `order_management.png` — OrderListWindow: filter/sort + orders grid
-- `order_details.png` — OrderWindow: order form + deliveries sub-grid
-- `courier_list.png` — CourierListWindow: filter + couriers grid
-- `choose_order.png` — ChooseOrderWindow: available orders
-- `delivery_history.png` — CourierHistoryWindow: past deliveries
-- `courier_edit.png` — CourierWindow: add/update form
-- `demo.gif` — short screen recording (see [🎥 Video Walkthrough](#-video-walkthrough))
-
----
-
-## 🎥 Video Walkthrough
-
-> _Embed your demo video/GIF here once recorded. Suggested format: a 60–90 second MP4/GIF linked below._
-
-<p align="center">
-  <a href="docs/assets/demo.gif"><img src="docs/assets/demo.gif" alt="TechLogistics demo" width="640"></a>
-</p>
-
-> _You can also attach the video to the [v1.0 release](https://github.com/tuviasu/TechLogistics/releases/tag/v1.0) and link it here._
 
 ---
 
@@ -130,8 +118,9 @@ The solution follows a strict **3-Tier Layered Architecture** with a shared faca
 | **DalFacade** | `DalFacade/` | DAL interfaces (`ICrud<T>`, `IDal`), DO entities, `Factory`, exceptions |
 | **DalList** | `DalList/` | In-memory implementation with seeded data |
 | **DalXml** | `DalXml/` | XML-file persistence (serialization) |
-| **DalTest** | `DalTest/` | Unit/integration tests for the DAL |
+| **DalTest** | `DalTest/` | Interactive DAL test console |
 | **BITest** | `BITest/` | Backwards-compatibility / integration tests |
+| **uitest** | `uitest/` | Headless UI + BL integration test harness |
 
 The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` → DalXml, `list` → DalList) and instantiated through the **Factory** pattern, so the BL never knows which storage engine is running.
 
@@ -149,6 +138,7 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 - Background observer callbacks are marshaled to the UI thread via the WPF `Dispatcher`.
 - A dedicated `ObserverMutex` guards each refresh path against re-entrancy and schedules a re-run if a notification arrives mid-refresh.
 - Password verification accepts both hashed and legacy plaintext stored values, so seeded demo data logs in cleanly.
+- Network distance lookups (OSRM) degrade gracefully to `null` on any HTTP/parse failure, so the simulator and the open-orders list stay responsive even when the public OSRM demo server is unavailable.
 
 ---
 
@@ -185,19 +175,7 @@ The active DAL is chosen at runtime via `xml/dal-config.xml` (`<dal>xml</dal>` �
 | **Data** | XML serialization (`DalXml`) / in-memory lists (`DalList`) |
 | **Patterns** | Singleton, Factory, Observer, Facade |
 | **Query** | LINQ |
-| **Tests** | xUnit-style DAL & integration tests (`DalTest`, `BITest`) |
-
----
-
-## 🔑 Demo Credentials
-
-> The app ships seeded with the data below. **Couriers are re-seeded with new random IDs/passwords whenever "Init DB" is run** — to look up live values, open `xml/couriers.xml`.
-
-| Role | User ID | Password | Notes |
-|---|---|---|---|
-| **Admin / Manager** | `111111111` | `admin123` | Stored in `xml/data-config.xml` under `<Managers>`. |
-| **Courier** | `300000000` | `Pass3710` | Example — read current values from `xml/couriers.xml`. |
-| **Courier** | `300000001` | `Pass5496` | Example — read current values from `xml/couriers.xml`. |
+| **Tests** | Headless UI + BL integration harness (`uitest`), interactive DAL console (`DalTest`), integration tests (`BITest`) |
 
 ---
 
@@ -215,7 +193,7 @@ cd TechLogistics
 
 ### 2. Build
 ```bash
-dotnet build TechLogistics.sln -c Debug
+dotnet build DeliveryApp.sln -c Debug
 ```
 All projects share a common output directory: `bin/`.
 
@@ -237,11 +215,12 @@ Edit `xml/dal-config.xml`:
 <dal>xml</dal>   <!-- or: list -->
 ```
 
-### 5. Run the tests (optional)
+### 5. Run the headless test harness (optional)
 ```bash
-dotnet test DalTest/DalTest.csproj
-dotnet test BITest/BITest.csproj
+dotnet build DeliveryApp.sln -c Debug
+dotnet bin/uitest.dll
 ```
+The harness exercises authentication, ResetDB/InitializeDB, order/courier CRUD, filtering, sorting, the simulator, and instantiates every WPF window — it prints `ALL TESTS OK.` on success.
 
 ---
 
@@ -254,18 +233,20 @@ dotnet publish PL/PL.csproj -c Release -r win-x64 --self-contained true -o publi
 cp -r xml publish/xml
 ```
 
-The packaged archive **`TechLogistics v1.0`** (`TechLogistics_v1.0.zip`) ([download](https://github.com/tuviasu/TechLogistics/releases/download/v1.0/TechLogistics_v1.0.zip)) contains:
+The packaged archive **`DeliveryApp_v1.0.zip`** contains:
 - `app/` — the self-contained executable and all runtime files,
-- `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`).
+- `xml/` — the data files (`orders.xml`, `deliveries.xml`, `couriers.xml`, `data-config.xml`, `dal-config.xml`),
+- `Run_DeliveryApp.bat` — 1-click launcher,
+- `HOW_TO_RUN.txt` / `README_FIRST.txt` — quick-start guide.
 
-Unzip anywhere and run `app/PL.exe`.
+Unzip anywhere and run `Run_DeliveryApp.bat` (or `app/PL.exe`).
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-TechLogistics/
+DeliveryApp/
 ├── PL/                     # WPF presentation layer (startup project)
 │   ├── App.xaml            # App + shared modern theme (buttons/cards/inputs)
 │   ├── LoginPage.xaml      # Modern role-aware login screen
@@ -278,11 +259,12 @@ TechLogistics/
 ├── DalFacade/              # DAL interfaces & DO entities
 ├── DalList/                # In-memory DAL
 ├── DalXml/                 # XML-persistence DAL
-├── DalTest/                # DAL tests
+├── DalTest/                # Interactive DAL test console
 ├── BITest/                 # Integration tests
-├── docs/assets/           # Screenshots & demo media
+├── uitest/                 # Headless UI + BL integration harness
+├── docs/assets/            # Screenshots & demo media
 ├── xml/                    # Runtime / seed data files
-└── TechLogistics.sln
+└── DeliveryApp.sln
 ```
 
 ---
@@ -301,6 +283,7 @@ A short (60–90s) walkthrough. See the full script in [`docs/DEMO_VIDEO_SCRIPT.
 - **Live UI updates** are driven by the Observer pattern, not timers — a background change in the BL notifies only the subscribed windows.
 - **The DAL is swappable at runtime** via a single config line, demonstrating the Factory + Facade patterns in practice.
 - **UI consistency** is centralized: a shared theme in `App.xaml` (`AppPrimaryButton`, `AppCard`, `AppTextBox`, …) keeps every window visually coherent.
+- **Deterministic demo credentials** are restored on every `Reset DB` / `Init DB`, so the login above always works.
 
 ---
 

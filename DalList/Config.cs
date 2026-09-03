@@ -27,8 +27,7 @@ public static class Config
         [MethodImpl(MethodImplOptions.Synchronized)] set;
     } = new()
     {
-        { 111111111, "admin123" },
-       
+        { 204857392, "admin123" },
     };
 
     internal static Dictionary<int, string> Couriers
@@ -37,7 +36,7 @@ public static class Config
         [MethodImpl(MethodImplOptions.Synchronized)] set;
     } = new()
     {
-        
+        { 312458962, "courier123" },
     };
 
     internal static string? CompanyAddress
@@ -115,13 +114,12 @@ public static class Config
 
         Managers = new()
         {
-            { 111111111, "admin123" },
-           
+            { 204857392, "admin123" },
         };
 
         Couriers = new()
         {
-            
+            { 312458962, "courier123" },
         };
 
         CompanyAddress = "39 Rothschild Street, Tel Aviv";
