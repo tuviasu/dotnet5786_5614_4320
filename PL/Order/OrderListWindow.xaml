@@ -47,8 +47,14 @@
                     <ComboBox Width="180"
                               Height="34"
                               ItemsSource="{Binding Source={StaticResource OrderListFilterPropertyKey}}"
-                              SelectedValue="{Binding FilterProperty, Mode=TwoWay}"
-                              SelectionChanged="FilterChanged"/>
+                              SelectedItem="{Binding FilterProperty, Mode=TwoWay}"
+                              SelectionChanged="FilterChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,24,0">
@@ -58,9 +64,16 @@
                                Margin="0,0,0,4"/>
                     <ComboBox Width="200"
                               Height="34"
-                              ItemsSource="{Binding FilterValues}"
+                              ItemsSource="{Binding FilterValues, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding FilterValue, Mode=TwoWay}"
-                              SelectionChanged="FilterChanged"/>
+                              IsEnabled="{Binding FilterProperty, Converter={StaticResource NullableToBoolConverter}}"
+                              SelectionChanged="FilterChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel>
@@ -71,8 +84,14 @@
                     <ComboBox Width="180"
                               Height="34"
                               ItemsSource="{Binding Source={StaticResource OrderListSortPropertyKey}}"
-                              SelectedValue="{Binding SortProperty, Mode=TwoWay}"
-                              SelectionChanged="FilterChanged"/>
+                              SelectedItem="{Binding SortProperty, Mode=TwoWay}"
+                              SelectionChanged="FilterChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
             </StackPanel>

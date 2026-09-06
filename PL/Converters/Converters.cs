@@ -233,6 +233,25 @@ public class NullToVisibilityConverter : IValueConverter
 }
 
 /// <summary>
+/// Returns true when the bound value is non-null (and, for strings, non-empty).
+/// Used to enable a dependent control (e.g. the Value ComboBox) only after a
+/// prerequisite selection (e.g. Filter by) has been made.
+/// </summary>
+public class NullableToBoolConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string s) return !string.IsNullOrEmpty(s);
+        return value != null;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+/// <summary>
 /// Formats a TimeSpan into a compact, human-readable string.
 /// Negative spans (overdue) collapse to "00:00:00 (Overdue)" so the UI never
 /// shows raw negative TimeSpan dumps like "-458.16:01:58".

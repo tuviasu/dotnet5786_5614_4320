@@ -1,6 +1,7 @@
 ﻿using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,7 @@ namespace PL.Order
         public OrderListWindow(string requesterId = "0")
         {
             _requesterId = requesterId;
+            FilterValues = new ObservableCollection<object>();
             InitializeComponent();
         }
 
@@ -80,14 +82,15 @@ namespace PL.Order
             QueryOrderList();
         }
 
-        public IEnumerable<object> FilterValues
+        public ObservableCollection<object> FilterValues
         {
-            get { return (IEnumerable<object>)GetValue(FilterValuesProperty); }
+            get { return (ObservableCollection<object>)GetValue(FilterValuesProperty); }
             set { SetValue(FilterValuesProperty, value); }
         }
 
         public static readonly DependencyProperty FilterValuesProperty =
-            DependencyProperty.Register("FilterValues", typeof(IEnumerable<object>), typeof(OrderListWindow), new PropertyMetadata(Array.Empty<object>()));
+            DependencyProperty.Register("FilterValues", typeof(ObservableCollection<object>), typeof(OrderListWindow),
+                new PropertyMetadata(null));
 
         public void ApplyCompositeFilter(BO.OrderStatus status, BO.ScheduleStatus schedule)
         {
@@ -146,23 +149,39 @@ namespace PL.Order
 
         private void BuildFilterValues(bool resetSelection)
         {
-            FilterValues = FilterProperty switch
-            {
-                BO.OrderListFilterProperty.Status => Enum.GetValues(typeof(BO.OrderStatus)).Cast<object>().ToArray(),
-                BO.OrderListFilterProperty.ScheduleStatus => Enum.GetValues(typeof(BO.ScheduleStatus)).Cast<object>().ToArray(),
-                BO.OrderListFilterProperty.OrderType => Enum.GetValues(typeof(BO.OrderType)).Cast<object>().ToArray(),
-                BO.OrderListFilterProperty.DeliveryType => Enum.GetValues(typeof(BO.DeliveryType)).Cast<object>().ToArray(),
-                _ => Array.Empty<object>()
-            };
+            // Always mutate the existing ObservableCollection in-place rather than
+            // reassigning the DP to a fresh array. Clearing + Add() raises
+            // CollectionChanged, so the ComboBox's ItemsSource binding re-queries
+            // every item and the dropdown reliably re-renders (fix for "empty Value
+            // dropdown" symptom where reassigning a new array did not).
+            var values = FilterValues ?? (FilterValues = new ObservableCollection<object>());
+            values.Clear();
 
-            if (FilterValues == null || !FilterValues.Any())
+            object? first = null;
+            switch (FilterProperty)
+            {
+                case BO.OrderListFilterProperty.Status:
+                    foreach (var v in Enum.GetValues(typeof(BO.OrderStatus))) { values.Add(v); first ??= v; }
+                    break;
+                case BO.OrderListFilterProperty.ScheduleStatus:
+                    foreach (var v in Enum.GetValues(typeof(BO.ScheduleStatus))) { values.Add(v); first ??= v; }
+                    break;
+                case BO.OrderListFilterProperty.OrderType:
+                    foreach (var v in Enum.GetValues(typeof(BO.OrderType))) { values.Add(v); first ??= v; }
+                    break;
+                case BO.OrderListFilterProperty.DeliveryType:
+                    foreach (var v in Enum.GetValues(typeof(BO.DeliveryType))) { values.Add(v); first ??= v; }
+                    break;
+            }
+
+            if (values.Count == 0)
             {
                 FilterValue = null;
                 return;
             }
 
-            if (resetSelection || FilterValue == null || !FilterValues.Contains(FilterValue))
-                FilterValue = FilterValues.First();
+            if (resetSelection || FilterValue == null || !values.Contains(FilterValue))
+                FilterValue = first;
         }
 
         private void QueryOrderList()
