@@ -53,9 +53,32 @@ namespace PL.Order
         }
         public static readonly DependencyProperty FilterValueProperty =
             DependencyProperty.Register(nameof(FilterValue), typeof(object), typeof(OrderListWindow),
-                new PropertyMetadata(null));
+                new PropertyMetadata(null, (d, _) => ((OrderListWindow)d).OnFilterValueChanged()));
 
-        public BO.OrderListSortProperty? SortProperty { get; set; }
+        public BO.OrderListSortProperty? SortProperty
+        {
+            get => (BO.OrderListSortProperty?)GetValue(SortPropertyProperty);
+            set => SetValue(SortPropertyProperty, value);
+        }
+        public static readonly DependencyProperty SortPropertyProperty =
+            DependencyProperty.Register(nameof(SortProperty), typeof(BO.OrderListSortProperty?), typeof(OrderListWindow),
+                new PropertyMetadata(null, (d, _) => ((OrderListWindow)d).OnSortPropertyChanged()));
+
+        void OnSortPropertyChanged()
+        {
+            if (_updatingDepth > 0) return;
+            _compositeFilter = null;
+            QueryOrderList();
+        }
+
+        void OnFilterValueChanged()
+        {
+            // Refresh the list when FilterValue changes from any source (binding push,
+            // programmatic set, etc.) — not just the ComboBox's SelectionChanged event.
+            if (_updatingDepth > 0) return;
+            _compositeFilter = null;
+            QueryOrderList();
+        }
 
         public IEnumerable<object> FilterValues
         {
@@ -111,6 +134,8 @@ namespace PL.Order
 
         private void ApplyViewFilterIfNeeded()
         {
+            if (OrderList == null)
+                return;
             var view = CollectionViewSource.GetDefaultView(OrderList);
             if (view == null)
                 return;
@@ -130,9 +155,13 @@ namespace PL.Order
                 _ => Array.Empty<object>()
             };
 
-            if (!FilterValues.Any())
+            if (FilterValues == null || !FilterValues.Any())
+            {
                 FilterValue = null;
-            else if (resetSelection || FilterValue == null || !FilterValues.Contains(FilterValue))
+                return;
+            }
+
+            if (resetSelection || FilterValue == null || !FilterValues.Contains(FilterValue))
                 FilterValue = FilterValues.First();
         }
 

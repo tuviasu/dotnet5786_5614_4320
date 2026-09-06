@@ -348,6 +348,69 @@ internal static class Program
         var app = new PL.App();
         app.InitializeComponent();
 
+        // === UI filter flow test: simulate user picking FilterProperty + FilterValue ===
+        try
+        {
+            var win = new OrderListWindow(ADMIN.ToString());
+            win.Show();
+            PumpDispatcher(400);
+
+            // Initially no filter is set -> should show all orders.
+            int initialCount = win.OrderList?.Count() ?? 0;
+            if (initialCount == 0)
+                failures.Add($"UI filter: initial OrderList is empty (expected all orders)");
+            else
+                Console.WriteLine($"  PASS UI filter: initial list has {initialCount} orders");
+
+            // Simulate picking FilterProperty = Status.
+            win.FilterProperty = OrderListFilterProperty.Status;
+            PumpDispatcher(200);
+            int statusValuesCount = win.FilterValues?.Count() ?? 0;
+            if (statusValuesCount != 4)
+                failures.Add($"UI filter: FilterValues for Status has {statusValuesCount} items, expected 4");
+            else
+                Console.WriteLine($"  PASS UI filter: FilterValues for Status has 4 items");
+            if (win.FilterValue == null)
+                failures.Add($"UI filter: FilterValue is null after picking Status (expected auto-selected first)");
+            else
+                Console.WriteLine($"  PASS UI filter: FilterValue auto-selected = {win.FilterValue}");
+
+            int filteredCount = win.OrderList?.Count() ?? 0;
+            if (filteredCount == 0)
+                failures.Add($"UI filter: OrderList empty after filtering by Status (expected non-zero)");
+            else
+                Console.WriteLine($"  PASS UI filter: Status={win.FilterValue} -> {filteredCount} orders");
+
+            // Simulate changing FilterValue to Delivered.
+            win.FilterValue = OrderStatus.Delivered;
+            PumpDispatcher(200);
+            int deliveredCount = win.OrderList?.Count() ?? 0;
+            if (deliveredCount == 0)
+                failures.Add($"UI filter: OrderList empty after filtering by Status=Delivered (expected ~39)");
+            else
+                Console.WriteLine($"  PASS UI filter: Status=Delivered -> {deliveredCount} orders");
+
+            // Switch FilterProperty to OrderType.
+            win.FilterProperty = OrderListFilterProperty.OrderType;
+            PumpDispatcher(200);
+            int typeValuesCount = win.FilterValues?.Count() ?? 0;
+            if (typeValuesCount != 3)
+                failures.Add($"UI filter: FilterValues for OrderType has {typeValuesCount} items, expected 3");
+            int typeFilteredCount = win.OrderList?.Count() ?? 0;
+            if (typeFilteredCount == 0)
+                failures.Add($"UI filter: OrderList empty after filtering by OrderType");
+            else
+                Console.WriteLine($"  PASS UI filter: OrderType={win.FilterValue} -> {typeFilteredCount} orders");
+
+            win.Close();
+            PumpDispatcher(200);
+        }
+        catch (Exception ex)
+        {
+            failures.Add($"UI filter test threw: {ex.GetType().Name}: {ex.Message}");
+            Console.WriteLine($"  FAIL UI filter test -> {ex.GetType().Name}: {ex.Message}");
+        }
+
         var specs = new (string Name, Func<Window> Factory)[]
         {
             ("LoginPage",            () => new LoginPage()),

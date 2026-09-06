@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -15,6 +15,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <!--
+    Copy the runtime data files (dal-config.xml, data-config.xml, orders.xml,
+    deliveries.xml, couriers.xml) to the output directory so the app can find
+    them regardless of where the exe is launched from. Without this, running
+    PL.exe from a clean output folder fails with TypeInitializationException
+    in DalApi.DalConfig because XElement.Load can't locate dal-config.xml.
+  -->
+  <ItemGroup>
+    <None Include="..\xml\dal-config.xml" CopyToOutputDirectory="PreserveNewest" Link="xml\dal-config.xml" />
+    <None Include="..\xml\data-config.xml" CopyToOutputDirectory="PreserveNewest" Link="xml\data-config.xml" />
+    <None Include="..\xml\orders.xml" CopyToOutputDirectory="PreserveNewest" Link="xml\orders.xml" />
+    <None Include="..\xml\deliveries.xml" CopyToOutputDirectory="PreserveNewest" Link="xml\deliveries.xml" />
+    <None Include="..\xml\couriers.xml" CopyToOutputDirectory="PreserveNewest" Link="xml\couriers.xml" />
   </ItemGroup>
 
 </Project>
